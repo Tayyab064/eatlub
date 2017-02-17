@@ -1,0 +1,48 @@
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+   <div class="container-fluid container-fixed-lg bg-white">
+      <!-- START PANEL -->
+      <div class="panel panel-transparent">
+        <div class="panel-heading">
+          <div class="pull-right">
+            <div class="col-xs-12">
+              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped demo-table-search" id="tableWithSearch">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>Gender</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @user.each do |user| %>
+              <tr>
+                <td class="v-align-middle semi-bold">
+                  <p>A<%= user.id %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= user.username %></p>
+                </td>
+                <td class="v-align-middle bold">
+                  <p><%= user.email %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= user.gender.present? ? user.gender.capitalize : 'Record Missing' %></p>
+                </td>
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- END PANEL -->
+    </div>
+</div>

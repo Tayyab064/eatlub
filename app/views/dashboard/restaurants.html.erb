@@ -1,0 +1,63 @@
+<div class="container-fluid container-fixed-lg bg-white">
+	<!-- START PANEL -->
+	<div class="panel panel-transparent">
+		<div class="panel-heading">
+		  <div class="panel-title">Restaurants
+		  </div>
+		  <div class="pull-right">
+		    <div class="col-xs-12">
+		      <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+		    </div>
+		  </div>
+		  <div class="clearfix"></div>
+		</div>
+		<div class="panel-body">
+		  <table class="table table-striped demo-table-search" id="tableWithSearch">
+		    <thead>
+		      <tr>
+		        <th>ID</th>
+		        <th>Name</th>
+		        <th>Type</th>
+		        <th>Opening Time</th>
+		        <th>Closing Time</th>
+		        <th>Location</th>
+		        <th>Cuisine</th>
+		        <th>Owner</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <% @restaurant.each do |restaurant| %>
+		      <tr onclick="location.href='#'" style="cursor: pointer;">
+		        <td class="v-align-middle semi-bold">
+		          <p>R<%= restaurant.id %></p>
+		        </td>
+		        <td class="v-align-middle semi-bold">
+		          <p><%= restaurant.name %></p>
+		        </td>
+		        <td class="v-align-middle bold">
+		          <p><%= restaurant.typee %></p>
+		        </td>
+		        <td class="v-align-middle">
+		          <p><%= restaurant.opening_time %></p>
+		        </td>
+		        <td class="v-align-middle">
+		          <p><%= restaurant.closing_time %></p>
+		        </td>
+		        <td class="v-align-middle">
+		          <p><%= restaurant.location %></p>
+		        </td>
+		        <td class="v-align-middle">
+		          <p><%= restaurant.cuisine %></p>
+		        </td>
+		        <td class="v-align-middle">
+		          <p><%= restaurant.owner.email %></p>
+		        </td>
+		      </tr>
+
+		      <% end %>
+		    </tbody>
+		  </table>
+		</div>
+	</div>
+	<!-- END PANEL -->
+</div>
