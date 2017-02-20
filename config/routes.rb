@@ -20,4 +20,9 @@ Rails.application.routes.draw do
   	get 'unblock_user' => 'dashboard#unblock_user' , as: 'dashboard_unblock_user'
     get 'restaurant_approve_:id' => 'dashboard#rest_mark_approved' , as: 'restaurant_mark_approve'
   end
+
+  scope 'owner' do
+    get 'index' => 'owner#index' , as: 'owner_index'
+    get 'restaurants' => 'owner#restaurants' , as: 'owner_restaurants'
+  end
 end

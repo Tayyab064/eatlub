@@ -41,6 +41,11 @@ class DashboardController < ApplicationController
 	def rest_mark_approved
 		restaurant = Restaurant.find(params[:id])
 		restaurant.update(status: 1)
+		unless restaurant.owner.password.present?
+			ow = restaurant.owner
+			ow.update(password: SecureRandom.urlsafe_base64(6))
+			UserMailer.set_password(ow).deliver_later
+		end
 		redirect_to dashboard_restaurants_path
 	end
 end

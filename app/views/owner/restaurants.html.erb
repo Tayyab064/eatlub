@@ -1,0 +1,54 @@
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+   <div class="container-fluid container-fixed-lg bg-white">
+      <!-- START PANEL -->
+      <div class="panel panel-transparent">
+        <div class="panel-heading">
+          <div class="panel-title">Pending
+          </div>
+          <div class="pull-right">
+            <div class="col-xs-12">
+              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped demo-table-search" id="tableWithSearch">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Cuisine</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @restaurant.where(status: 0).each do |restaurant| %>
+              <tr>
+                <td class="v-align-middle semi-bold">
+                  <p>R<%= restaurant.id %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= restaurant.name %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= restaurant.location %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= restaurant.typee %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= restaurant.cuisine %></p>
+                </td>
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- END PANEL -->
+    </div>
+</div>
