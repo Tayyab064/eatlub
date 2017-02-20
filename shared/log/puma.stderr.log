@@ -1,0 +1,6 @@
+=== puma startup: 2017-02-20 09:16:14 +0000 ===
+/home/holygon/.rvm/gems/ruby-2.4.0/gems/activesupport-5.0.1/lib/active_support/xml_mini.rb:51: warning: constant ::Fixnum is deprecated
+/home/holygon/.rvm/gems/ruby-2.4.0/gems/activesupport-5.0.1/lib/active_support/xml_mini.rb:52: warning: constant ::Bignum is deprecated
+/home/holygon/.rvm/gems/ruby-2.4.0/gems/activesupport-5.0.1/lib/active_support/core_ext/numeric/conversions.rb:138: warning: constant ::Fixnum is deprecated
+/home/holygon/.rvm/gems/ruby-2.4.0/gems/activejob-5.0.1/lib/active_job/arguments.rb:38: warning: constant ::Fixnum is deprecated
+/home/holygon/.rvm/gems/ruby-2.4.0/gems/activejob-5.0.1/lib/active_job/arguments.rb:38: warning: constant ::Bignum is deprecated
