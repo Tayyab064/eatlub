@@ -37,4 +37,10 @@ class DashboardController < ApplicationController
 	def admin
 		@user = User.where(role: 3)
 	end
+
+	def rest_mark_approved
+		restaurant = Restaurant.find(params[:id])
+		restaurant.update(status: 1)
+		redirect_to dashboard_restaurants_path
+	end
 end

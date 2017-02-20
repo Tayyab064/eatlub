@@ -18,5 +18,6 @@ Rails.application.routes.draw do
   	get 'admin' => 'dashboard#admin' , as: 'dashboard_admin'
   	put 'set_password' => 'dashboard#set_password_user' , as: 'dashboard_set_password'
   	get 'unblock_user' => 'dashboard#unblock_user' , as: 'dashboard_unblock_user'
+    get 'restaurant_approve_:id' => 'dashboard#rest_mark_approved' , as: 'restaurant_mark_approve'
   end
 end

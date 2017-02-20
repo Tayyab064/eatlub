@@ -80,6 +80,11 @@ test:
 #
 production:
   <<: *default
-  database: deliverish_production
-  username: deliverish
-  password: <%= ENV['DELIVERISH_DATABASE_PASSWORD'] %>
+  
+  host: localhost
+  adapter: postgresql
+  encoding: utf8
+  pool: 5
+  username: holygon
+  password: holygon
+  database: deliverush
