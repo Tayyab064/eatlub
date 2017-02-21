@@ -95,3 +95,7 @@ production:
   username: holygon
   password: holygon
   database: deliverush
+
+  # adapter: postgresql
+  # encoding: unicode
+  # database: deliverish_development

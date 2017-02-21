@@ -5,6 +5,10 @@ class Restaurant < ApplicationRecord
 	after_validation :geocode 
 
 	has_one :menu , dependent: :destroy
+	has_many :reviews , dependent: :destroy
 
 	enum status: [:pending , :approved]
+
+	scope :approved, lambda {where(:status => 'approved')}
+
 end

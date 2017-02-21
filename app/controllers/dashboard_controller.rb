@@ -16,8 +16,9 @@ class DashboardController < ApplicationController
 		user = User.find(params[:format])
 		if params[:password].length > 8 && params[:password].length < 16
 			user.update(password: params[:password])
+			UserMailer.set_password(user).deliver_later
 		end
-		redirect_to dashboard_end_users_path
+		redirect_to :back
 	end
 
 	def unblock_user
@@ -42,9 +43,9 @@ class DashboardController < ApplicationController
 		restaurant = Restaurant.find(params[:id])
 		restaurant.update(status: 1)
 		unless restaurant.owner.password.present?
-			ow = restaurant.owner
-			ow.update(password: SecureRandom.urlsafe_base64(6))
-			UserMailer.set_password(ow).deliver_later
+			#ow = restaurant.owner
+			#ow.update(password: SecureRandom.urlsafe_base64(6))
+			#UserMailer.set_password(ow).deliver_later
 		end
 		redirect_to dashboard_restaurants_path
 	end

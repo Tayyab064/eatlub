@@ -12,8 +12,8 @@
 <div id="position">
     <div class="container">
         <ul>
-            <li><a href="grid_list.html#0">Home</a></li>
-            <li><a href="grid_list.html#0">Category</a></li>
+            <li><a href="<%= root_path %>">Home</a></li>
+            <li><a href="#">Category</a></li>
             <li>Page active</li>
         </ul>
         <a href="grid_list.html#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
@@ -239,3 +239,72 @@
 	</div><!-- End row -->
 </div><!-- End container -->
 <!-- End Content =============================================== -->
+<% my_lat_long = Geocoder.coordinates(@address) %>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc" type="text/javascript"></script>
+
+<script type="text/javascript">
+  /* ============================================================
+ * Google Map
+ * Render maps using Google Maps JS API
+ * For DEMO purposes only. Extract what you need.
+ * ============================================================ */
+(function($) {
+
+    'use strict';
+
+    // When the window has finished loading create our google map below
+    google.maps.event.addDomListener(window, 'load', init);
+
+    var map;
+    var zoomLevel = 13;
+
+    function init() {
+        // Basic options for a simple Google Map
+        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+
+        // Get the HTML DOM element that will contain your map 
+        // We are using a div with id="map" seen below in the <body>
+        var mapElement = document.getElementById('map');
+
+        // Create the Google Map using out element and options defined above
+        map = new google.maps.Map(mapElement, {
+          center: {lat: <%= my_lat_long.first %>, lng: <%= my_lat_long.last %>},
+          scrollwheel: false,
+          zoom: zoomLevel
+        });
+
+        var locations = [];
+        <% @restaurants.each do |res| %>
+        locations.push(['<%= res.name %>', <%= res.latitude %>, <%= res.longitude %>, '<%= res.location %>']);
+        <% end %>
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {  
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+          });
+
+          /*icon: 'http://image.flaticon.com/icons/svg/67/67994.svg',*/
+
+          google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+
+          google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
+            return function() {
+              infowindow.close();
+            }
+          })(marker, i));
+        }
+    }
+
+})(window.jQuery);
+
+</script>

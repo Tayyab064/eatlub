@@ -13,6 +13,7 @@
                     <h1><%= @restaurant.name %></h1>
                     <div><em><%= @restaurant.cuisine %></em></div>
                     <div><i class="icon_pin"></i> <%= @restaurant.location %> - <strong>Delivery charge:</strong> $10, free over $15.</div>
+                    <h1><%= link_to 'Menu' , restaurant_menu_page_path , class: 'btn' , style: 'background-color: #78cfcf; width: 15%;text-decoration: none;' %></h1>
     </div><!-- End sub_content -->
 </div><!-- End subheader -->
 </section><!-- End section -->
@@ -21,8 +22,8 @@
     <div id="position">
         <div class="container">
             <ul>
-                <li><a href="detail_page_2.html#0">Home</a></li>
-                <li><a href="detail_page_2.html#0">Category</a></li>
+                <li><a href="<%= root_path %>">Home</a></li>
+                <li><a href="#">Category</a></li>
                 <li>Page active</li>
             </ul>
             <a href="detail_page_2.html#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
@@ -201,9 +202,15 @@
 					</p>
 					<div id="summary_review">
 						<div id="general_rating">
-							11 Reviews
+							<%= @reviews.count %> Reviews
 							<div class="rating">
-								<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+								<% t_rat = ( @reviews.pluck("SUM(rating)").first.to_f / @reviews.count ).round %>
+                                <% t_rat.times do |th| %>
+                                <i class="icon_star voted"></i>
+                                <% end %>
+                                <% (5-t_rat).times do |th| %>
+                                <i class="icon_star"></i>
+                                <% end %>
 							</div>
 						</div>
                         
@@ -212,12 +219,24 @@
 								<ul>
 									<li>Food Quality
 									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
+                                        <% t_qua = ( @reviews.pluck("SUM(quality)").first.to_f / @reviews.count ).round %>
+										<% t_qua.times do |th| %>
+                                        <i class="icon_star voted"></i>
+                                        <% end %>
+                                        <% (5-t_qua).times do |th| %>
+                                        <i class="icon_star"></i>
+                                        <% end %>  
 									</div>
 									</li>
 									<li>Price
 									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+										<% t_pri = ( @reviews.pluck("SUM(price)").first.to_f / @reviews.count ).round %>
+                                        <% t_pri.times do |th| %>
+                                        <i class="icon_star voted"></i>
+                                        <% end %>
+                                        <% (5-t_pri).times do |th| %>
+                                        <i class="icon_star"></i>
+                                        <% end %>
 									</div>
 									</li>
 								</ul>
@@ -226,134 +245,238 @@
 								<ul>
 									<li>Punctuality
 									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+										<% t_pun = ( @reviews.pluck("SUM(punctuality)").first.to_f / @reviews.count ).round %>
+                                        <% t_pun.times do |th| %>
+                                        <i class="icon_star voted"></i>
+                                        <% end %>
+                                        <% (5-t_pun).times do |th| %>
+                                        <i class="icon_star"></i>
+                                        <% end %>
 									</div>
 									</li>
 									<li>Courtesy
 									<div class="rating">
-										<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+										<% t_cou = ( @reviews.pluck("SUM(courtesy)").first.to_f / @reviews.count ).round %>
+                                        <% t_cou.times do |th| %>
+                                        <i class="icon_star voted"></i>
+                                        <% end %>
+                                        <% (5-t_cou).times do |th| %>
+                                        <i class="icon_star"></i>
+                                        <% end %>
 									</div>
 									</li>
 								</ul>
 							</div>
 						</div><!-- End row -->
 						<hr class="styled">
-						<a href="detail_page_2.html#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Leave a review</a>
+						<a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Leave a review</a>
 					</div><!-- End summary_review -->
                     
+                    <% @reviews.each do |review| %>
 					<div class="review_strip_single">
 						<img src="website/img/avatar1.jpg" alt="" class="img-circle">
-						<small> - 10 March 2015 -</small>
-						<h4>Jhon Doe</h4>
+						<small> - <%= review.created_at.strftime('%d %B %Y') %> -</small>
+						<h4><%= review.reviewer.name %></h4>
 						<p>
-							 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut sed sem. Duis quis tempor nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus."
+							 "<%= review.summary %>."
 						</p>
 						<div class="row">
 							<div class="col-md-3">
 								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
+                                    <% review.quality.times do |th| %>
+									<i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.quality).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
 								</div>
 								 Food Quality
 							</div>
 							<div class="col-md-3">
 								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+									<% review.price.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.price).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
 								</div>
 								 Price
 							</div>
 							<div class="col-md-3">
 								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+									<% review.punctuality.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.punctuality).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
 								</div>
 								 Punctuality
 							</div>
 							<div class="col-md-3">
 								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+									<% review.courtesy.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.courtesy).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
 								</div>
 								 Courtesy
 							</div>
 						</div><!-- End row -->
 					</div><!-- End review strip -->
-                    
-					<div class="review_strip_single">
-						<img src="website/img/avatar3.jpg" alt="" class="img-circle">
-						<small> - 25 March 2015 -</small>
-						<h4>Markus Schulz</h4>
-						<p>
-							 "At sed dico invenire facilisis, sed option sapientem iudicabit ad, sea idque doming vituperatoribus at. Duo ut inani tantas scaevola. Commodo oblique at cum. Duo id vide delectus. Vel et doctus laoreet minimum, ei feugait pertinacia usu.
-						</p>
-						<div class="row">
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Food Quality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Price
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Punctuality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
-								</div>
-								 Courtesy
-							</div>
-						</div><!-- End row -->
-					</div><!-- End review strip -->
-                    
-					<div class="review_strip_single last">
-						<img src="website/img/avatar2.jpg" alt="" class="img-circle">
-						<small> - 10 April 2015 -</small>
-						<h4>Frank Cooper</h4>
-						<p>
-							 "Ne mea congue facilis eligendi, possit utamur sensibus id qui, mel tollit euismod alienum eu. Ad tollit lucilius praesent per, ex probo utroque placerat eos. Tale verear efficiendi et cum, meis timeam vix et, et duis debet nostro mel. Aeterno labitur per no, id nec tantas nemore. An minim molestie per, mei sumo vulputate cu."
-						</p>
-						<div class="row">
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
-								</div>
-								 Food Quality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Price
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>
-								</div>
-								 Punctuality
-							</div>
-							<div class="col-md-3">
-								<div class="rating">
-									<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>
-								</div>
-								 Courtesy
-							</div>
-						</div><!-- End row -->
-					</div><!-- End review strip -->
-                    
+                    <% end %>
 				</div><!-- End box_style_1 -->
 			</div>
 		</div><!-- End row -->
 </div><!-- End container -->
 <!-- End Content =============================================== -->
 
+
+<!-- Register modal -->   
+<div class="modal fade" id="myReview" tabindex="-1" role="dialog" aria-labelledby="review" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-popup">
+            <a href="detail_page_2.html#" class="close-link"><i class="icon_close_alt2"></i></a>
+                <form method="post" action="http://www.ansonika.com/quickfood/assets/review_restaurant.php" name="review" id="review" class="popup-form">  
+                <div class="login_icon"><i class="icon_comment_alt"></i></div>
+                 <input name="restaurant_name" id="restaurant_name" type="hidden" value="Mexican Taco Mex"> 
+                    <div class="row" >
+                        <div class="col-md-6">
+                        <input name="name_review" id="name_review" type="text" placeholder="Name" class="form-control form-white">          
+                        </div>
+                        <div class="col-md-6">
+                            <input name="email_review" id="email_review" type="email" placeholder="Your email" class="form-control form-white">
+                        </div>
+                    </div><!-- End Row --> 
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                        <select class="form-control form-white" name="food_review" id="food_review">
+                                <option value="">Food Quality</option>
+                                <option value="Low">Low</option>
+                                <option value="Sufficient">Sufficient</option>
+                                <option value="Good">Good</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Superb">Super</option>
+                                <option value="Not rated">I don't know</option>
+                            </select>                            </div>
+                        <div class="col-md-6">
+                            <select class="form-control form-white"  name="price_review" id="price_review">
+                                <option value="">Price</option>
+                                <option value="Low">Low</option>
+                                <option value="Sufficient">Sufficient</option>
+                                <option value="Good">Good</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Superb">Super</option>
+                                <option value="Not rated">I don't know</option>
+                            </select>
+                        </div>
+                    </div><!--End Row -->    
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                                <select class="form-control form-white"  name="punctuality_review" id="punctuality_review">
+                                <option value="">Punctuality</option>
+                                <option value="Low">Low</option>
+                                <option value="Sufficient">Sufficient</option>
+                                <option value="Good">Good</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Superb">Super</option>
+                                <option value="Not rated">I don't know</option>
+                            </select>                       </div>
+                        <div class="col-md-6">
+                            <select class="form-control form-white"  name="courtesy_review" id="courtesy_review">
+                                <option value="">Courtesy</option>
+                                <option value="Low">Low</option>
+                                <option value="Sufficient">Sufficient</option>
+                                <option value="Good">Good</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Superb">Super</option>
+                                <option value="Not rated">I don't know</option>
+                            </select>
+                        </div>
+                    </div><!--End Row -->     
+                    <textarea name="review_text" id="review_text" class="form-control form-white" style="height:100px" placeholder="Write your review"></textarea>
+                    <input type="text" id="verify_review" class="form-control form-white" placeholder="Are you human? 3 + 1 =">
+                <input type="submit" value="Submit" class="btn btn-submit" id="submit-review">
+            </form>
+            <div id="message-review"></div>
+        </div>
+    </div>
+</div><!-- End Register modal -->
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc" type="text/javascript"></script>
+
+<script type="text/javascript">
+  /* ============================================================
+ * Google Map
+ * Render maps using Google Maps JS API
+ * For DEMO purposes only. Extract what you need.
+ * ============================================================ */
+(function($) {
+
+    'use strict';
+
+    // When the window has finished loading create our google map below
+    google.maps.event.addDomListener(window, 'load', init);
+
+    var map;
+    var zoomLevel = 13;
+
+    function init() {
+        // Basic options for a simple Google Map
+        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+
+        // Get the HTML DOM element that will contain your map 
+        // We are using a div with id="map" seen below in the <body>
+        var mapElement = document.getElementById('map');
+
+        // Create the Google Map using out element and options defined above
+        map = new google.maps.Map(mapElement, {
+          center: {lat: <%= @restaurant.latitude %>, lng: <%= @restaurant.longitude %>},
+          scrollwheel: false,
+          zoom: zoomLevel
+        });
+
+        var locations = [];
+        locations.push(['<%= @restaurant.name %>', <%= @restaurant.latitude %>, <%= @restaurant.longitude %>, '<%= @restaurant.location %>']);
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {  
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+          });
+
+          /*icon: 'http://image.flaticon.com/icons/svg/67/67994.svg',*/
+
+          google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+
+          google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
+            return function() {
+              infowindow.close();
+            }
+          })(marker, i));
+        }
+    }
+
+})(window.jQuery);
+
+</script>
+
 <!-- SPECIFIC SCRIPTS -->
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>
 <script src="website/js/map_single.js" type="text/javascript"></script>
 <script src="website/js/infobox.js" type="text/javascript"></script>
 <script src="website/js/jquery.sliderPro.min.js" type="text/javascript"></script>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220060622) do
+ActiveRecord::Schema.define(version: 20170221115316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,20 @@ ActiveRecord::Schema.define(version: 20170220060622) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "status",       default: 0
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.string   "summary",       default: ""
+    t.integer  "rating",        default: 1
+    t.integer  "quality",       default: 1
+    t.integer  "price",         default: 1
+    t.integer  "punctuality",   default: 1
+    t.integer  "courtesy",      default: 1
+    t.integer  "restaurant_id"
+    t.integer  "reviewer_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["restaurant_id"], name: "index_reviews_on_restaurant_id", using: :btree
   end
 
   create_table "sections", force: :cascade do |t|

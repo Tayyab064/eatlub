@@ -3,11 +3,18 @@ Rails.application.routes.draw do
   #resources :restaurants
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  %w( 404 422 500 503 ).each do |code|
+    get code, :to => "errors#show", :code => code
+  end
+
   root 'website#index'
   post 'nearby_restaurants' => 'website#restaurants_nearby' , as: 'restaurants_nearby'
   get 'restaurant_:id' => 'website#restaurant' , as: 'restaurant_page'
+  get 'menu_:id' => 'website#restaurant_menu' , as: 'restaurant_menu_page'
   get 'submit_restaurant' => 'website#submit_restaurant'
   post 'submit_restaurant' => 'website#save_restaurant' , as: 'save_restaurant'
+  get 'submit_rider' => 'website#submit_driver'
+  post 'submit_rider' => 'website#save_driver' , as: 'save_rider'
 
   scope 'dashboard' do
   	get 'index' => 'dashboard#index' , as: 'dashboard_index'

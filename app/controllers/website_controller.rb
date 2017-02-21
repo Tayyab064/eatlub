@@ -1,16 +1,17 @@
 class WebsiteController < ApplicationController
 
 	def index
-		@restaurants = Restaurant.order(created_at: 'desc').limit(6)
+		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(6)
 	end
 
 	def restaurants_nearby
-		@restaurants = Restaurant.near(params[:address], 10, :units => :km)
+		@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
 		@address = params[:address]
 	end
 
 	def restaurant
-		@restaurant = Restaurant.find(params[:id])
+		@restaurant = Restaurant.approved.find(params[:id])
+		@reviews = @restaurant.reviews
 	end
 
 	def submit_restaurant
@@ -34,6 +35,19 @@ class WebsiteController < ApplicationController
 		else
 			redirect_to root_path
 		end
+	end
+
+	def restaurant_menu
+		@restaurant = Restaurant.approved.find(params[:id])
+	end
+
+	def submit_driver
+
+	end
+
+	def save_driver
+		User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2)
+		redirect_to :back
 	end
 
 

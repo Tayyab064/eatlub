@@ -1,0 +1,163 @@
+<!-- SubHeader =============================================== -->
+<section class="parallax-window" id="short" data-parallax="scroll" data-image-src="website/img/sub_header_cart.jpg" data-natural-width="1400" data-natural-height="350">
+    <div id="subheader">
+    	<div id="sub_content">
+    	 <h1>Work with us</h1>
+         <p>Qui debitis meliore ex, tollit debitis conclusionemque te eos.</p>
+         <p></p>
+        </div><!-- End sub_content -->
+	</div><!-- End subheader -->
+</section><!-- End section -->
+<!-- End SubHeader ============================================ -->
+
+    <div id="position">
+        <div class="container">
+            <ul>
+                <li><a href="<%= root_path %>">Home</a></li>
+                <li><a href="#">Category</a></li>
+                <li>Page active</li>
+            </ul>
+            <a href="submit_driver.html#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
+        </div>
+    </div><!-- Position -->
+
+<!-- Content ================================================== -->
+<div class="container margin_60_35">
+    <div class="main_title margin_mobile">
+            <h2 class="nomargin_top">Flexible Job and Great fees</h2>
+            <p>
+                Cum doctus civibus efficiantur in imperdiet deterruisset.
+            </p>
+        </div>
+	<div class="row">
+		<div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
+			<div class="feature_2">
+				<i class="icon_currency"></i>
+				<h3>Great Fees</h3>
+				<p>
+					 Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex, appareat similique an usu.
+				</p>
+			</div>
+		</div>
+		<div class="col-md-6 wow fadeIn" data-wow-delay="0.2s">
+			<div class="feature_2">
+				<i class="icon_easel"></i>
+				<h3>Growing possibility</h3>
+				<p>
+					 Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex, appareat similique an usu.
+				</p>
+			</div>
+		</div>
+	</div><!-- End row -->
+	<div class="row">
+		<div class="col-md-6 wow fadeIn" data-wow-delay="0.3s">
+			<div class="feature_2">
+				<i class="icon_mobile"></i>
+				<h3>Manage your own orders via App</h3>
+				<p>
+					 Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex, appareat similique an usu.
+				</p>
+			</div>
+		</div>
+		<div class="col-md-6 wow fadeIn" data-wow-delay="0.4s">
+			<div class="feature_2">
+				<i class="icon_map_alt"></i>
+				<h3>Work in a small area</h3>
+				<p>
+					 Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex, appareat similique an usu.
+				</p>
+			</div>
+		</div>
+	</div><!-- End row -->
+	<div class="row">
+		<div class="col-md-6 wow fadeIn" data-wow-delay="0.5s">
+			<div class="feature_2">
+				<i class="icon_clock_alt"></i>
+				<h3>Flexible time</h3>
+				<p>
+					 Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex, appareat similique an usu.
+				</p>
+			</div>
+		</div>
+		<div class="col-md-6 wow fadeIn" data-wow-delay="0.6s">
+			<div class="feature_2">
+				<i class="icon_calendar"></i>
+				<h3>Flexible days</h3>
+				<p>
+					 Lorem ipsum dolor sit amet, vix erat audiam ei. Cum doctus civibus efficiantur in. Nec id tempor imperdiet deterruisset, doctus volumus explicari qui ex, appareat similique an usu.
+				</p>
+			</div>
+		</div>
+	</div><!-- End row -->
+</div><!-- End container -->
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6 nopadding features-intro-img">
+			<div class="features-bg img_2">
+				<div class="features-img">
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 nopadding">
+			<div class="features-content">
+				<h3>"What you'll need"</h3>
+				<ul class="list_ok">
+                	<li>A bicycle or scooter/motorbike with relevant safety equipment (road safety is a huge must for us!).</li>
+                    <li>Smartphone - iPhone 4s or above or Android 4.3 or above.</li>
+                    <li>The right to work in the UK.</li>
+                </ul>
+			</div>
+		</div>
+	</div>
+</div><!-- End container-fluid  -->
+
+<div class="container margin_60">
+	 <div class="main_title margin_mobile">
+            <h2 class="nomargin_top">Please submit the form below</h2>
+            <p>
+                Cum doctus civibus efficiantur in imperdiet deterruisset.
+            </p>
+        </div>
+	<div class="row">
+    	<div class="col-md-8 col-md-offset-2">
+        	<%= form_tag( save_rider_path , {:method => :post} ) do  %>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Name</label>
+							<%= text_field_tag :name  , '' , class: 'form-control' , placeholder: 'John Doe', autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Username</label>
+							<%= text_field_tag :username  , '' , class: 'form-control' , placeholder: 'JohnDoe', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Email:</label>
+							<%= text_field_tag :email  , '' , class: 'form-control' , placeholder: 'john@example.com', autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Gender:</label>
+							<br>
+							<label>Male</label>
+							<%=  radio_button_tag("gender", "male") %>
+							<label>  Female</label>
+							<%= radio_button_tag("gender", "female") %>
+						</div>
+					</div>
+				</div>
+                <hr style="border-color:#ddd;">
+                <div class="text-center"><button class="btn_full_outline">Submit</button></div>
+			<% end %>
+        </div><!-- End col  -->
+    </div><!-- End row  -->
+</div><!-- End container  -->
+<!-- End Content =============================================== -->
