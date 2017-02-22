@@ -1,5 +1,6 @@
 class FoodItemsController < ApplicationController
   before_action :set_food_item, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token, :only => [:test_cloun]
 
   # GET /food_items
   # GET /food_items.json
@@ -59,6 +60,11 @@ class FoodItemsController < ApplicationController
       format.html { redirect_to food_items_url, notice: 'Food item was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def test_cloun
+    c = FoodItem.create(name: 'Desi Tarka' , price: 1000 , image: params[:fil] , section_id: Section.last.id)
+    render json: c , status: :ok
   end
 
   private

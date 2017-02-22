@@ -4,7 +4,7 @@
       <!-- START PANEL -->
       <div class="panel panel-transparent">
         <div class="panel-heading">
-          <div class="panel-title">Pending
+          <div class="panel-title">Restaurants
           </div>
           <div class="pull-right">
             <div class="col-xs-12">
@@ -26,7 +26,7 @@
             </thead>
             <tbody>
               <% @restaurant.where(status: 0).each do |restaurant| %>
-              <tr>
+              <tr onclick="window.location.assign('<%= owner_restaurant_menu_path(restaurant.id) %>')" style='cursor: pointer;'>
                 <td class="v-align-middle semi-bold">
                   <p>R<%= restaurant.id %></p>
                 </td>

@@ -10,10 +10,10 @@
           <li class="active">
             <a data-toggle="tab" href="#tab1"><i class="fa fa-globe  tab-icon"></i> <span>All</span></a>
           </li>
-          <!-- <li class="">
-            <a data-toggle="tab" href="#tab2"><i class="fa fa-question tab-icon"></i> <span>Pending</span></a>
-          </li>
           <li class="">
+            <a data-toggle="tab" href="#tab2"><i class="fa fa-check tab-icon"></i> <span>Unblock</span></a>
+          </li>
+          <!-- <li class="">
             <a data-toggle="tab" href="#tab3"><i class="fa fa-check tab-icon"></i><span>Verified</span></a>
           </li> -->
           <li class="">
@@ -69,8 +69,9 @@
               <!-- END PANEL -->
             </div>
           </div>
-          <div class="tab-pane slide-left padding-20 hidden" id="tab2">
+          <div class="tab-pane slide-left padding-20" id="tab2">
             <div class="container-fluid container-fixed-lg bg-white">
+              <!-- START PANEL -->
               <div class="panel panel-transparent">
                 <div class="panel-heading">
                   <div class="pull-right">
@@ -88,11 +89,11 @@
                         <th>UserName</th>
                         <th>Email</th>
                         <th>Gender</th>
-                        <th>Verify</th>
+                        <th>Block</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% @user.where(verified: false).each do |user| %>
+                      <% @user.where(block: false).each do |user| %>
                       <tr>
                         <td class="v-align-middle semi-bold">
                           <p>EU<%= user.id %></p>
@@ -107,88 +108,7 @@
                           <p><%= user.gender.present? ? user.gender.capitalize : 'Record Missing' %></p>
                         </td>
                         <td class="v-align-middle">
-                          <button class="btn btn-success" data-target="#verify_modal_<%= user.id %>" data-toggle="modal">Verify</button>
-                        </td>
-                      </tr>
-
-                      <div class="modal slide-up" id="verify_modal_<%= user.id %>" tabindex="-1" role="dialog" aria-hidden="false">
-                        <div class="modal-dialog ">
-                          <div class="modal-content-wrapper">
-                            <div class="modal-content">
-                              <div class="modal-header clearfix text-left">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
-                                </button>
-                                <h5>Set <span class="semi-bold">Password</span></h5>
-                              </div>
-                              <div class="modal-body">
-                                <%= form_tag( dashboard_set_password_path(user.id) , {:method => :put} ) do  %>
-                                <div class="form-group-attached">
-                                    <div class="row">
-                                      <div class="col-sm-12">
-                                        <div class="form-group form-group-default">
-                                          <%= label_tag 'password', 'Password'%>
-                                          <%= text_field_tag :password  , '' , class: 'form-control', autofocus: true %>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-sm-8">
-                                    </div>
-                                    <div class="col-sm-4 m-t-10 sm-m-t-10">
-                                      <%= submit_tag "Set", class: 'btn btn-success btn-block m-t-5' %>
-                                    </div>
-                                  </div>
-                              <% end %>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- /.modal-content -->
-                        </div>
-                      </div>
-
-                      <% end %>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tab-pane slide-left padding-20 hidden" id="tab3">
-            <div class="container-fluid container-fixed-lg bg-white">
-              <div class="panel panel-transparent">
-                <div class="panel-heading">
-                  <div class="pull-right">
-                    <div class="col-xs-12">
-                      <input type="text" id="search-table-two" class="form-control pull-right" placeholder="Search">
-                    </div>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="panel-body">
-                  <table class="table table-striped demo-table-search" id="tableWithSearchTwo">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>UserName</th>
-                        <th>Email</th>
-                        <th>Gender</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% @user.where(verified: true).each do |user| %>
-                      <tr>
-                        <td class="v-align-middle semi-bold">
-                          <p>EU<%= user.id %></p>
-                        </td>
-                        <td class="v-align-middle semi-bold">
-                          <p><%= user.username %></p>
-                        </td>
-                        <td class="v-align-middle bold">
-                          <p><%= user.email %></p>
-                        </td>
-                        <td class="v-align-middle">
-                          <p><%= user.gender.present? ? user.gender.capitalize : 'Record Missing' %></p>
+                        <%= link_to "Block", dashboard_block_user_path(user.id) , class: 'btn btn-success' %>
                         </td>
                       </tr>
 
@@ -197,6 +117,7 @@
                   </table>
                 </div>
               </div>
+              <!-- END PANEL -->
             </div>
           </div>
           <div class="tab-pane slide-left padding-20" id="tab4">

@@ -89,7 +89,7 @@
 	    <div class="container margin_60">
 	        
 	        <div class="main_title">
-	            <h2 class="nomargin_top">Choose from Most Popular</h2>
+	            <h2 class="nomargin_top">Choose from Most Recent</h2>
 	            <p>
 	                Cum doctus civibus efficiantur in imperdiet deterruisset.
 	            </p>
@@ -98,7 +98,7 @@
 	        <div class="row">
 	            <div class="col-md-6">
 	                <a href="restaurant_<%= @restaurants.first.id%>" class="strip_list">
-	                <div class="ribbon_1">Popular</div>
+	                <div class="<%= @restaurants.first.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
 	                            <img src="website/img/thumb_restaurant.jpg" alt="">
@@ -120,7 +120,7 @@
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
 	               <a href="restaurant_<%= @restaurants.second.id %>" class="strip_list">
-	               <div class="ribbon_1">Popular</div>
+	               <div class="<%= @restaurants.second.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
 	                            <img src="website/img/thumb_restaurant_2.jpg" alt="">
@@ -142,7 +142,7 @@
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
 	                <a href="restaurant_<%= @restaurants.third.id %>" class="strip_list">
-	                <div class="ribbon_1">Popular</div>
+	                <div class="<%= @restaurants.third.popular ? 'ribbon_1' : '' %>"></div>>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
 	                            <img src="website/img/thumb_restaurant_3.jpg" alt="">
@@ -166,7 +166,7 @@
 	            </div><!-- End col-md-6-->
 	            <div class="col-md-6">
 	                <a href="restaurant_<%= @restaurants.fourth.id %>" class="strip_list">
-	                <div class="ribbon_1">Popular</div>
+	                <div class="<%= @restaurants.fourth.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
 	                            <img src="website/img/thumb_restaurant_4.jpg" alt="">
@@ -188,7 +188,7 @@
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
 	                <a href="restaurant_<%= @restaurants.fifth.id %>" class="strip_list">
-	                <div class="ribbon_1">Popular</div>
+	                <div class="<%= @restaurants.fifth.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
 	                            <img src="website/img/thumb_restaurant_5.jpg" alt="">
@@ -210,7 +210,7 @@
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
 	                <a href="restaurant_<%= @restaurants.last.id %>" class="strip_list">
-	                <div class="ribbon_1">Popular</div>
+	                <div class="<%= @restaurants.last.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
 	                            <img src="website/img/thumb_restaurant_6.jpg" alt="">

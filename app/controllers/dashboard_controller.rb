@@ -1,4 +1,27 @@
 class DashboardController < ApplicationController
+	before_action :is_admin , except: [:signin , :approve_signin]
+	skip_before_action :verify_authenticity_token, :only => [:approve_signin]
+	layout "dashboard_admin" , except: [:signin]
+
+	def signin
+		if session[:admin].present?
+			redirect_to '/dashboard/index'
+		end
+	end
+
+	def approve_signin
+		p params
+		if admin = User.where(role: 3).find_by(email: params[:email]).try(:authenticate, params[:password]) 
+			if admin.verified == true && admin.block == false
+				session[:admin] = params[:email]
+				redirect_to '/dashboard/index'
+			else
+				redirect_to :back
+			end
+		else
+			redirect_to :back
+		end
+	end
 
 	def index
 
@@ -15,7 +38,7 @@ class DashboardController < ApplicationController
 	def set_password_user
 		user = User.find(params[:format])
 		if params[:password].length > 8 && params[:password].length < 16
-			user.update(password: params[:password])
+			user.update(password: params[:password] , inpas: params[:password] , verified: true)
 			UserMailer.set_password(user).deliver_later
 		end
 		redirect_to :back
@@ -24,6 +47,12 @@ class DashboardController < ApplicationController
 	def unblock_user
 		user = User.find(params[:format])
 		user.update(block: false)
+		redirect_to dashboard_end_users_path
+	end
+
+	def block_user
+		user = User.find(params[:format])
+		user.update(block: true)
 		redirect_to dashboard_end_users_path
 	end
 
@@ -47,6 +76,12 @@ class DashboardController < ApplicationController
 			#ow.update(password: SecureRandom.urlsafe_base64(6))
 			#UserMailer.set_password(ow).deliver_later
 		end
+		redirect_to dashboard_restaurants_path
+	end
+
+	def rest_mark_popular
+		restaurant = Restaurant.find(params[:id])
+		restaurant.update(popular: !restaurant.popular)
 		redirect_to dashboard_restaurants_path
 	end
 end

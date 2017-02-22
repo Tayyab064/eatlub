@@ -97,8 +97,7 @@
 					        <th>Opening Time</th>
 					        <th>Closing Time</th>
 					        <th>Location</th>
-					        <th>Cuisine</th>
-					        <th>Owner</th>
+					        <th>Popular</th>
 					      </tr>
 					    </thead>
 					    <tbody>
@@ -123,10 +122,7 @@
 					          <p><%= restaurant.location %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <p><%= restaurant.cuisine %></p>
-					        </td>
-					        <td class="v-align-middle">
-					          <p><%= restaurant.owner.email %></p>
+					          <button class="btn btn-success btn-cons" onclick="location.href='<%= restaurant_mark_popular_path(restaurant.id) %>'"><%= restaurant.popular ? 'Mark Popular' : 'Unmark Popular' %></button>
 					        </td>
 					      </tr>
 

@@ -30,7 +30,7 @@
     
 		<div class="col-md-3">
 			<p>
-				<a class="btn_map" data-toggle="collapse" href="grid_list.html#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
+				<a id='view_on_map' class="btn_map" data-toggle="collapse" href="grid_list.html#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
 			</p>
 			<div id="filters_col">
 				<a data-toggle="collapse" href="grid_list.html#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filters <i class="icon-plus-1 pull-right"></i></a>
@@ -208,6 +208,7 @@
             	<% end %>
 	            	<div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.5s">
 	                	<a class="strip_list grid" href="restaurant_<%= rest.id %>">
+	                	<div class="<%= rest.popular ? 'ribbon_1' : '' %>"></div>
 	                    	<div class="desc">
 								<div class="thumb_strip">
 									<img src="website/img/thumb_restaurant_5.jpg" alt="">
@@ -253,8 +254,10 @@
 
     'use strict';
 
+    var initmapre = document.getElementById('view_on_map');
+
     // When the window has finished loading create our google map below
-    google.maps.event.addDomListener(window, 'load', init);
+    google.maps.event.addDomListener(initmapre, 'click', init);
 
     var map;
     var zoomLevel = 13;
@@ -269,7 +272,7 @@
 
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= my_lat_long.first %>, lng: <%= my_lat_long.last %>},
+          center: {lat: <%= my_lat_long.present? ? my_lat_long.first : '51.5074' %>, lng: <%= my_lat_long.present? ? my_lat_long.last : '0.1278' %>},
           scrollwheel: false,
           zoom: zoomLevel
         });

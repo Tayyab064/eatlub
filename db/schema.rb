@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221115316) do
+ActiveRecord::Schema.define(version: 20170222082919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,8 +25,9 @@ ActiveRecord::Schema.define(version: 20170221115316) do
     t.string   "name"
     t.float    "price"
     t.integer  "section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "image",      default: ""
     t.index ["section_id"], name: "index_food_items_on_section_id", using: :btree
   end
 
@@ -46,11 +47,14 @@ ActiveRecord::Schema.define(version: 20170221115316) do
     t.string   "cuisine"
     t.string   "typee"
     t.integer  "owner_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "status",       default: 0
+    t.string   "image",        default: ""
+    t.boolean  "popular",      default: false
+    t.string   "about_us",     default: ""
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -80,13 +84,13 @@ ActiveRecord::Schema.define(version: 20170221115316) do
     t.string   "username",        default: ""
     t.string   "email"
     t.integer  "gender"
-    t.string   "password"
     t.integer  "role",            default: 0
     t.boolean  "verified",        default: false
     t.boolean  "block",           default: false
     t.string   "password_digest"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.string   "inpas"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["role"], name: "index_users_on_role", using: :btree
   end

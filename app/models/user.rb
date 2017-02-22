@@ -1,5 +1,7 @@
 class User < ApplicationRecord
 	validates_uniqueness_of :email
+	has_secure_password
+	
 	has_many :restaurants ,dependent: :destroy
 	has_many :reviews , dependent: :destroy
 

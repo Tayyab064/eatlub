@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   post 'submit_rider' => 'website#save_driver' , as: 'save_rider'
 
   scope 'dashboard' do
+    get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
+    post 'signin_admin' => 'dashboard#approve_signin' , as: 'signin_admin'
+
   	get 'index' => 'dashboard#index' , as: 'dashboard_index'
   	get 'restaurants' => 'dashboard#restaurants' , as: 'dashboard_restaurants'
   	get 'end_users' => 'dashboard#end_user' , as: 'dashboard_end_users'
@@ -25,11 +28,17 @@ Rails.application.routes.draw do
   	get 'admin' => 'dashboard#admin' , as: 'dashboard_admin'
   	put 'set_password' => 'dashboard#set_password_user' , as: 'dashboard_set_password'
   	get 'unblock_user' => 'dashboard#unblock_user' , as: 'dashboard_unblock_user'
+    get 'block_user' => 'dashboard#block_user' , as: 'dashboard_block_user'
     get 'restaurant_approve_:id' => 'dashboard#rest_mark_approved' , as: 'restaurant_mark_approve'
+    get 'restaurant_popular_:id' => 'dashboard#rest_mark_popular' , as: 'restaurant_mark_popular'
   end
 
   scope 'owner' do
+    get 'signin' => 'owner#signin' , as: 'owner_signin'
+    post 'signin_admin' => 'owner#approve_signin' , as: 'signin_owner'
+
     get 'index' => 'owner#index' , as: 'owner_index'
     get 'restaurants' => 'owner#restaurants' , as: 'owner_restaurants'
+    get 'restaurant_:id' => 'owner#restaurant_menu_add' , as: 'owner_restaurant_menu'
   end
 end

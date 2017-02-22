@@ -24,7 +24,7 @@ class WebsiteController < ApplicationController
 			if User.exists?(email: params[:email])
 				use = User.find_by_email(params[:email])
 			else		
-				use = User.create(name: params[:owner_name] , email: params[:email] , role: 1)
+				use = User.create(name: params[:owner_name] , email: params[:email] , role: 1 , password: '123456')
 			end
 			if use.role == 'restaurant_owner'
 				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id)
@@ -46,7 +46,7 @@ class WebsiteController < ApplicationController
 	end
 
 	def save_driver
-		User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2)
+		User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
 		redirect_to :back
 	end
 

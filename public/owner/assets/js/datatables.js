@@ -199,6 +199,9 @@
     }
 
     initTableWithSearch();
+    initTableWithSearchOne();
+    initTableWithSearchTwo();
+    initTableWithSearchThree();
     initTableWithDynamicRows();
     initTableWithExportOptions();
 

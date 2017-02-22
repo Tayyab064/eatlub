@@ -40,7 +40,7 @@
         
 			<div class="col-md-4">
 				<p>
-					<a class="btn_map" data-toggle="collapse" href="detail_page_2.html#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
+					<a id='view_on_map' class="btn_map" data-toggle="collapse" href="detail_page_2.html#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
 				</p>
 				<div class="box_style_2">
 					<h4 class="nomargin_top">Opening time <i class="icon_clock_alt pull-right"></i></h4>
@@ -195,10 +195,10 @@
                     </div>
                     <h3>About us</h3>
 					<p>
-						Lorem ipsum dolor sit amet, ius sonet meliore partiendo cu. Nobis laudem mediocrem cum et. Debitis nonumes similique te eam, blandit eligendi principes sea no. Cu eum quidam expetendis.
+						<%= @restaurant.about_us %>
 					</p>
 					<p class="add_bottom_30">
-						Lorem ipsum dolor sit amet, ex has recusabo adipiscing, aliquip alienum at vis, eos id qualisque quaerendum. Soleat habemus duo no, te quo dicam everti, sale ullum movet per ea. Cu cum laudem quaeque, agam decore nullam ei vis. Nec ad tota etiam eirmod. Harum debitis detraxit ut vel, eu vel option oporteat.
+						
 					</p>
 					<div id="summary_review">
 						<div id="general_rating">
@@ -421,8 +421,10 @@
 
     'use strict';
 
+    var initmapre = document.getElementById('view_on_map');
+
     // When the window has finished loading create our google map below
-    google.maps.event.addDomListener(window, 'load', init);
+    google.maps.event.addDomListener(initmapre, 'click', init);
 
     var map;
     var zoomLevel = 13;
