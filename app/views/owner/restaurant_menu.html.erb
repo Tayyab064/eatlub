@@ -1,0 +1,56 @@
+<div class="box_style_2" id="main_menu">
+	<h2 class="inner">Menu <%= link_to 'Add FoodItem' , owner_restaurant_food_add_path  , class: 'btn' , style: 'background-color: #10cfbd; color: white; float: right;' %></h2>
+    <% if @restaurant.menu.present? %>
+        <%  @restaurant.menu.sections.each_with_index do |sec,index| %>
+        <% if index == 0 %>
+			<h3 class="nomargin_top" id="<%= sec.title %>"><%= sec.title %></h3>
+        <% else %>
+			<hr>
+			<h3 id="<%= sec.title %>"><%= sec.title %></h3>
+        <% end %>
+        <p>
+            Te ferri iisque aliquando pro, posse nonumes efficiantur in cum. Sensibus reprimique eu pro. Fuisset mentitum deleniti sit ea.
+        </p>
+        <table class="table table-striped cart-list">
+            <thead>
+                <tr>
+                    <th>
+                         #
+                    </th>
+                    <th>
+                         
+                    </th>
+                    <th>
+                         Item
+                    </th>
+                    <th>
+                         Price
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sec.food_items.each_with_index do |food,ind| %>
+                <tr>
+                    <td><%= ind +1 %>.</td>
+                    <td>
+                        <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : '../website/img/menu-thumb-1.jpg' %>" alt="thumb" style='width: 60px; height: auto;'></figure>
+                    </td>
+                    <td>
+                        <h5><%= food.name %></h5>
+                        <p>
+                            Fuisset mentitum deleniti sit ea.
+                        </p>
+                        
+                    </td>
+                    <td class="options">
+                        <strong>€ <%= food.price %></strong>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <% end %>
+    <% else %>
+        <h3 >detail missing</h3>
+    <% end %>
+</div><!-- End box_style_1 -->

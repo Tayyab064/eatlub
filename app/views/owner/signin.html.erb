@@ -22,6 +22,7 @@
     <link href="assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="pages/css/pages-icons.css" rel="stylesheet" type="text/css">
     <link class="main-stylesheet" href="pages/css/pages.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../alertify/alertify.min.css" />
     <!--[if lte IE 9]>
         <link href="pages/css/ie9.css" rel="stylesheet" type="text/css" />
     <![endif]-->
@@ -271,5 +272,16 @@
       $('#form-login').validate()
     })
     </script>
+
+    <script src="../alertify/alertify.min.js"></script>
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <% if msg.split(' ')[0] == 'Error:' %>
+          <script type="text/javascript">alertify.error('<%= msg%>');</script>
+        <% else %>
+          <script type="text/javascript">alertify.success('<%= msg%>');</script>      
+        <%end%>
+      <% end %>
+    <% end %>
   </body>
 </html>

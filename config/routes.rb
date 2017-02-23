@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   end
 
   root 'website#index'
+  post 'signin' => 'website#signin' , as: 'website_signin'
+  post 'signup' => 'website#signup' , as: 'website_signup'
   post 'nearby_restaurants' => 'website#restaurants_nearby' , as: 'restaurants_nearby'
   get 'restaurant_:id' => 'website#restaurant' , as: 'restaurant_page'
   get 'menu_:id' => 'website#restaurant_menu' , as: 'restaurant_menu_page'
@@ -39,6 +41,8 @@ Rails.application.routes.draw do
 
     get 'index' => 'owner#index' , as: 'owner_index'
     get 'restaurants' => 'owner#restaurants' , as: 'owner_restaurants'
-    get 'restaurant_:id' => 'owner#restaurant_menu_add' , as: 'owner_restaurant_menu'
+    get 'fooditem_:id' => 'owner#restaurant_menu_add' , as: 'owner_restaurant_food_add'
+    get 'restaurant_:id' => 'owner#restaurant_menu' , as: 'owner_restaurant_menu'
+    post 'save_food_item' => 'owner#save_fooditem' , as: 'owner_save_fooditem'
   end
 end

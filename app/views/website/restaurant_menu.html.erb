@@ -19,7 +19,7 @@
                 <li><a href="#">Category</a></li>
                 <li>Page active</li>
             </ul>
-            <a href="detail_page.html#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
+            <a href="#" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
         </div>
     </div><!-- Position -->
 
@@ -86,7 +86,7 @@
                                 <% sec.food_items.each_with_index do |food,ind| %>
                                 <tr>
                                     <td>
-                                        <figure class="thumb_menu_list"><img src="website/img/menu-thumb-1.jpg" alt="thumb"></figure>
+                                        <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : 'website/img/menu-thumb-1.jpg' %>" alt="thumb"></figure>
                                         <h5><%= ind +1 %>. <%= food.name %></h5>
                                         <p>
                                             Fuisset mentitum deleniti sit ea.
@@ -116,7 +116,7 @@
                                                 <label>
                                                 <input type="checkbox" value="">Extra Peppers <span>+ $2.50</span>
                                                 </label>
-                                                <a href="detail_page.html#0" class="add_to_basket">Add to cart</a>
+                                                <a href="#" class="add_to_basket">Add to cart</a>
                                             </div>
                                         </div>
                                     </td>
@@ -139,7 +139,7 @@
 					<tbody>
 					<tr>
 						<td>
-							<a href="detail_page.html#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>1x</strong> Enchiladas
+							<a href="#" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>1x</strong> Enchiladas
 						</td>
 						<td>
 							<strong class="pull-right">$11</strong>
@@ -147,7 +147,7 @@
 					</tr>
 					<tr>
 						<td>
-							<a href="detail_page.html#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Burrito
+							<a href="#" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Burrito
 						</td>
 						<td>
 							<strong class="pull-right">$14</strong>
@@ -155,7 +155,7 @@
 					</tr>
 					<tr>
 						<td>
-							<a href="detail_page.html#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>1x</strong> Chicken
+							<a href="#" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>1x</strong> Chicken
 						</td>
 						<td>
 							<strong class="pull-right">$20</strong>
@@ -163,7 +163,7 @@
 					</tr>
 					<tr>
 						<td>
-							<a href="detail_page.html#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Corona Beer
+							<a href="#" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Corona Beer
 						</td>
 						<td>
 							<strong class="pull-right">$9</strong>
@@ -171,7 +171,7 @@
 					</tr>
 					<tr>
 						<td>
-							<a href="detail_page.html#0" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Cheese Cake
+							<a href="#" class="remove_item"><i class="icon_minus_alt"></i></a> <strong>2x</strong> Cheese Cake
 						</td>
 						<td>
 							<strong class="pull-right">$12</strong>

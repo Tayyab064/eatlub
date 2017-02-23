@@ -7,15 +7,24 @@
         <p>Partem diceret praesent mel et, vis facilis alienum antiopam ea, vim in sumo diam sonet. Illud ignota cum te, decore elaboraret nec ea. Quo ei graeci repudiare definitionem. Vim et malorum ornatus assentior, exerci elaboraret eum ut, diam meliore no mel.</p>
     </div>
     
+    <hr class="styled_2">
+    
     <div class="wrapper_indent">
+    <%= form_tag(owner_save_fooditem_path , method: "post" , :multipart => true) do %>
+        <%= hidden_field_tag(:restaurant_id, @restaurant.id) %> 
         <div class="form-group">
-            <label>Menu Category</label>
-            <input type="text" name="menu_category" class="form-control" placeholder="EX. Starters">
+            <label>Section</label>
+            <!-- <input type="text" name="menu_category" class="form-control" placeholder="EX. Main courses"> -->
+            <%= select_tag(:menu_section, options_for_select(@restaurant.menu.sections.map {|s| [s.title, s.id]}), { class: 'form-control select2' , style: 'width: 100%' }) %>
+        </div>
+        <div class="form-group">
+            <label id="section_new" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Add New Section</label>
+            <%= text_field_tag :section, '' , class: 'form-control' , style: 'display: none ; margin-top: 3px;'%>
         </div>
 
         <div class="menu-item-section clearfix">
             <h4>Menu item #1</h4>
-            <div><a href="admin.html#0"><i class="icon_plus_alt"></i></a><a href="admin.html#0"><i class="icon_minus_alt"></i></a>
+            <div><a href="#"><i class="icon_plus_alt"></i></a><a href="#"><i class="icon_minus_alt"></i></a>
             </div>
         </div>
 
@@ -23,146 +32,33 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="menu-item-pic dropzone">
-                        <input name="file" type="file">
+                        <%= file_field_tag "image" %>
                         <div class="dz-default dz-message"><span>Click or Drop<br>Images Here</span>
                         </div>
                     </div>
+                    <%= file_field_tag "image" %>
                 </div>
                 <div class="col-sm-9">
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label>Title</label>
-                                <input type="text"  name="menu_item_title" class="form-control">
+                                <!-- <input type="text" name="menu_item_title" class="form-control"> -->
+                                <%= text_field_tag :name , '' , class: 'form-control', autofocus: true %>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Price</label>
-                                <input type="text" name="menu_item_title_price" class="form-control">
+                                <!-- <input type="text" name="menu_item_title_price" class="form-control"> -->
+                                <%= number_field_tag :price , 0 , class: 'form-control' %>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Short description</label>
                         <input type="text" name="menu_item_description" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Item options</label>
-                        <div class="table-responsive">
-                            <table class="table table-striped edit-options">
-                                <tbody>
-                                    <tr>
-                                        <td style="width:20%">
-                                            <input type="text" class="form-control" placeholder="+ $3.50">
-                                        </td>
-                                        <td style="width:50%">
-                                            <input type="text" class="form-control" placeholder="Ex. Medium">
-                                        </td>
-                                        <td style="width:30%">
-                                            <label>
-                                                <input type="radio" name="option_item_settings_1" checked class="icheck" value="checkbox">Checkbox</label>
-                                            <label class="margin_left">
-                                                <input type="radio" name="option_item_settings_1" class="icheck" value="radio">Radio</label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:20%">
-                                            <input type="text" class="form-control" placeholder="+ $5.50">
-                                        </td>
-                                        <td style="width:50%">
-                                            <input type="text" class="form-control" placeholder="Ex. Large">
-                                        </td>
-                                        <td style="width:30%">
-                                            <label>
-                                                <input type="radio" name="option_item_settings_2" class="icheck" value="checkbox">Checkbox</label>
-                                            <label class="margin_left">
-                                                <input type="radio" name="option_item_settings_2" class="icheck" value="radio" checked>Radio</label>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div><!-- End form-group -->
-
-                    <div class="form-group">
-                        <label>Item ingredients</label>
-                        <div class="table-responsive">
-                        <table class="table table-striped notifications">
-                            <tbody>
-                                <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $2.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Extra tomato">
-                                    </td>
-                                    <td style="width:30%">
-                                        <label>
-                                            <input type="radio" name="option_item_settings_3" checked class="icheck" value="checkbox">Checkbox</label>
-                                        <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_3" class="icheck" value="radio">Radio</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $5.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Extra Pepper">
-                                    </td>
-                                    <td style="width:30%">
-                                        <label>
-                                            <input type="radio" name="option_item_settings_4" class="icheck" value="checkbox">Checkbox</label>
-                                        <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_4" class="icheck" value="radio" checked>Radio</label>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div><!-- End form-group -->
-                </div>
-            </div><!-- End row -->
-        </div><!-- End strip_menu_items -->
-
-
-
-        <div class="menu-item-section clearfix">
-            <h4>Menu item #2</h4>
-            <div><a href="admin.html#0"><i class="icon_plus_alt"></i></a><a href="admin.html#0"><i class="icon_minus_alt"></i></a>
-            </div>
-        </div>
-
-        <div class="strip_menu_items">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="menu-item-pic dropzone">
-                        <input name="file" type="file">
-                        <div class="dz-default dz-message"><span>Click or Drop<br>Images Here</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-9">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input type="text" name="menu_item_title" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="text" name="menu_item_title_price" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Short description</label>
-                        <input type="text" name="menu_item_description" class="form-control">
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label>Item options</label>
@@ -178,9 +74,9 @@
                                     </td>
                                     <td style="width:30%">
                                         <label>
-                                            <input type="radio" name="option_item_settings_5" checked class="icheck" value="checkbox">Checkbox</label>
+                                            <input type="radio" name="rad" checked class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_5" class="icheck" value="radio">Radio</label>
+                                            <input type="radio" name="rad" class="icheck" value="radio">Radio</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -192,9 +88,9 @@
                                     </td>
                                     <td style="width:30%">
                                         <label>
-                                            <input type="radio" name="option_item_settings_7" class="icheck" value="checkbox">Checkbox</label>
+                                            <input type="radio" name="rad_1" class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_7" class="icheck" value="radio" checked>Radio</label>
+                                            <input type="radio" name="rad_1" class="icheck" value="radio" checked>Radio</label>
                                     </td>
                                 </tr>
                             </tbody>
@@ -216,9 +112,9 @@
                                     </td>
                                     <td style="width:30%">
                                         <label>
-                                            <input type="radio" name="option_item_settings_8" checked class="icheck" value="checkbox">Checkbox</label>
+                                            <input type="radio" name="rad_2" checked class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_8" class="icheck" value="radio">Radio</label>
+                                            <input type="radio" name="rad_2" class="icheck" value="radio">Radio</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -230,132 +126,9 @@
                                     </td>
                                     <td style="width:30%">
                                         <label>
-                                            <input type="radio" name="option_item_settings_9" class="icheck" value="checkbox">Checkbox</label>
+                                            <input type="radio" name="rad_3" class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_9" class="icheck" value="radio" checked>Radio</label>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div><!-- End form-group -->
-                </div>
-            </div><!-- End row -->
-        </div><!-- End strip_menu_items -->
-    </div><!-- End wrapper_indent -->
-
-    <hr class="styled_2">
-    
-    <div class="wrapper_indent">
-        <div class="form-group">
-            <label>Menu Category</label>
-            <input type="text" name="menu_category" class="form-control" placeholder="EX. Main courses">
-        </div>
-
-        <div class="menu-item-section clearfix">
-            <h4>Menu item #1</h4>
-            <div><a href="admin.html#0"><i class="icon_plus_alt"></i></a><a href="admin.html#0"><i class="icon_minus_alt"></i></a>
-            </div>
-        </div>
-
-        <div class="strip_menu_items">
-            <div class="row">
-                <div class="col-sm-3">
-                    <div class="menu-item-pic dropzone">
-                        <input name="file" type="file">
-                        <div class="dz-default dz-message"><span>Click or Drop<br>Images Here</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-9">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label>Title</label>
-                                <input type="text" name="menu_item_title" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Price</label>
-                                <input type="text" name="menu_item_title_price" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Short description</label>
-                        <input type="text" name="menu_item_description" class="form-control">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Item options</label>
-                        <div class="table-responsive">
-                        <table class="table table-striped notifications">
-                            <tbody>
-                                <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $3.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Medium">
-                                    </td>
-                                    <td style="width:30%">
-                                        <label>
-                                            <input type="radio" name="option_item_settings_10" checked class="icheck" value="checkbox">Checkbox</label>
-                                        <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_10" class="icheck" value="radio">Radio</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $5.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Large">
-                                    </td>
-                                    <td style="width:30%">
-                                        <label>
-                                            <input type="radio" name="option_item_settings_11" class="icheck" value="checkbox">Checkbox</label>
-                                        <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_11" class="icheck" value="radio" checked>Radio</label>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        </div>
-                    </div><!-- End form-group -->
-
-                    <div class="form-group">
-                        <label>Item ingredients</label>
-                        <div class="table-responsive">
-                        <table class="table table-striped notifications">
-                            <tbody>
-                                <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $2.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Extra tomato">
-                                    </td>
-                                    <td style="width:30%">
-                                        <label>
-                                            <input type="radio" name="option_item_settings_12" checked class="icheck" value="checkbox">Checkbox</label>
-                                        <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_12" class="icheck" value="radio">Radio</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $5.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Extra Pepper">
-                                    </td>
-                                    <td style="width:30%">
-                                        <label>
-                                            <input type="radio" name="option_item_settings_13" class="icheck" value="checkbox">Checkbox</label>
-                                        <label class="margin_left">
-                                            <input type="radio" name="option_item_settings_13" class="icheck" value="radio" checked>Radio</label>
+                                            <input type="radio" name="rad_3" class="icheck" value="radio" checked>Radio</label>
                                     </td>
                                 </tr>
                             </tbody>
@@ -370,8 +143,14 @@
     <hr class="styled_2">
     
     <div class="wrapper_indent">
-        <div class="add_more_cat"><a href="admin.html#0" class="btn_1">Save now</a> <a href="admin.html#0" class="btn_1">Add menu category</a> </div>
+        <div class="add_more_cat">
+            <!-- <a href="admin.html#0" class="btn_1">Save now</a> -->
+            <%= submit_tag "Save now", class: "btn_1" %>
+
+            <!-- <a href="admin.html#0" class="btn_1">Add menu category</a> --> 
+        </div>
     </div><!-- End wrapper_indent -->
+    <% end %>
     
 </section><!-- End section 2 -->
 
@@ -379,21 +158,20 @@
 <script>
     if ($('.dropzone').length > 0) {
         Dropzone.autoDiscover = false;
-        $("#photos").dropzone({
-            url: "upload",
-            addRemoveLinks: true
-        });
-
-        $("#logo_picture").dropzone({
-            url: "upload",
-            maxFiles: 1,
-            addRemoveLinks: true
-        });
-
         $(".menu-item-pic").dropzone({
-            url: "upload",
+            url: "<%= owner_save_fooditem_path %>",
             maxFiles: 1,
             addRemoveLinks: true
         });
     }
+</script>
+
+<script>
+  $(function () {
+   
+    $("#section_new").click(function(){
+        $("#section").toggle();
+    });
+
+  });
 </script>

@@ -1,5 +1,35 @@
 class WebsiteController < ApplicationController
 
+	def signin
+		if session[:user].present?
+			redirect_to :back , notice: "Error: Already SignedIn"
+		else
+			if usr = User.where(role: 0).find_by(email: params[:email]).try(:authenticate, params[:password]) 
+				if usr.block == false
+					session[:user] = params[:email]
+					redirect_to '/' , notice: "Successfully SignedIn"
+				else
+					redirect_to :back , notice: "Error: User is blocked"
+				end
+			else
+				redirect_to :back , notice: "Error: Email/Password doesn't match"
+			end
+		end
+	end
+
+	def signup
+		if User.find_by_email(params[:email])
+			redirect_to :back , notice: 'Error: Already SignedUp!'
+		else
+			if params[:password] == params[:c_password]
+				User.create(name: params[:name] , username: params[:username] , email: params[:email] , password: params[:password] , role: 0)
+				redirect_to '/' , notice: 'Successfully SignedUp!'
+			else
+				redirect_to :back , notice: 'Error: Password doesnot match'
+			end
+		end
+	end
+
 	def index
 		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(6)
 	end
@@ -28,12 +58,12 @@ class WebsiteController < ApplicationController
 			end
 			if use.role == 'restaurant_owner'
 				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id)
-				redirect_to restaurant_page_path(res.id)
+				redirect_to restaurant_page_path(res.id) , notice: "Successfully Submitted"
 			else
-				redirect_to root_path
+				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
 			end
 		else
-			redirect_to root_path
+			redirect_to root_path , notice: "Error: Check parameters"
 		end
 	end
 
@@ -47,7 +77,7 @@ class WebsiteController < ApplicationController
 
 	def save_driver
 		User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
-		redirect_to :back
+		redirect_to :back , notice: "Successfully Submitted"
 	end
 
 

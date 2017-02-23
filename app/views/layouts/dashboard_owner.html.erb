@@ -34,6 +34,7 @@
     <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="pages/css/pages-icons.css" rel="stylesheet" type="text/css">
     <link class="main-stylesheet" href="pages/css/pages.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../alertify/alertify.min.css" />
     <style type="text/css">
       .modal-backdrop {
         position: relative;
@@ -1928,5 +1929,16 @@
 
     <script src="assets/plugins/rickshaw/rickshaw.min.js"></script>
     <script type="text/javascript" src="assets/js/form_wizard.js"></script>
+
+    <script src="../alertify/alertify.min.js"></script>
+    <% flash.each do |name, msg| %>
+      <% if msg.is_a?(String) %>
+        <% if msg.split(' ')[0] == 'Error:' %>
+          <script type="text/javascript">alertify.error('<%= msg%>');</script>
+        <% else %>
+          <script type="text/javascript">alertify.success('<%= msg%>');</script>      
+        <%end%>
+      <% end %>
+    <% end %>
   </body>
 </html>

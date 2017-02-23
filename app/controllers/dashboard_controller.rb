@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
 
 	def signin
 		if session[:admin].present?
-			redirect_to '/dashboard/index'
+			redirect_to '/dashboard/index' , notice: 'Error: Already SiginedIn!'
 		end
 	end
 
@@ -14,12 +14,12 @@ class DashboardController < ApplicationController
 		if admin = User.where(role: 3).find_by(email: params[:email]).try(:authenticate, params[:password]) 
 			if admin.verified == true && admin.block == false
 				session[:admin] = params[:email]
-				redirect_to '/dashboard/index'
+				redirect_to '/dashboard/index' , notice: 'Successfully SignedIn!'
 			else
-				redirect_to :back
+				redirect_to :back , notice: 'Error: Dont have access to signin'
 			end
 		else
-			redirect_to :back
+			redirect_to :back , notice: 'Error: Check Email/Password'
 		end
 	end
 
@@ -40,20 +40,22 @@ class DashboardController < ApplicationController
 		if params[:password].length > 8 && params[:password].length < 16
 			user.update(password: params[:password] , inpas: params[:password] , verified: true)
 			UserMailer.set_password(user).deliver_later
+			redirect_to :back , notice: 'Successfully Verified'
+		else
+			redirect_to :back , notice: 'Error: Check password length'
 		end
-		redirect_to :back
 	end
 
 	def unblock_user
 		user = User.find(params[:format])
 		user.update(block: false)
-		redirect_to dashboard_end_users_path
+		redirect_to dashboard_end_users_path , notice: 'Successfully Unblocked'
 	end
 
 	def block_user
 		user = User.find(params[:format])
 		user.update(block: true)
-		redirect_to dashboard_end_users_path
+		redirect_to dashboard_end_users_path , notice: 'Successfully Blocked'
 	end
 
 	def restaurant_owner
@@ -76,12 +78,12 @@ class DashboardController < ApplicationController
 			#ow.update(password: SecureRandom.urlsafe_base64(6))
 			#UserMailer.set_password(ow).deliver_later
 		end
-		redirect_to dashboard_restaurants_path
+		redirect_to dashboard_restaurants_path , notice: 'Successfully Approved'
 	end
 
 	def rest_mark_popular
 		restaurant = Restaurant.find(params[:id])
 		restaurant.update(popular: !restaurant.popular)
-		redirect_to dashboard_restaurants_path
+		redirect_to dashboard_restaurants_path , notice: 'Successfully Done'
 	end
 end
