@@ -211,9 +211,11 @@
 
 		da = '';
 		for(i = 0; i < coun; i++){
-           t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
-           tot_pri = tot_pri + t.price ;
+            if(window.localStorage.getItem('carti[' + i + ']')){
+               t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+               tot_pri = tot_pri + t.price ;
+            }
         }
 
         document.getElementById("mycarti").innerHTML = da ;
@@ -221,12 +223,13 @@
         document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
 	}
 
-	function remove_cart(i) {
+    function remove_cart(i) {
         if(window.localStorage.getItem('carti[' + i + ']')){
             localStorage.removeItem('carti[' + i + ']');
+
             
             $.ajax({
-               url: 'http://138.197.117.248/ajax',
+               url: 'http://45.55.250.8/api/user/formula/price.json',
                async:false,
                success: function(data) {
                     coun = parseInt(window.localStorage.getItem('count'));
@@ -235,9 +238,11 @@
 
                     da = '';
                     for(i = 0; i < coun; i++){
-                       t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                       da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
-                       tot_pri = tot_pri + t.price ;
+                       if(window.localStorage.getItem('carti[' + i + ']')){
+                           t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+                           tot_pri = tot_pri + t.price ;
+                       }
                     }
 
                     document.getElementById("mycarti").innerHTML = da ;

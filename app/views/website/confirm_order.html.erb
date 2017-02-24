@@ -59,21 +59,21 @@
 
 <script type="text/javascript">
 	window.onload = function(e){
-		coun = parseInt(window.localStorage.getItem('count'));
-		var tot_pri = 0.0 ;
-		console.log('Fetching');
+    coun = parseInt(window.localStorage.getItem('count'));
+    var tot_pri = 0.0 ;
+    console.log('Fetching');
 
-		da = '';
-		for(i = 0; i < coun; i++){
-      t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-      da = da + "<tr><td> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
-      tot_pri = tot_pri + t.price ;
-    }
+    da = '';
+    for(i = 0; i < coun; i++){
+            if(window.localStorage.getItem('carti[' + i + ']')){
+               t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+               tot_pri = tot_pri + t.price ;
+            }
+        }
 
-    da = da + '<tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">$' + tot_pri.toFixed(2) +'</span></td></tr>' ;
-
-    document.getElementById("mycarti").innerHTML = da ;
-
-    localStorage.clear();
-	}
+        document.getElementById("mycarti").innerHTML = da ;
+        document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
+        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+  }
 </script>
