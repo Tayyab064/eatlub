@@ -1,4 +1,5 @@
 class WebsiteController < ApplicationController
+	before_action :is_enduser , only: [:cart , :confirm_order]
 
 	def signin
 		if session[:user].present?
@@ -78,6 +79,18 @@ class WebsiteController < ApplicationController
 	def save_driver
 		User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
 		redirect_to :back , notice: "Successfully Submitted"
+	end
+
+	def cart
+
+	end
+
+	def confirm_order
+
+	end
+
+	def ajax
+		render json: {'message': 'Ready to go'} , status: :success
 	end
 
 

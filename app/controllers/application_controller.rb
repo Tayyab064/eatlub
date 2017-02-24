@@ -30,4 +30,18 @@ class ApplicationController < ActionController::Base
   		redirect_to owner_signin_path
   	end
   end
+
+  def is_enduser
+    if session[:user].present?
+      unless u = User.where(role: 0).find_by_email(session[:user])
+        if  u.block == false
+         redirect_to '/' , notice: 'Error: Dont have access'
+        else
+          redirect_to '/' , notice: 'Error: Kindly Signin first'
+        end
+      end
+    else
+      redirect_to '/' , notice: 'Error: Kindly Signin first'
+    end
+  end
 end

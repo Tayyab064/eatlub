@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     get code, :to => "errors#show", :code => code
   end
 
+  get 'ajax' => 'website#ajax'
+
   root 'website#index'
   post 'signin' => 'website#signin' , as: 'website_signin'
   post 'signup' => 'website#signup' , as: 'website_signup'
@@ -17,6 +19,8 @@ Rails.application.routes.draw do
   post 'submit_restaurant' => 'website#save_restaurant' , as: 'save_restaurant'
   get 'submit_rider' => 'website#submit_driver'
   post 'submit_rider' => 'website#save_driver' , as: 'save_rider'
+  get 'cart' => 'website#cart' , as: 'cart'
+  get 'confirm' => 'website#confirm_order' , as: 'confirm_order'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
