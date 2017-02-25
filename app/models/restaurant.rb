@@ -8,6 +8,7 @@ class Restaurant < ApplicationRecord
 
 	has_one :menu , dependent: :destroy
 	has_many :reviews , dependent: :destroy
+	has_many :orders , dependent: :destroy
 
 	enum status: [:pending , :approved]
 

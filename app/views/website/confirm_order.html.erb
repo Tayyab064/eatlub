@@ -13,7 +13,7 @@
               <div class="col-xs-6 bs-wizard-step complete">
                   <div class="text-center bs-wizard-stepnum"><strong>2.</strong> Finish!</div>
                   <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="cart_3.html#0" class="bs-wizard-dot"></a>
+                  <a href="#" class="bs-wizard-dot"></a>
                 </div>  
 		</div><!-- End bs-wizard --> 
         </div><!-- End sub_content -->
@@ -24,11 +24,11 @@
     <div id="position">
         <div class="container">
             <ul>
-                <li><a href="cart_3.html#0">Home</a></li>
-                <li><a href="cart_3.html#0">Category</a></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Category</a></li>
                 <li>Page active</li>
             </ul>
-            <a href="cart_3.html#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
+            <a href="#" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
         </div>
     </div><!-- Position -->
 
@@ -62,18 +62,20 @@
     coun = parseInt(window.localStorage.getItem('count'));
     var tot_pri = 0.0 ;
     console.log('Fetching');
-
+ 
     da = '';
     for(i = 0; i < coun; i++){
-            if(window.localStorage.getItem('carti[' + i + ']')){
-               t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
-               tot_pri = tot_pri + t.price ;
-            }
-        }
-
-        document.getElementById("mycarti").innerHTML = da ;
-        document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+      if(window.localStorage.getItem('carti[' + i + ']')){
+        t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+        da = da + "<tr><td> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+        tot_pri = tot_pri + t.price ;
+      }
+    }
+ 
+    da = da + '<tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">$' + tot_pri.toFixed(2) +'</span></td></tr>' ;
+ 
+    document.getElementById("mycarti").innerHTML = da ;
+ 
+    localStorage.clear();
   }
 </script>

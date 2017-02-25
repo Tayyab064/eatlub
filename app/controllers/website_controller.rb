@@ -1,4 +1,5 @@
 class WebsiteController < ApplicationController
+	skip_before_filter :verify_authenticity_token, :only => [:save_order]
 	before_action :is_enduser , only: [:cart , :confirm_order]
 
 	def signin
@@ -91,6 +92,10 @@ class WebsiteController < ApplicationController
 
 	def ajax
 		render json: {'message': 'Ready to go'} , status: :ok
+	end
+
+	def save_order
+		render json: params , status: :ok
 	end
 
 

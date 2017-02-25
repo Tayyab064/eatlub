@@ -52,4 +52,8 @@ class OwnerController < ApplicationController
 	def restaurant_menu
 		@restaurant = Restaurant.find(params[:id])
 	end
+
+	def orders
+		@order = Order.all
+	end
 end

@@ -161,7 +161,7 @@
 							<label><input type="radio" value="" checked name="option_2" class="icheck">Delivery</label>
 						</div>
 						<div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-							<label><input type="radio" value="" name="option_2" class="icheck">Take Away</label>
+							<label><input type="radio" value="" name="option_2" class="icheck" disabled>Take Away</label>
 						</div>
 					</div><!-- Edn options 2 -->
 					<hr>
@@ -185,7 +185,7 @@
 					</tbody>
 					</table>
 					<hr>
-					<a class="btn_full" href="<%= confirm_order_path %>">Confirm Your Order</a>
+					<a class="btn_full" onclick="place_order();">Confirm Your Order</a>
 					<a class="btn_full_outline" href="/"><i class="icon-right"></i> Add other items</a>
 				</div><!-- End cart_box -->
                 </div><!-- End theiaStickySidebar -->
@@ -235,23 +235,54 @@
                     var tot_pri = 0.0 ;
                     console.log('Fetching');
 
+                    chk_co = 0;
                     da = '';
                     for(i = 0; i < coun; i++){
                        if(window.localStorage.getItem('carti[' + i + ']')){
                            t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
                            da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
                            tot_pri = tot_pri + t.price ;
+                           chk_co = chk_co + 1;
                        }
                     }
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
                     document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+
+                    if(chk_co == 0){
+                    	window.localStorage.setItem('count', 0);
+                    	localStorage.removeItem('restaurant');
+                    }
                }
             });
 
         }else{
             console.log('Finding');
         }
+    }
+
+    function place_order(){
+    	var addr = document.getElementById('address_order').value;
+    	var note = document.getElementById('notes').value;
+
+    	var items = [];
+    	for(i = 0; i < coun; i++){
+           if(window.localStorage.getItem('carti[' + i + ']')){
+               t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+               items[items.length] = {id: t.id , title: t.title , price: t.price , quantity: 1};
+           }
+        }
+
+        res = JSON.parse(window.localStorage.getItem('restaurant'));
+
+    	$.ajax({
+           url: '/save_order',
+           type: "POST",
+	       data: { restaurant_id: res, address: addr , notes: note , item: items , user_id: <%= @end_user.id %> },
+           success: function(data) {
+               window.location.assign("<%= confirm_order_path %>");
+           }
+        });
     }
 </script>

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   post 'submit_rider' => 'website#save_driver' , as: 'save_rider'
   get 'cart' => 'website#cart' , as: 'cart'
   get 'confirm' => 'website#confirm_order' , as: 'confirm_order'
+  post 'save_order' => 'website#save_order' , as: 'web_save_order'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
@@ -48,5 +49,6 @@ Rails.application.routes.draw do
     get 'fooditem_:id' => 'owner#restaurant_menu_add' , as: 'owner_restaurant_food_add'
     get 'restaurant_:id' => 'owner#restaurant_menu' , as: 'owner_restaurant_menu'
     post 'save_food_item' => 'owner#save_fooditem' , as: 'owner_save_fooditem'
+    get 'orders' => 'owner#orders' , as: 'owner_orders'
   end
 end

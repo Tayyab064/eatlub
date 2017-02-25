@@ -40,6 +40,7 @@ class ApplicationController < ActionController::Base
           redirect_to '/' , notice: 'Error: Kindly Signin first'
         end
       end
+      @end_user = u
     else
       redirect_to '/' , notice: 'Error: Kindly Signin first'
     end

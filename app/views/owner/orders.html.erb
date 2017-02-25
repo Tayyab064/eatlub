@@ -1,0 +1,62 @@
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+   <div class="container-fluid container-fixed-lg bg-white">
+      <!-- START PANEL -->
+      <div class="panel panel-transparent">
+        <div class="panel-heading">
+          <div class="panel-title">Orders
+          </div>
+          <div class="pull-right">
+            <div class="col-xs-12">
+              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped demo-table-search" id="tableWithSearch">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Restaurant Name</th>
+                <th>Branch</th>
+                <th>Delivery Address</th>
+                <th>User</th>
+                <th>Notes</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @order.each do |order| %>
+              <tr onclick="window.location.assign('<%= owner_restaurant_menu_path(order.id) %>')" style='cursor: pointer;'>
+                <td class="v-align-middle semi-bold">
+                  <p>O<%= order.id %></p>
+                </td>
+                 <td class="v-align-middle semi-bold">
+                  <p><%= order.restaurant.name %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= order.restaurant.location %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= order.address %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= order.user.email %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= order.notes %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= order.status.capitalize %></p>
+                </td>              
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- END PANEL -->
+    </div>
+</div>

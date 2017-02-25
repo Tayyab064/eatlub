@@ -146,7 +146,7 @@
 							<label><input type="radio" value="" checked name="option_2" class="icheck">Delivery</label>
 						</div>
 						<div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
-							<label><input type="radio" value="" name="option_2" class="icheck">Take Away</label>
+							<label><input type="radio" value="" name="option_2" class="icheck" disabled>Take Away</label>
 						</div>
 					</div><!-- Edn options 2 -->
                     
@@ -171,7 +171,7 @@
 					</tbody>
 					</table>
 					<hr>
-					<a class="btn_full" href="cart.html">Order now</a>
+					<a class="btn_full" href="cart">Order now</a>
 				</div><!-- End cart_box -->
                 </div><!-- End theiaStickySidebar -->
 			</div><!-- End col-md-3 -->
@@ -209,39 +209,48 @@
 		}else{
 			window.localStorage.setItem('count', 0);
 		}
+
+        if(window.localStorage.getItem('restaurant')){
+            restaurant = parseInt(window.localStorage.getItem('restaurant'));
+        }else{
+            restaurant = <%= @restaurant.id %> ;
+            window.localStorage.setItem('restaurant', restaurant );
+        }
 		
+        if(restaurant == <%= @restaurant.id %>){
+    	    var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
+    	    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(€ )/, ""));
+    	    console.log(titl + " " + pric);
 
-	    var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
-	    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(€ )/, ""));
-	    console.log(titl + " " + pric);
+    	    window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: pric}));
+    		
+    		coun = coun + 1;
+    		window.localStorage.setItem('count', coun);
 
-	    window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: pric}));
-		
-		coun = coun + 1;
-		window.localStorage.setItem('count', coun);
+            $.ajax({
+               url: 'http://138.197.117.248/ajax',
+               success: function(data) {
+                    coun = parseInt(window.localStorage.getItem('count'));
+                    var tot_pri = 0.0 ;
+                    console.log('Fetching');
 
-        $.ajax({
-           url: 'http://138.197.117.248/ajax',
-           success: function(data) {
-                coun = parseInt(window.localStorage.getItem('count'));
-                var tot_pri = 0.0 ;
-                console.log('Fetching');
-
-                da = '';
-                for(i = 0; i < coun; i++){
-                   if(window.localStorage.getItem('carti[' + i + ']')){
-                       t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                       da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
-                       tot_pri = tot_pri + t.price ;
+                    da = '';
+                    for(i = 0; i < coun; i++){
+                       if(window.localStorage.getItem('carti[' + i + ']')){
+                           t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+                           tot_pri = tot_pri + t.price ;
+                        }
                     }
-                }
 
-                document.getElementById("mycarti").innerHTML = da ;
-                document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-                document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
-           }
-        });
-
+                    document.getElementById("mycarti").innerHTML = da ;
+                    document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+               }
+            });
+        }else{
+            alertify.error('Order must be from same restaurant');
+        }
 	}
 
     function remove_cart(i) {
@@ -256,18 +265,25 @@
                     var tot_pri = 0.0 ;
                     console.log('Fetching');
 
+                    chk_co = 0;
                     da = '';
                     for(i = 0; i < coun; i++){
                        if(window.localStorage.getItem('carti[' + i + ']')){
                            t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
                            da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
                            tot_pri = tot_pri + t.price ;
+                           chk_co = chk_co + 1;
                        }
                     }
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
                     document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+
+                    if(chk_co == 0){
+                        window.localStorage.setItem('count', 0);
+                        localStorage.removeItem('restaurant');
+                    }
                }
             });
 

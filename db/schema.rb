@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170222082919) do
+ActiveRecord::Schema.define(version: 20170225111649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,12 +31,34 @@ ActiveRecord::Schema.define(version: 20170222082919) do
     t.index ["section_id"], name: "index_food_items_on_section_id", using: :btree
   end
 
+  create_table "items", force: :cascade do |t|
+    t.integer  "order_id"
+    t.string   "orderable_type"
+    t.integer  "orderable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["order_id"], name: "index_items_on_order_id", using: :btree
+  end
+
   create_table "menus", force: :cascade do |t|
     t.string   "title",         default: "Menu"
     t.integer  "restaurant_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.index ["restaurant_id"], name: "index_menus_on_restaurant_id", using: :btree
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string   "address",       default: ""
+    t.string   "notes",         default: ""
+    t.integer  "status",        default: 0
+    t.integer  "restaurant_id"
+    t.integer  "user_id"
+    t.integer  "rider_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["restaurant_id"], name: "index_orders_on_restaurant_id", using: :btree
+    t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
   end
 
   create_table "restaurants", force: :cascade do |t|
