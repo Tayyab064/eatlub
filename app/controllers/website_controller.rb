@@ -95,7 +95,11 @@ class WebsiteController < ApplicationController
 	end
 
 	def save_order
-		render json: params , status: :ok
+		ord = Order.create(address: params[:address] , notes: params[:notes] , restaurant_id: params[:restaurant_id] , user_id: params[:user_id])
+		params[:item].each do |cou|
+			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i)
+		end
+		render json: {'message' => 'Saved' } , status: :ok
 	end
 
 
@@ -103,4 +107,5 @@ class WebsiteController < ApplicationController
 	def save_restaurant_params
 		params.permit(:name , :cuisine , :location , :typee , :opening_time , :closing_time)
 	end
+
 end

@@ -276,13 +276,18 @@
 
         res = JSON.parse(window.localStorage.getItem('restaurant'));
 
-    	$.ajax({
-           url: '/save_order',
-           type: "POST",
-	       data: { restaurant_id: res, address: addr , notes: note , item: items , user_id: <%= @end_user.id %> },
-           success: function(data) {
-               window.location.assign("<%= confirm_order_path %>");
-           }
-        });
+        if(addr.length > 1 && items.length > 0){
+	    	$.ajax({
+	           url: '/save_order',
+	           type: "POST",
+		       data: { restaurant_id: res, address: addr , notes: note , item: items , user_id: <%= @end_user.id %> },
+	           success: function(data) {
+	           	   alertify.success('Order is successfully placed');
+	               window.location.assign("<%= confirm_order_path %>");
+	           }
+	        });
+	    }else{
+	    	alertify.error('Error: Check address/Food Items');
+	    }
     }
 </script>
