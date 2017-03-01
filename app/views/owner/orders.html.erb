@@ -28,7 +28,7 @@
             </thead>
             <tbody>
               <% @order.each do |order| %>
-              <tr onclick="window.location.assign('<%= owner_restaurant_menu_path(order.id) %>')" style='cursor: pointer;'>
+              <tr onclick="window.location.assign('<%= owner_order_path(order.id) %>')" style='cursor: pointer;'>
                 <td class="v-align-middle semi-bold">
                   <p>O<%= order.id %></p>
                 </td>

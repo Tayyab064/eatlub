@@ -1,0 +1,74 @@
+<div class="box_style_2" id="main_menu">
+    <div class="row">
+        <div class='col-md-6'>
+            <h2 class="inner">Order No:  O<%= @order.id %></h2>
+        </div>
+        <div class='col-md-6'>
+            <h3 class="inner" style="float: right;">Status: <%= @order.status.capitalize %></h3>
+        </div>
+    </div>
+    	
+    <h3 class="nomargin_top"><%= @order.address %></h3>
+    <h3 ><%= @order.notes %></h3>
+    <p>
+        Te ferri iisque aliquando pro, posse nonumes efficiantur in cum. Sensibus reprimique eu pro. Fuisset mentitum deleniti sit ea.
+    </p>
+    <table class="table table-striped cart-list">
+        <thead>
+            <tr>
+                <th>
+                     #
+                </th>
+                <th>
+                     
+                </th>
+                <th>
+                     Item
+                </th>
+                <th>
+                     Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <% pr = 0 %>
+            <% @order.items.each_with_index do |foodi,ind| %>
+            <% food = foodi.orderable %>
+            <% pr = pr + food.price %>
+            <tr>
+                <td class="v-align-middle"><%= ind +1 %>.</td>
+                <td>
+                    <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : '../website/img/menu-thumb-1.jpg' %>" alt="thumb" style='width: 60px; height: auto;'></figure>
+                </td>
+                <td class="v-align-middle">
+                    <h5><%= food.name %></h5>
+                    <p>
+                        Fuisset mentitum deleniti sit ea.
+                    </p>
+                    
+                </td>
+                <td class="options v-align-middle">
+                    <strong>€ <%= food.price %></strong>
+                </td>
+            </tr>
+            <% end %>
+            <tr>
+                <td></td>
+                <td class="v-align-middle">
+                    <h2>Total</h2>
+                </td>
+                <td></td>
+                <td class="options v-align-middle">
+                    <strong>€ <%= pr.round(2) %></strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div style="text-align: center;">
+        <% if @order.status == 'pending' %>
+            <%= link_to "Accept", owner_order_accept_path, :class => "btn btn-success", style: 'width: 30%;' %>
+        <% elsif @order.status == 'approved' %>
+            <%= link_to "Dispatch", owner_order_dispatch_path, :class => "btn btn-success", style: 'width: 30%;' %>
+        <% end %>
+    </div>
+</div><!-- End box_style_1 -->

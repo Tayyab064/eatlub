@@ -56,4 +56,21 @@ class OwnerController < ApplicationController
 	def orders
 		@order = Order.all
 	end
+
+	def order
+		@order = Order.find(params[:id])
+	end
+
+	def order_accept
+		order = Order.find(params[:id])
+		order.update(status: 1)
+		redirect_to owner_order_path(order)
+	end
+
+	def order_dispatch
+		order = Order.find(params[:id])
+		order.update(status: 2)
+		#job for sending request to riders
+		redirect_to owner_order_path(order)
+	end
 end

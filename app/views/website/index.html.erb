@@ -1,3 +1,15 @@
+<style type="text/css">
+  .modal{
+      z-index: 20;   
+  }
+  .modal-backdrop{
+      z-index: 10;        
+  }​
+  .inner{
+    top: 40px;
+    width: 100%;
+  }
+</style>
 	<!-- SubHeader =============================================== -->
     <section class="header-video">
 	    <div id="hero_video">
@@ -296,3 +308,19 @@
 		    });    
 		});
 	</script>
+
+<script>
+  function initMap() {
+    /*var input = document.getElementById('pickup_location');*/
+    var options = {
+      componentRestrictions: {country: 'UK'}
+    };
+    console.log("initilalizing map");       
+
+    /*var autocomplete = new google.maps.places.Autocomplete(input,options);*/
+
+    var input_dest = document.getElementById('address');
+    var autocomplete_dest = new google.maps.places.Autocomplete(input_dest,options);
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc&libraries=places&callback=initMap" async defer></script>
