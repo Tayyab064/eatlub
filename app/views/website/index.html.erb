@@ -35,9 +35,9 @@
 	    <img src="website/img/video_fix.png" alt="" class="header-video--media" data-video-src="website/video/intro" data-teaser-source="website/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
 	    <div id="count" class="hidden-xs">
 	        <ul>
-	            <li><span class="number">2650</span> Restaurant</li>
-	            <li><span class="number">5350</span> People Served</li>
-	            <li><span class="number">12350</span> Registered Users</li>
+	            <li><span class="number"><%= @res_count %></span> Restaurant</li>
+	            <li><span class="number"><%= @ord_count %></span> People Served</li>
+	            <li><span class="number"><%= @end_user_count %></span> Registered Users</li>
 	        </ul>
 	    </div>
     </section><!-- End Header video -->
@@ -116,7 +116,13 @@
 	                            <img src="website/img/thumb_restaurant.jpg" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+	                        	<% t_rat = ( @restaurants.first.reviews.pluck("SUM(rating)").first.to_f / @restaurants.first.reviews.count ).round %>
+	                            <% t_rat.times do |th| %>
+	                            <i class="icon_star voted"></i>
+	                            <% end %>
+	                            <% (5-t_rat).times do |th| %>
+	                            <i class="icon_star"></i>
+	                            <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.first.name %></h3>
 	                        <div class="type">
@@ -138,7 +144,13 @@
 	                            <img src="website/img/thumb_restaurant_2.jpg" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+	                            <% t_rat = ( @restaurants.second.reviews.pluck("SUM(rating)").first.to_f / @restaurants.second.reviews.count ).round %>
+	                            <% t_rat.times do |th| %>
+	                            <i class="icon_star voted"></i>
+	                            <% end %>
+	                            <% (5-t_rat).times do |th| %>
+	                            <i class="icon_star"></i>
+	                            <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.second.name %></h3>
 	                        <div class="type">
@@ -160,7 +172,13 @@
 	                            <img src="website/img/thumb_restaurant_3.jpg" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+	                            <% t_rat = ( @restaurants.third.reviews.pluck("SUM(rating)").first.to_f / @restaurants.third.reviews.count ).round %>
+	                            <% t_rat.times do |th| %>
+	                            <i class="icon_star voted"></i>
+	                            <% end %>
+	                            <% (5-t_rat).times do |th| %>
+	                            <i class="icon_star"></i>
+	                            <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.third.name %></h3>
 	                        <div class="type">
@@ -184,7 +202,13 @@
 	                            <img src="website/img/thumb_restaurant_4.jpg" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+	                            <% t_rat = ( @restaurants.fourth.reviews.pluck("SUM(rating)").first.to_f / @restaurants.fourth.reviews.count ).round %>
+	                            <% t_rat.times do |th| %>
+	                            <i class="icon_star voted"></i>
+	                            <% end %>
+	                            <% (5-t_rat).times do |th| %>
+	                            <i class="icon_star"></i>
+	                            <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.fourth.name %></h3>
 	                        <div class="type">
@@ -206,7 +230,13 @@
 	                            <img src="website/img/thumb_restaurant_5.jpg" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+	                            <% t_rat = ( @restaurants.fifth.reviews.pluck("SUM(rating)").first.to_f / @restaurants.fifth.reviews.count ).round %>
+	                            <% t_rat.times do |th| %>
+	                            <i class="icon_star voted"></i>
+	                            <% end %>
+	                            <% (5-t_rat).times do |th| %>
+	                            <i class="icon_star"></i>
+	                            <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.fifth.name %></h3>
 	                        <div class="type">
@@ -228,7 +258,13 @@
 	                            <img src="website/img/thumb_restaurant_6.jpg" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>
+	                            <% t_rat = ( @restaurants.last.reviews.pluck("SUM(rating)").first.to_f / @restaurants.last.reviews.count ).round %>
+	                            <% t_rat.times do |th| %>
+	                            <i class="icon_star voted"></i>
+	                            <% end %>
+	                            <% (5-t_rat).times do |th| %>
+	                            <i class="icon_star"></i>
+	                            <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.last.name %></h3>
 	                        <div class="type">
@@ -251,9 +287,9 @@
         
     <div class="high_light">
       	<div class="container">
-      		<h3>Choose from over 2,000 Restaurants</h3>
+      		<h3>Choose from over <%= @res_count %> Restaurants</h3>
             <p>Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.</p>
-            <a href="list_page.html">View all Restaurants</a>
+            <a href="<%= web_restaurant_listing_path %>">View all Restaurants</a>
         </div><!-- End container -->
     </div><!-- End hight_light -->
                   

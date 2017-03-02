@@ -1,0 +1,182 @@
+<!-- SubHeader =============================================== -->
+<section class="parallax-window" id="short" data-parallax="scroll" data-image-src="website/img/sub_header_short.jpg" data-natural-width="1400" data-natural-height="350">
+    <div id="subheader">
+	<div id="sub_content">
+    	<h1>Restaurants</h1>
+    </div><!-- End sub_content -->
+</div><!-- End subheader -->
+</section><!-- End section -->
+<!-- End SubHeader ============================================ -->
+
+    <div id="position">
+        <div class="container">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a ">Category</a></li>
+                <li>Page active</li>
+            </ul>
+             <a href="#" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
+        </div>
+    </div><!-- Position -->
+    
+    <div class="collapse" id="collapseMap">
+		<div id="map" class="map"></div>
+	</div><!-- End Map -->
+
+<!-- Content ================================================== -->
+<div class="container margin_60_35">
+	<div class="row">
+    
+		<div class="col-md-3">
+			<p>
+				<a id="view_on_map" class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
+			</p>
+		</div><!--End col-md -->
+        
+		<div class="col-md-9">
+        
+        	<div id="tools">
+				<div class="row">
+					<div class="col-md-3 col-sm-3 col-xs-6">
+						<div class="styled-select">
+							<select name="sort_rating" id="sort_rating">
+								<option value="" selected>Sort by ranking</option>
+								<option value="lower">Lowest ranking</option>
+								<option value="higher">Highest ranking</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-9 col-sm-9 hidden-xs">
+						<a href="#" class="bt_filters"><i class="icon-th"></i></a>
+					</div>
+				</div>
+			</div><!--End tools -->
+     
+		</div><!-- End col-md-9-->
+        
+	</div><!-- End row -->
+
+	<div class="row">
+	<% de = 0.1 %>
+	<% @restaurants.each do |rest| %>
+		<div class="strip_list wow fadeIn" data-wow-delay="<%= de %>s">
+			<% if rest.popular %>
+			<div class="ribbon_1">
+				Popular
+			</div>
+			<% end %>
+			<div class="row">
+				<div class="col-md-9 col-sm-9">
+					<div class="desc">
+						<div class="thumb_strip">
+							<a href="restaurant_<%= rest.id %>"><img src="website/img/thumb_restaurant.jpg" alt=""></a>
+						</div>
+						<div class="rating">
+							<% t_rat = ( rest.reviews.pluck("SUM(rating)").first.to_f / rest.reviews.count ).round %>
+                            <% t_rat.times do |th| %>
+                            <i class="icon_star voted"></i>
+                            <% end %>
+                            <% (5-t_rat).times do |th| %>
+                            <i class="icon_star"></i>
+                            <% end %>
+							(<small><a ><%= rest.reviews.count %> reviews</a></small>)
+						</div>
+						<h3><%= rest.name %></h3>
+						<div class="type">
+							<%= rest.cuisine %>
+						</div>
+						<div class="location">
+							<%= rest.location %>. <span class="opening">Opens at <%= rest.opening_time.strftime("%R") %></span> Minimum order: $15
+						</div>
+						<ul>
+							<li>Take away<i class="icon_check_alt2 no"></i></li>
+							<li>Delivery<i class="icon_check_alt2 ok"></i></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<div class="go_to">
+						<div>
+							<a href="menu_<%= rest.id %>" class="btn_1">View Menu</a>
+						</div>
+					</div>
+				</div>
+			</div><!-- End row-->
+		</div><!-- End strip_list-->
+	<% de = de + 0.1 %>
+	<% end %>
+	</div>
+</div><!-- End container -->
+<!-- End Content =============================================== -->
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc" type="text/javascript"></script>
+
+<script type="text/javascript">
+  /* ============================================================
+ * Google Map
+ * Render maps using Google Maps JS API
+ * For DEMO purposes only. Extract what you need.
+ * ============================================================ */
+(function($) {
+
+    'use strict';
+
+    var initmapre = document.getElementById('view_on_map');
+
+    // When the window has finished loading create our google map below
+    google.maps.event.addDomListener(initmapre, 'click', init);
+
+    var map;
+    var zoomLevel = 13;
+
+    function init() {
+        // Basic options for a simple Google Map
+        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+
+        // Get the HTML DOM element that will contain your map 
+        // We are using a div with id="map" seen below in the <body>
+        var mapElement = document.getElementById('map');
+
+        // Create the Google Map using out element and options defined above
+        map = new google.maps.Map(mapElement, {
+          center: {lat:  51.5074 , lng: 0.1278 },
+          scrollwheel: false,
+          zoom: zoomLevel
+        });
+
+        var locations = [];
+        <% @restaurants.each do |res| %>
+        locations.push(['<%= res.name %>', <%= res.latitude %>, <%= res.longitude %>, '<%= res.location %>']);
+        <% end %>
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {  
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+          });
+
+          /*icon: 'http://image.flaticon.com/icons/svg/67/67994.svg',*/
+
+          google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+
+          google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
+            return function() {
+              infowindow.close();
+            }
+          })(marker, i));
+        }
+    }
+
+})(window.jQuery);
+
+</script>

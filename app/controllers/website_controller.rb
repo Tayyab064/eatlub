@@ -34,6 +34,13 @@ class WebsiteController < ApplicationController
 
 	def index
 		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(6)
+		@res_count = Restaurant.approved.count
+		@ord_count = Order.where(status: 'completed').count
+		@end_user_count = User.where(role: 'end_user').count
+	end
+
+	def restaurant_listing
+		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(100)
 	end
 
 	def restaurants_nearby
@@ -60,7 +67,7 @@ class WebsiteController < ApplicationController
 			end
 			if use.role == 'restaurant_owner'
 				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id)
-				redirect_to restaurant_page_path(res.id) , notice: "Successfully Submitted"
+				redirect_to root_path , notice: "Successfully Submitted"
 			else
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
 			end

@@ -3,7 +3,16 @@
     <div id="subheader">
 		<div id="sub_content">
 	    	<div id="thumb"><img src="website/img/thumb_restaurant.jpg" alt=""></div>
-	                     <div class="rating"><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (<small><a href="detail_page_2.html">Read 98 reviews</a></small>)</div>
+	                     <div class="rating">
+                            <% t_rat = ( @restaurant.reviews.pluck("SUM(rating)").first.to_f / @restaurant.reviews.count ).round %>
+                            <% t_rat.times do |th| %>
+                            <i class="icon_star voted"></i>
+                            <% end %>
+                            <% (5-t_rat).times do |th| %>
+                            <i class="icon_star"></i>
+                            <% end %>
+                         (<small><a href="#">Read <%= @restaurant.reviews.count %> reviews</a></small>)
+                         </div>
 	                    <h1><%= @restaurant.name %></h1>
 	                    <div><em><%= @restaurant.cuisine %></em></div>
 	                    <div><i class="icon_pin"></i> <%= @restaurant.location %> - <strong>Delivery charge:</strong> $10, free over $15.</div>

@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'cart' => 'website#cart' , as: 'cart'
   get 'confirm' => 'website#confirm_order' , as: 'confirm_order'
   post 'save_order' => 'website#save_order' , as: 'web_save_order'
+  get 'restaurants' => 'website#restaurant_listing' , as: 'web_restaurant_listing'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
