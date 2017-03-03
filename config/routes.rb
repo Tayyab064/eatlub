@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   get 'confirm' => 'website#confirm_order' , as: 'confirm_order'
   post 'save_order' => 'website#save_order' , as: 'web_save_order'
   get 'restaurants' => 'website#restaurant_listing' , as: 'web_restaurant_listing'
+  get 'orders' => 'website#orders' , as: 'web_user_orders'
+  get 'order_O:id' => 'website#order' , as: 'web_user_order'
+  get 'cancel_order_O:id' => 'website#cancel_order', as: 'web_user_cancel_order'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'

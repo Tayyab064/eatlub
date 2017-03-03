@@ -5,6 +5,8 @@ class User < ApplicationRecord
 	has_many :restaurants ,dependent: :destroy
 	has_many :reviews , dependent: :destroy
 	has_many :orders ,dependent: :destroy
+	has_one :location , dependent: :destroy
+	has_many :devices , dependent: :destroy
 	
 	enum gender: [:male , :female]
 	enum role: [:end_user , :restaurant_owner , :rider , :admin]

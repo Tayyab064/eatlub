@@ -36,6 +36,30 @@
             table.fnFilter($(this).val());
         });
     }
+    
+
+    // Initialize datatable showing a search box at the top right corner
+    var initTableWithSearchHundred = function() {
+        var table = $('#tableWithSearchHundred');
+
+        var settings = {
+            "sDom": "<'table-responsive't><'row'<p i>>",
+            "destroy": true,
+            "scrollCollapse": true,
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ ",
+                "sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+            },
+            "iDisplayLength": 50
+        };
+
+        table.dataTable(settings);
+
+        // search box for table
+        $('#search-table-hundred').keyup(function() {
+            table.fnFilter($(this).val());
+        });
+    }
 
     var initTableWithSearchOne = function() {
         var table = $('#tableWithSearchOne');
@@ -204,5 +228,6 @@
     initTableWithSearchThree();
     initTableWithDynamicRows();
     initTableWithExportOptions();
+    initTableWithSearchHundred();
 
 })(window.jQuery);

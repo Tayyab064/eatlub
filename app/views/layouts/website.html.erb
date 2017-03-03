@@ -26,6 +26,11 @@
 
     <!-- BASE CSS -->
     <link href="website/css/base.css" rel="stylesheet">
+
+    <link href="../owner/assets/plugins/jquery-datatable/media/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../owner/assets/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min.css" rel="stylesheet" type="text/css" />
+    <link href="../owner/assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen" />
+    
     
     <!-- Modernizr -->
 	<script src="website/js/modernizr.js" type="text/javascript"></script>
@@ -35,6 +40,11 @@
       <script src="js/html5shiv.min.js"></script>
       <script src="js/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+        .modal-backdrop{
+            z-index: 100 !important;
+        }
+    </style>
 
 </head>
 
@@ -104,11 +114,15 @@
                     <li class="submenu">
                     <a href="javascript:void(0);" class="show-submenu">Pages<i class="icon-down-open-mini"></i></a>
                     <ul>
-                        <!-- <li><a href="RTL_version/index.html">RTL version</a></li> -->
+                        <% if @end_user.present? %>
+                        <li><a href="<%= web_user_orders_path %>">My Orders</a></li>
+                        <% end %>
                         <li><a href="<%= dashboard_index_path %>">Admin section</a></li>
                         <li><a href="<%= owner_index_path %>">Owner section</a></li>
                         <li><a href="<%= submit_rider_path %>">Submit Rider</a></li>
+                        <% unless @end_user.present? %>
                         <li><a href="#0" data-toggle="modal" data-target="#login_2">User Login</a></li>
+                        <% end %>
                         <li><a href="#0" data-toggle="modal" data-target="#register">User Register</a></li>
                         <!-- <li><a href="detail_page_2.html">Restaurant detail page</a></li>
                         <li><a href="blog.html">Blog</a></li>
@@ -119,7 +133,11 @@
                         <li><a href="icon_pack_2.html">Icon pack 2</a></li> -->
                     </ul>
                     </li>
+                    <% if @end_user.present? %>
+                    <li><a >Welcome</a></li>
+                    <% else %>
                     <li><a href="index.html#0" data-toggle="modal" data-target="#login_2">Login</a></li>
+                    <% end %>
                     <!-- <li><a href="http://themeforest.net/item/quickfood-delivery-or-takeaway-food-template/13958100?ref=ansonika">Purchase this template</a></li> -->
                 </ul>
             </div><!-- End main-menu -->
@@ -147,7 +165,9 @@
                     <li><a href="about.html">About us</a></li>
                     <li><a href="faq.html">Faq</a></li>
                     <li><a href="contacts.html">Contacts</a></li>
+                    <% unless @end_user.present? %>
                     <li><a href="index.html#0" data-toggle="modal" data-target="#login_2">Login</a></li>
+                    <% end %>
                     <li><a href="index.html#0" data-toggle="modal" data-target="#register">Register</a></li>
                     <li><a href="index.html#0">Terms and conditions</a></li>
                 </ul>
@@ -277,3 +297,11 @@
 
 </body>
 </html>
+
+<script src="../owner/assets/plugins/jquery-datatable/media/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="../owner/assets/plugins/jquery-datatable/extensions/TableTools/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+<script src="../owner/assets/plugins/jquery-datatable/media/js/dataTables.bootstrap.js" type="text/javascript"></script>
+<script src="../owner/assets/plugins/jquery-datatable/extensions/Bootstrap/jquery-datatable-bootstrap.js" type="text/javascript"></script>
+<script type="text/javascript" src="../owner/assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+<script type="text/javascript" src="../owner/assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+<script src="../owner/assets/js/datatables.js" type="text/javascript"></script>

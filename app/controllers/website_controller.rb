@@ -1,6 +1,7 @@
 class WebsiteController < ApplicationController
 	skip_before_filter :verify_authenticity_token, :only => [:save_order]
-	before_action :is_enduser , only: [:cart , :confirm_order]
+	before_action :is_enduser , only: [:cart , :confirm_order , :orders , :order , :cancel_order]
+	before_action :is_enduser_check
 
 	def signin
 		if session[:user].present?
@@ -107,6 +108,28 @@ class WebsiteController < ApplicationController
 			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i)
 		end
 		render json: {'message' => 'Saved' } , status: :ok
+	end
+
+	def orders
+		@orders = @end_user.orders
+	end
+
+	def order
+		unless @order = @end_user.orders.find_by_id(params[:id])
+			redirect_to '/' , notice: "Error: Invalid order id"
+		end
+	end
+
+	def cancel_order
+		unless order = @end_user.orders.find_by_id(params[:id])
+			redirect_to web_user_orders_path , notice: "Error: Invalid order id"
+		end
+		if order.status == 'pending'
+			order.update(status: 'cancel')
+			redirect_to web_user_order_path(params[:id]) , notice: 'Order canceled'
+		else
+			redirect_to web_user_order_path(params[:id]) , notice: 'Error: Order cannot be canceled at this time'
+		end
 	end
 
 

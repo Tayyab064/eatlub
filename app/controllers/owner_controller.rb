@@ -64,6 +64,7 @@ class OwnerController < ApplicationController
 	def order_accept
 		order = Order.find(params[:id])
 		order.update(status: 1)
+		# call job order accepted
 		redirect_to owner_order_path(order)
 	end
 

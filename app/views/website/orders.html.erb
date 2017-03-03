@@ -1,0 +1,63 @@
+<!-- SubHeader =============================================== -->
+<section class="parallax-window" id="short" data-parallax="scroll" data-image-src="website/img/sub_header_cart.jpg" data-natural-width="1400" data-natural-height="350">
+    <div id="subheader">
+    	<div id="sub_content">
+    	 <h1>My Orders</h1>
+         <p>Qui debitis meliore ex, tollit debitis conclusionemque te eos.</p>
+         <p></p>
+        </div><!-- End sub_content -->
+	</div><!-- End subheader -->
+</section><!-- End section -->
+<!-- End SubHeader ============================================ -->
+
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+   <div class="container-fluid container-fixed-lg bg-white">
+      <!-- START PANEL -->
+      <div class="panel panel-transparent">
+        <div class="panel-heading">
+          
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped demo-table-search">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Restaurant Name</th>
+                <th>Branch</th>
+                <th>Delivery Address</th>
+                <th>Notes</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @orders.each do |order| %>
+              <tr onclick="window.location.assign('<%= web_user_order_path(order.id) %>')" style='cursor: pointer;'>
+                <td class="v-align-middle semi-bold">
+                  <p>O<%= order.id %></p>
+                </td>
+                 <td class="v-align-middle semi-bold">
+                  <p><%= order.restaurant.name %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= order.restaurant.location %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= order.address %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= order.notes %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= order.status.capitalize %></p>
+                </td>              
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- END PANEL -->
+    </div>
+</div>

@@ -45,4 +45,17 @@ class ApplicationController < ActionController::Base
       redirect_to '/' , notice: 'Error: Kindly Signin first'
     end
   end
+
+  def is_enduser_check
+    if session[:user].present?
+      unless u = User.where(role: 0).find_by_email(session[:user])
+        if  u.block == false
+         redirect_to '/' , notice: 'Error: Dont have access'
+        else
+          redirect_to '/' , notice: 'Error: Kindly Signin first'
+        end
+      end
+      @end_user = u
+    end
+  end
 end

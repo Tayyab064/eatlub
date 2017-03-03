@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228063627) do
+ActiveRecord::Schema.define(version: 20170303114747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 20170228063627) do
     t.string   "name",       default: ""
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+  end
+
+  create_table "devices", force: :cascade do |t|
+    t.string   "token"
+    t.string   "device",     default: "Android"
+    t.integer  "user_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["user_id"], name: "index_devices_on_user_id", using: :btree
   end
 
   create_table "food_items", force: :cascade do |t|
@@ -39,6 +48,15 @@ ActiveRecord::Schema.define(version: 20170228063627) do
     t.datetime "updated_at",                 null: false
     t.integer  "quantity",       default: 0
     t.index ["order_id"], name: "index_items_on_order_id", using: :btree
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "address",    default: ""
+    t.integer  "rider_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "menus", force: :cascade do |t|
