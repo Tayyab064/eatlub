@@ -9,6 +9,20 @@
     top: 40px;
     width: 100%;
   }
+  ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+	color:    black;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	color:    black;
+	opacity:  1;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+	color:    black;
+	opacity:  1;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color:    black;
+  }
 </style>
 	<!-- SubHeader =============================================== -->
     <section class="header-video">
@@ -166,7 +180,7 @@
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
 	                <a href="restaurant_<%= @restaurants.third.id %>" class="strip_list">
-	                <div class="<%= @restaurants.third.popular ? 'ribbon_1' : '' %>"></div>>
+	                <div class="<%= @restaurants.third.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
 	                            <img src="website/img/thumb_restaurant_3.jpg" alt="">

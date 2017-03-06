@@ -121,43 +121,83 @@
     </div>
 	<div class="row">
     	<div class="col-md-8 col-md-offset-2">
-        	<%= form_tag( save_rider_path , {:method => :post} ) do  %>
-				<div class="row">
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-							<label>Name</label>
-							<%= text_field_tag :name  , '' , class: 'form-control' , placeholder: 'John Doe', autofocus: true %>
+    		<div class="row " id='intirider'>
+    			<div class="col-md-4 form-group">
+    				<label>1. Choose your city</label>
+    				<select class="form-control" id="cit">
+					    <option value="london">London</option>
+					    <option value="westminster">Westminster</option>
+					    <option value="croydon">Croydon</option>
+					</select>
+    			</div>
+    			<div class="col-md-4 form-group">
+    				<label>2. Choose your vehicle</label>
+    				<select class="form-control" id="vehi">
+					    <option value="scooter">Scooter</option>
+					    <option value="bicycle">Bicycle</option>
+					    <option value="car">Car</option>
+					</select>
+    			</div>
+    			<div class="col-md-4 form-group">
+    				<label>3. Fill out our quick application</label>
+    				<button class="btn" onclick="submitrider();" style="background-color: #78cfcf;color: #fff;">Apply Now</button>
+    			</div>
+    		</div>
+    		<div id="ridform" class="hidden">
+    			<%= form_tag( save_rider_path , {:method => :post} ) do  %>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Name</label>
+								<%= text_field_tag :name  , '' , class: 'form-control' , placeholder: 'John Doe', autofocus: true %>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Username</label>
+								<%= text_field_tag :username  , '' , class: 'form-control' , placeholder: 'JohnDoe', autofocus: true %>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-							<label>Username</label>
-							<%= text_field_tag :username  , '' , class: 'form-control' , placeholder: 'JohnDoe', autofocus: true %>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Email:</label>
+								<%= text_field_tag :email  , '' , class: 'form-control' , placeholder: 'john@example.com', autofocus: true %>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Gender:</label>
+								<br>
+								<label>Male</label>
+								<%=  radio_button_tag("gender", "male") %>
+								<label>  Female</label>
+								<%= radio_button_tag("gender", "female") %>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-							<label>Email:</label>
-							<%= text_field_tag :email  , '' , class: 'form-control' , placeholder: 'john@example.com', autofocus: true %>
-						</div>
-					</div>
-					<div class="col-md-6 col-sm-6">
-						<div class="form-group">
-							<label>Gender:</label>
-							<br>
-							<label>Male</label>
-							<%=  radio_button_tag("gender", "male") %>
-							<label>  Female</label>
-							<%= radio_button_tag("gender", "female") %>
-						</div>
-					</div>
-				</div>
-                <hr style="border-color:#ddd;">
-                <div class="text-center"><button class="btn_full_outline">Submit</button></div>
-			<% end %>
+	                <hr style="border-color:#ddd;">
+	                <div class="text-center"><button class="btn_full_outline">Submit</button></div>
+				<% end %>
+    		</div>
+        	
         </div><!-- End col  -->
     </div><!-- End row  -->
 </div><!-- End container  -->
 <!-- End Content =============================================== -->
+
+<script type="text/javascript">
+	function submitrider(){
+		var city = document.getElementById("cit");
+		var citValue = city.options[city.selectedIndex].value;
+
+		var vehi = document.getElementById("vehi");
+		var vehiValue = vehi.options[vehi.selectedIndex].value;
+
+		$("#intirider").addClass("hidden");
+		$("#ridform").removeClass("hidden");
+
+		/*location.assign("/submit_rider?city="+citValue+"&vehicle="+vehiValue);*/
+	}
+</script>
