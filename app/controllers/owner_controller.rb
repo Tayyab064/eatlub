@@ -34,6 +34,7 @@ class OwnerController < ApplicationController
 		@restaurant = Restaurant.find(params[:id])
 		unless @restaurant.menu.present?
 			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
+			redirect_to :back
 		end
 	end
 
@@ -51,6 +52,10 @@ class OwnerController < ApplicationController
 
 	def restaurant_menu
 		@restaurant = Restaurant.find(params[:id])
+		unless @restaurant.menu.present?
+			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
+			redirect_to :back
+		end
 	end
 
 	def orders

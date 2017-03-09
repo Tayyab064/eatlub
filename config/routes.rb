@@ -58,4 +58,24 @@ Rails.application.routes.draw do
     get 'accept_:id' => 'owner#order_accept' , as: 'owner_order_accept'
     get 'dispatch_:id' => 'owner#order_dispatch' , as: 'owner_order_dispatch'
   end
+
+  scope 'api' do
+
+    scope 'user' do
+      post 'signup' => 'api#signup_user' , as: 'api_signup_user'
+      post 'signin' => 'api#signin_user' , as: 'api_signin_user'
+      get 'nearby_restaurants' => 'api#nearby_restaurants' , as: 'api_nearby_restaurants'
+
+      scope 'restaurant' do
+        get 'menu/:id' => 'api#restaurant_menu' , as: 'api_restaurant_menu'
+      end
+
+    end
+
+    scope 'rider' do
+      post 'signup' => 'api#signup_rider' , as: 'api_signup_rider'
+      post 'signin' => 'api#signin_rider' , as: 'api_signin_rider'
+    end
+    
+  end
 end

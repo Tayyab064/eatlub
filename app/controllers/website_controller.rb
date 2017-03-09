@@ -34,7 +34,7 @@ class WebsiteController < ApplicationController
 	end
 
 	def index
-		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(6)
+		@restaurants = Restaurant.approved.order(created_at: 'ASC').limit(6)
 		@res_count = Restaurant.approved.count
 		@ord_count = Order.where(status: 'completed').count
 		@end_user_count = User.where(role: 'end_user').count

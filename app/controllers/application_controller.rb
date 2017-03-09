@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
           redirect_to dashboard_signin_path
         end
   		end
+      @owner = u
   	else
   		redirect_to owner_signin_path
   	end

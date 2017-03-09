@@ -4,6 +4,8 @@ class DispatchRiderJob < ApplicationJob
   def perform(*args)
     # Do something later
     rider = Location.all.near(args.first.address, 50, :units => :km)
-    p rider
+    rider.each do |loc|
+    	
+    end
   end
 end

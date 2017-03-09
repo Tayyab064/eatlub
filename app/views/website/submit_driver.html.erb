@@ -145,6 +145,10 @@
     		</div>
     		<div id="ridform" class="hidden">
     			<%= form_tag( save_rider_path , {:method => :post} ) do  %>
+
+    				<%= hidden_field_tag(:mycity, '') %>
+    				<%= hidden_field_tag(:myvehi, '') %>
+
 					<div class="row">
 						<div class="col-md-6 col-sm-6">
 							<div class="form-group">
@@ -194,6 +198,10 @@
 
 		var vehi = document.getElementById("vehi");
 		var vehiValue = vehi.options[vehi.selectedIndex].value;
+
+		document.getElementById('mycity').value= citValue ;
+		document.getElementById('myvehi').value= vehiValue ;
+
 
 		$("#intirider").addClass("hidden");
 		$("#ridform").removeClass("hidden");
