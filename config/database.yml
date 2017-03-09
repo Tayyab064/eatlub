@@ -88,14 +88,14 @@ test:
 production:
   <<: *default
   
-  # host: localhost
-  # adapter: postgresql
-  # encoding: utf8
-  # pool: 5
-  # username: holygon
-  # password: holygon
-  # database: deliverush
-
+  host: localhost
   adapter: postgresql
-  encoding: unicode
-  database: deliverish_development
+  encoding: utf8
+  pool: 5
+  username: holygon
+  password: holygon
+  database: deliverush
+
+  # adapter: postgresql
+  # encoding: unicode
+  # database: deliverish_development
