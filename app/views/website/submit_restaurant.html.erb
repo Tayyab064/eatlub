@@ -103,7 +103,7 @@
 	</div><!-- End row -->
 </div><!-- End container -->
 
-<div class="white_bg">
+<div class="white_bg hidden">
 	<div class="container margin_60_35">
     <div class="main_title margin_mobile">
             <h2 class="nomargin_top">Our Plans</h2>
@@ -205,6 +205,39 @@
 							<label>Type</label>
                            <!-- <input type="text" id="restaurant_web" name="restaurant_web" class="form-control" placeholder="http://"> -->
                            <%= text_field_tag :typee  , '' , class: 'form-control' , placeholder: 'Fast Food', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Post Code</label>
+							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
+							<%= text_field_tag :post_code  , '' , class: 'form-control' , placeholder: 'N19 4EE', autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Estimated Weekly Orders</label>
+							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
+							<%= number_field_tag :weekly_order  , '' , class: 'form-control' , placeholder: '0', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>No of Locations</label>
+							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
+							<%= select_tag "no_of_location", "<option value='1'>1</option><option selected='selected' value='2-5'>2-5</option><option value='6-10'>6-10</option><option value='11-25'>11-25</option><option value='25+'>25+</option>".html_safe  , {class: 'form-control'} %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<h5>Delivery</h5>
+							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
+							<label>Yes <%= radio_button_tag 'delivery', "yes", true , class: 'icheck' %></label>
+							<label>No <%= radio_button_tag 'delivery', "no", false , class: 'icheck' %></label>
 						</div>
 					</div>
 				</div>

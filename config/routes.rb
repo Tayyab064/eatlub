@@ -70,11 +70,20 @@ Rails.application.routes.draw do
         get 'menu/:id' => 'api#restaurant_menu' , as: 'api_restaurant_menu'
       end
 
+      post 'order' => 'api#create_order'
+      get 'order' => 'api#get_orders'
+
     end
 
     scope 'rider' do
       post 'signup' => 'api#signup_rider' , as: 'api_signup_rider'
       post 'signin' => 'api#signin_rider' , as: 'api_signin_rider'
+
+      scope 'order' do
+        get 'accept/:id' => 'api#rider_accept'
+        get 'finish/:id' => 'api#finish_order'
+        get 'complete/:id' => 'api#pay_bill'
+      end
     end
     
   end

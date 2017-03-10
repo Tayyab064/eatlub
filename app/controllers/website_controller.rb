@@ -67,7 +67,7 @@ class WebsiteController < ApplicationController
 				use = User.create(name: params[:owner_name] , email: params[:email] , role: 1 , password: '123456')
 			end
 			if use.role == 'restaurant_owner'
-				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id)
+				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , post_code: params[:post_code] , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery])
 				redirect_to root_path , notice: "Successfully Submitted"
 			else
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"

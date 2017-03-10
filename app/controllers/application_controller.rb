@@ -59,4 +59,33 @@ class ApplicationController < ActionController::Base
       @end_user = u
     end
   end
+
+  def restrict_user
+    restrict_access_to_user || render_unauthorized
+  end
+
+  def restrict_access_to_user
+    authenticate_or_request_with_http_token do |token, _options|
+      if User.exists?(token: token) && (user = User.find_by_token(token))
+        if user.role == 'end_user'
+          @current_user = user
+        end
+      end
+    end
+  end
+
+  def restrict_rider
+    restrict_access_to_rider || render_unauthorized
+  end
+
+  def restrict_access_to_rider
+    authenticate_or_request_with_http_token do |token, _options|
+      if User.exists?(token: token) && (user = User.find_by_token(token))
+        if user.role == 'rider'
+          @current_rider = user
+        end
+      end
+    end
+  end
+
 end

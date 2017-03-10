@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 	validates_uniqueness_of :email
-	validates_uniqueness_of :mobile_number
+	#validates_uniqueness_of :mobile_number
 	has_secure_password
 
 	has_secure_token :token

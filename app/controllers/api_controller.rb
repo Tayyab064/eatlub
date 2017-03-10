@@ -1,5 +1,7 @@
 class ApiController < ApplicationController
 	skip_before_action :verify_authenticity_token
+	before_action :restrict_user , only: [:create_order , :get_orders]
+	before_action :restrict_rider , only: [:rider_accept , :finish_order , :pay_bill]
 
 	def signup_user
 		em = params[:user][:email].downcase
@@ -9,8 +11,11 @@ class ApiController < ApplicationController
 			c = User.new(signup_user_params)
 			c.email = em
 			c.role = 'end_user'
-			c.save
-			render json: {'message' => 'Successfully signedup. Signin now'} , status: 201
+			if c.save
+				render json: {'message' => 'Successfully signedup. Signin now'} , status: 201
+			else
+				render json: {'message' => 'Something went wrong. Check params'} , status: 422
+			end
 		end
 	end
 
@@ -39,8 +44,11 @@ class ApiController < ApplicationController
 			c = User.new(signup_rider_params)
 			c.email = em
 			c.role = 'rider'
-			c.save
-			render json: {'message' => 'Successfully signedup. Signin now'} , status: 201
+			if c.save
+				render json: {'message' => 'Successfully signedup. Signin now'} , status: 201
+			else
+				render json: {'message' => 'Something went wrong. Check params'} , status: 422
+			end
 		end
 	end
 
@@ -80,9 +88,74 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def create_order
+		if params[:order].length > 0
+			if res = Restaurant.find_by_id(params[:order][:restaurant_id])
+				@ord = Order.create(address: params[:order][:address], notes:  params[:order][:notes], restaurant_id: res.id , user_id: @current_user.id)
+				params[:order][:item].each do |itm|
+					Item.create(order_id: @ord.id , orderable_id: params[:order][:item][itm][:id].to_i, orderable_type: 'FoodItem', quantity: params[:order][:item][itm][:quantity].to_i)
+				end
+				PlaceOrderJob.perform_later(@ord)
+				render status: 201
+    		else
+    			@message = 'Invalid restaurant id'
+    			render status: 404
+    		end
+		else
+			@message = 'Order must contain some fooditems'
+			render status: 422
+		end
+	end
+
+	def get_orders
+		@order = @current_user.orders.order(updated_at: 'DESC')
+		render status: 200
+	end
+
+	def pay_bill
+		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
+			if ord.status == 'finish'
+				ord.update(status: 'completed')
+				render json: {'message' => 'Order completed'} , status: 200
+			else
+				render json: {'message' => 'Order expired'} , status: 409
+			end
+		else
+			render json: {'message' => 'Invalid Order id'} , status: 404
+		end
+	end
+
+	def rider_accept
+		if ord = Order.find_by_id(params[:id])
+			if ord.status == 'approved' && ord.rider_id.nil?
+				ord.update(rider_id: @current_rider.id)
+				RiderAcceptOrderJob.perform_later(ord)
+				render json: {'message' => 'Successfully accepted'} , status: 200
+			else
+				render json: {'message' => 'Order expired'} , status: 409
+			end
+		else
+			render json: {'message' => 'Invalid Order id'} , status: 404
+		end
+	end
+
+	def finish_order
+		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
+			if ord.status == 'dispatched'
+				ord.update(status: 'finish')
+				RiderFinishOrderJob.perform_later(ord)
+				render json: {'message' => 'Order finished'} , status: 200
+			else
+				render json: {'message' => 'Order expired'} , status: 409
+			end
+		else
+			render json: {'message' => 'Invalid Order id'} , status: 404
+		end
+	end
+
 	private
 	def signup_user_params
-		params.require(:user).permit(:name, :username , :email , :gender , :password )
+		params.require(:user).permit(:name, :username , :email , :gender , :password , :mobile_number)
 	end
 
 	def signin_user_params
@@ -90,7 +163,7 @@ class ApiController < ApplicationController
 	end
 
 	def signup_rider_params
-		params.require(:rider).permit(:name, :username , :email , :gender , :password )
+		params.require(:rider).permit(:name, :username , :email , :gender , :password , :mobile_number)
 	end
 
 	def signin_rider_params

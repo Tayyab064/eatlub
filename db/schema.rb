@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309071247) do
+ActiveRecord::Schema.define(version: 20170310140607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,14 +88,19 @@ ActiveRecord::Schema.define(version: 20170309071247) do
     t.string   "cuisine"
     t.string   "typee"
     t.integer  "owner_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "status",       default: 0
-    t.string   "image",        default: ""
-    t.boolean  "popular",      default: false
-    t.string   "about_us",     default: ""
+    t.integer  "status",         default: 0
+    t.string   "image",          default: ""
+    t.boolean  "popular",        default: false
+    t.string   "about_us",       default: ""
+    t.string   "post_code"
+    t.integer  "weekly_order",   default: 0
+    t.string   "no_of_location"
+    t.boolean  "delivery",       default: false
+    t.float    "delivery_fee",   default: 0.0
   end
 
   create_table "reviews", force: :cascade do |t|
