@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310140607) do
+ActiveRecord::Schema.define(version: 20170313134349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(version: 20170310140607) do
     t.string   "name",       default: ""
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+  end
+
+  create_table "categories_food_items", force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "food_item_id"
+    t.index ["category_id"], name: "index_categories_food_items_on_category_id", using: :btree
+    t.index ["food_item_id"], name: "index_categories_food_items_on_food_item_id", using: :btree
   end
 
   create_table "devices", force: :cascade do |t|
@@ -34,9 +41,10 @@ ActiveRecord::Schema.define(version: 20170310140607) do
     t.string   "name"
     t.float    "price"
     t.integer  "section_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "image",      default: ""
+    t.boolean  "publish",    default: true
     t.index ["section_id"], name: "index_food_items_on_section_id", using: :btree
   end
 
@@ -101,6 +109,7 @@ ActiveRecord::Schema.define(version: 20170310140607) do
     t.string   "no_of_location"
     t.boolean  "delivery",       default: false
     t.float    "delivery_fee",   default: 0.0
+    t.float    "commission",     default: 0.0
   end
 
   create_table "reviews", force: :cascade do |t|

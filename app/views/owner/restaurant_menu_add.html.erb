@@ -15,11 +15,21 @@
         <div class="form-group">
             <label>Section</label>
             <!-- <input type="text" name="menu_category" class="form-control" placeholder="EX. Main courses"> -->
-            <%= select_tag(:menu_section, options_for_select(@restaurant.menu.sections.map {|s| [s.title, s.id]}), { class: 'form-control select2' , style: 'width: 100%' }) %>
+            <%= select_tag(:menu_section, options_for_select(@restaurant.menu.sections.map {|s| [s.title, s.id]}), { class: 'form-control select2' , style: 'width: 100%'} ) %>
         </div>
         <div class="form-group">
             <label id="section_new" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Add New Section</label>
             <%= text_field_tag :section, '' , class: 'form-control' , style: 'display: none ; margin-top: 3px;'%>
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <!-- <input type="text" name="menu_category" class="form-control" placeholder="EX. Main courses"> -->
+            <%= select_tag(:menu_category, options_for_select(Category.all.map {|s| [s.name, s.id]}), { :multiple => true , class: 'form-control select2' , style: 'width: 100%'}) %>
+        </div>
+        <div class="form-group hidden">
+            <label id="category_new" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Add New Category</label>
+            <%= text_field_tag :category, '' , class: 'form-control' , style: 'display: none ; margin-top: 3px;'%>
         </div>
 
         <div class="menu-item-section clearfix">
@@ -171,6 +181,10 @@
    
     $("#section_new").click(function(){
         $("#section").toggle();
+    });
+
+    $("#category_new").click(function(){
+        $("#category").toggle();
     });
 
   });

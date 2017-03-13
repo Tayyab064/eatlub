@@ -48,10 +48,18 @@ Restaurant.all.each do |res|
     end
   end
 
-  7.times do |_df|
+  0.times do |_df|
     User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 0 , verified: false)
     rev = Review.create(summary: Faker::Lorem.sentence , quality: Faker::Number.between(1, 5) , price: Faker::Number.between(1, 5) , punctuality: Faker::Number.between(1, 5) , courtesy: Faker::Number.between(1, 5) , restaurant_id: res.id , reviewer_id: User.where(role: 0).last.id)
     rating_tot =  ((rev.quality + rev.price + rev.punctuality + rev.courtesy ).to_f / 4).round
     rev.update(rating: rating_tot)
   end
 end
+
+
+Category.create(name: 'Desi')
+Category.create(name: 'Indica')
+Category.create(name: 'Chinese')
+Category.create(name: 'Burgers')
+Category.create(name: 'Pizza')
+Category.create(name: 'Shakes')

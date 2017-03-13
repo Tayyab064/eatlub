@@ -26,6 +26,9 @@
                     <th>
                          Price
                     </th>
+                    <th>
+                        Visibility
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -42,8 +45,11 @@
                         </p>
                         
                     </td>
-                    <td class="options">
+                    <td class="options v-align-middle">
                         <strong>€ <%= food.price %></strong>
+                    </td>
+                    <td class="v-align-middle">
+                        <button class="btn btn-success btn-cons" onclick="location.href='<%= fooditem_publish_path(food.id) %>'"><%= food.publish ? 'Unmark Visible' : 'Mark Visible' %></button>
                     </td>
                 </tr>
                 <% end %>

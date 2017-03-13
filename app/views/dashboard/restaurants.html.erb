@@ -35,7 +35,7 @@
 					    <thead>
 					      <tr>
 					        <th>ID</th>
-					        <th>Name</th>
+					        <th>Restaurant Name</th>
 					        <th>Location</th>
 					        <th>Cuisine</th>
 					        <th>Owner</th>
@@ -92,12 +92,14 @@
 					    <thead>
 					      <tr>
 					        <th>ID</th>
-					        <th>Name</th>
+					        <th>Restaurant Name</th>
 					        <th>Type</th>
 					        <th>Opening Time</th>
 					        <th>Closing Time</th>
 					        <th>Location</th>
+					        
 					        <th>Popular</th>
+					        <th>Set Commission</th>
 					      </tr>
 					    </thead>
 					    <tbody>
@@ -121,10 +123,54 @@
 					        <td class="v-align-middle">
 					          <p><%= restaurant.location %></p>
 					        </td>
+					        
 					        <td class="v-align-middle">
 					          <button class="btn btn-success btn-cons" onclick="location.href='<%= restaurant_mark_popular_path(restaurant.id) %>'"><%= restaurant.popular ? 'Mark Popular' : 'Unmark Popular' %></button>
 					        </td>
+					        <td class="v-align-middle">
+					        <% if restaurant.commission > 0.0 %>
+					        	<p><%= restaurant.commission %></p>
+					        <% else %>
+	                          <button class="btn btn-success" data-target="#verify_modal_<%= restaurant.id %>" data-toggle="modal">Commission</button>
+	                         <% end %>
+	                        </td>
 					      </tr>
+
+					      <div class="modal slide-up" id="verify_modal_<%= restaurant.id %>" tabindex="-1" role="dialog" aria-hidden="false" >
+	                        <div class="modal-dialog ">
+	                          <div class="modal-content-wrapper">
+	                            <div class="modal-content">
+	                              <div class="modal-header clearfix text-left">
+	                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+	                                </button>
+	                                <h5>Set <span class="semi-bold">Commission</span></h5>
+	                              </div>
+	                              <div class="modal-body">
+	                                <%= form_tag( dashboard_commission_path(restaurant.id) , {:method => :put} ) do  %>
+	                                <div class="form-group-attached">
+	                                    <div class="row">
+	                                      <div class="col-sm-12">
+	                                        <div class="form-group form-group-default">
+	                                          <%= label_tag 'commission', 'Commission'%>
+	                                          <%= text_field_tag :commission  , 0.0 , class: 'form-control', autofocus: true %>
+	                                        </div>
+	                                      </div>
+	                                    </div>
+	                                  </div>
+	                                  <div class="row">
+	                                    <div class="col-sm-8">
+	                                    </div>
+	                                    <div class="col-sm-4 m-t-10 sm-m-t-10">
+	                                      <%= submit_tag "Set", class: 'btn btn-success btn-block m-t-5' %>
+	                                    </div>
+	                                  </div>
+	                              <% end %>
+	                              </div>
+	                            </div>
+	                          </div>
+	                          <!-- /.modal-content -->
+	                        </div>
+	                      </div>
 
 					      <% end %>
 					    </tbody>

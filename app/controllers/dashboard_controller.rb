@@ -86,4 +86,10 @@ class DashboardController < ApplicationController
 		restaurant.update(popular: !restaurant.popular)
 		redirect_to dashboard_restaurants_path , notice: 'Successfully Done'
 	end
+
+	def set_commission
+		restaurant = Restaurant.find(params[:id])
+		restaurant.update(commission: params[:commission])
+		redirect_to dashboard_restaurants_path , notice: 'Successfully Done'
+	end
 end

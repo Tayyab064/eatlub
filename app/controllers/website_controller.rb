@@ -68,7 +68,7 @@ class WebsiteController < ApplicationController
 			end
 			if use.role == 'restaurant_owner'
 				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , post_code: params[:post_code] , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery])
-				redirect_to root_path , notice: "Successfully Submitted"
+				redirect_to thankyou_path , notice: "Successfully Submitted"
 			else
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
 			end
@@ -87,7 +87,7 @@ class WebsiteController < ApplicationController
 
 	def save_driver
 		User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
-		redirect_to :back , notice: "Successfully Submitted"
+		redirect_to thankyou_path , notice: "Successfully Submitted"
 	end
 
 	def cart
@@ -130,6 +130,10 @@ class WebsiteController < ApplicationController
 		else
 			redirect_to web_user_order_path(params[:id]) , notice: 'Error: Order cannot be canceled at this time'
 		end
+	end
+
+	def thankyou
+
 	end
 
 

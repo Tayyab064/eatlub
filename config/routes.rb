@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     get code, :to => "errors#show", :code => code
   end
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   get 'ajax' => 'website#ajax'
 
   root 'website#index'
@@ -26,6 +29,7 @@ Rails.application.routes.draw do
   get 'orders' => 'website#orders' , as: 'web_user_orders'
   get 'order_O:id' => 'website#order' , as: 'web_user_order'
   get 'cancel_order_O:id' => 'website#cancel_order', as: 'web_user_cancel_order'
+  get 'thankyou' => 'website#thankyou' , as: 'thankyou'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
@@ -42,6 +46,7 @@ Rails.application.routes.draw do
     get 'block_user' => 'dashboard#block_user' , as: 'dashboard_block_user'
     get 'restaurant_approve_:id' => 'dashboard#rest_mark_approved' , as: 'restaurant_mark_approve'
     get 'restaurant_popular_:id' => 'dashboard#rest_mark_popular' , as: 'restaurant_mark_popular'
+    put 'commission_:id' => 'dashboard#set_commission' , as: 'dashboard_commission'
   end
 
   scope 'owner' do
@@ -57,6 +62,7 @@ Rails.application.routes.draw do
     get 'order_:id' => 'owner#order' , as: 'owner_order'
     get 'accept_:id' => 'owner#order_accept' , as: 'owner_order_accept'
     get 'dispatch_:id' => 'owner#order_dispatch' , as: 'owner_order_dispatch'
+    get 'food_publish_:id' => 'owner#food_mark_visible' , as: 'fooditem_publish'
   end
 
   scope 'api' do

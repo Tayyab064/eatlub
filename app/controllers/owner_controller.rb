@@ -46,7 +46,11 @@ class OwnerController < ApplicationController
 		else
 			sec_f = params[:menu_section].to_i
 		end
-		FoodItem.create(name: params[:name], price: params[:price], section_id: sec_f, image: params[:image])
+		foo = FoodItem.create(name: params[:name], price: params[:price], section_id: sec_f, image: params[:image])
+		params[:menu_category].each do |sd|
+			cati = Category.find(sd.to_i)
+			foo.categories << cati
+		end
 		redirect_to :back , notice: 'Successfully Added!'
 	end
 
@@ -78,5 +82,11 @@ class OwnerController < ApplicationController
 		order.update(status: 2)
 		#job for sending request to riders
 		redirect_to owner_order_path(order)
+	end
+
+	def food_mark_visible
+		food = FoodItem.find(params[:id])
+		food.update(publish: !food.publish)
+		redirect_to owner_restaurant_menu_path(food.section.menu.restaurant.id) , notice: 'Successfully Done'
 	end
 end
