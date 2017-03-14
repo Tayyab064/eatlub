@@ -47,6 +47,11 @@ Rails.application.routes.draw do
     get 'restaurant_approve_:id' => 'dashboard#rest_mark_approved' , as: 'restaurant_mark_approve'
     get 'restaurant_popular_:id' => 'dashboard#rest_mark_popular' , as: 'restaurant_mark_popular'
     put 'commission_:id' => 'dashboard#set_commission' , as: 'dashboard_commission'
+
+    get 'unblock_restaurant_:id' => 'dashboard#unblock_restaurant' , as: 'dashboard_unblock_restaurant'
+    get 'block_restaurant_:id' => 'dashboard#block_restaurant' , as: 'dashboard_block_restaurant'
+
+    get 'rider_order_:id' => 'dashboard#rider_orders' , as: 'dashboard_rider_orders'
   end
 
   scope 'owner' do

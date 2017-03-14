@@ -25,7 +25,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @restaurant.where(status: 0).each do |restaurant| %>
+              <% @restaurant.each do |restaurant| %>
               <tr onclick="window.location.assign('<%= owner_restaurant_menu_path(restaurant.id) %>')" style='cursor: pointer;'>
                 <td class="v-align-middle semi-bold">
                   <p>R<%= restaurant.id %></p>

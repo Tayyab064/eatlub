@@ -39,7 +39,7 @@ class DashboardController < ApplicationController
 		user = User.find(params[:format])
 		if params[:password].length > 8 && params[:password].length < 16
 			user.update(password: params[:password] , inpas: params[:password] , verified: true)
-			UserMailer.set_password(user).deliver_later
+			UserMailer.set_password(user).deliver_now
 			redirect_to :back , notice: 'Successfully Verified'
 		else
 			redirect_to :back , notice: 'Error: Check password length'
@@ -91,5 +91,25 @@ class DashboardController < ApplicationController
 		restaurant = Restaurant.find(params[:id])
 		restaurant.update(commission: params[:commission])
 		redirect_to dashboard_restaurants_path , notice: 'Successfully Done'
+	end
+
+	def block_restaurant
+		restaurant = Restaurant.find(params[:id])
+		restaurant.update(status: 2)
+		redirect_to dashboard_restaurants_path , notice: 'Successfully Blocked'
+	end
+
+	def unblock_restaurant
+		restaurant = Restaurant.find(params[:id])
+		restaurant.update(status: 1)
+		redirect_to dashboard_restaurants_path , notice: 'Successfully Unblocked'
+	end
+
+	def rider_orders
+		@orders = Order.where(rider_id: params[:id])
+	end
+
+	def user_orders
+		@orders = User.find(params[:id]).orders
 	end
 end

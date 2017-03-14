@@ -9,6 +9,7 @@ class User < ApplicationRecord
 	has_many :reviews , foreign_key: "reviewer_id" , dependent: :destroy
 	has_many :orders ,dependent: :destroy
 	has_one :location , foreign_key: "rider_id" , dependent: :destroy
+	has_one :detail , foreign_key: "rider_id" , dependent: :destroy
 	has_many :devices , dependent: :destroy
 	
 	enum gender: [:male , :female]

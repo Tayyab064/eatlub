@@ -27,11 +27,11 @@ class OwnerController < ApplicationController
 	end
 
 	def restaurants
-		@restaurant = Restaurant.all
+		@restaurant = @owner.restaurants
 	end
 
 	def restaurant_menu_add
-		@restaurant = Restaurant.find(params[:id])
+		@restaurant = @owner.restaurants.find(params[:id])
 		unless @restaurant.menu.present?
 			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
 			redirect_to :back
@@ -40,7 +40,7 @@ class OwnerController < ApplicationController
 
 	def save_fooditem
 		if params[:section].length > 0
-			res = Restaurant.find(params[:restaurant_id])
+			res = @owner.restaurants.find(params[:restaurant_id])
 			sec = Section.create(title: params[:section], menu_id: res.menu.id)
 			sec_f = sec.id
 		else
@@ -55,7 +55,7 @@ class OwnerController < ApplicationController
 	end
 
 	def restaurant_menu
-		@restaurant = Restaurant.find(params[:id])
+		@restaurant = @owner.restaurants.find(params[:id])
 		unless @restaurant.menu.present?
 			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
 			redirect_to :back
@@ -63,22 +63,22 @@ class OwnerController < ApplicationController
 	end
 
 	def orders
-		@order = Order.all
+		@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id))
 	end
 
 	def order
-		@order = Order.find(params[:id])
+		@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
 	end
 
 	def order_accept
-		order = Order.find(params[:id])
+		order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
 		order.update(status: 1)
 		# call job order accepted
 		redirect_to owner_order_path(order)
 	end
 
 	def order_dispatch
-		order = Order.find(params[:id])
+		order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
 		order.update(status: 2)
 		#job for sending request to riders
 		redirect_to owner_order_path(order)

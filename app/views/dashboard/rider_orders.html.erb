@@ -1,0 +1,198 @@
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+
+  <div class="content full-width overlay-footer" style="padding-top: 0px !important;">
+
+    <div class="container-fluid container-fixed-lg ">
+      <div id="rootwizard">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm">
+          <li class="active">
+            <a data-toggle="tab" href="#tab1"><i class="fa fa-globe  tab-icon"></i> <span>All</span></a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#tab2"><i class="fa fa-clock-o tab-icon"></i> <span>Today</span></a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#tab3"><i class="fa fa-clock-o tab-icon"></i> <span>Month</span></a>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab1">
+            <div class="container-fluid container-fixed-lg bg-white">
+                <!-- START PANEL -->
+				<div class="panel panel-transparent">
+					<div class="panel-heading">
+					  <div class="panel-title">Total Earning: 84546
+					  </div>
+					  <div class="pull-right">
+					    <div class="col-xs-12">
+					      <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+					    </div>
+					  </div>
+					  <div class="clearfix"></div>
+					</div>
+					<div class="panel-body">
+					  <table class="table table-striped demo-table-search" id="tableWithSearch">
+					    <thead>
+					      <tr>
+					        <th>Order ID</th>
+					        <th>Address</th>
+					        <th>Notes</th>
+					        <th>Status</th>
+					        <th>Restaurant</th>
+					        <th>User</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <% @orders.each do |order| %>
+					      <tr>
+					        <td class="v-align-middle semi-bold">
+					          <p>O<%= order.id %></p>
+					        </td>
+					        <td class="v-align-middle semi-bold">
+					          <p><%= order.address %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.notes %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.status.capitalize %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.restaurant.name %></p>
+					        </td>
+					        <td class="v-align-middle">
+					         <p><%= order.user.email %></p>
+					        </td>
+					      </tr>
+
+					      <% end %>
+					    </tbody>
+					  </table>
+					</div>
+				</div>
+				<!-- END PANEL -->
+            </div>
+          </div>
+          <div class="tab-pane" id="tab2">
+            <div class="container-fluid container-fixed-lg bg-white">
+                <!-- START PANEL -->
+				<div class="panel panel-transparent">
+					<div class="panel-heading">
+					  <div class="panel-title">Daily Earning: 52
+					  </div>
+					  <div class="pull-right">
+					    <div class="col-xs-12">
+					      <input type="text" id="search-table-two" class="form-control pull-right" placeholder="Search">
+					    </div>
+					  </div>
+					  <div class="clearfix"></div>
+					</div>
+					<div class="panel-body">
+					  <table class="table table-striped demo-table-search" id="tableWithSearchTwo">
+					    <thead>
+					      <tr>
+					        <th>Order ID</th>
+					        <th>Address</th>
+					        <th>Notes</th>
+					        <th>Status</th>
+					        <th>Restaurant</th>
+					        <th>User</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <% @orders.where("created_at >= ?", Time.zone.now.beginning_of_day).each do |order| %>
+					      <tr>
+					        <td class="v-align-middle semi-bold">
+					          <p>O<%= order.id %></p>
+					        </td>
+					        <td class="v-align-middle semi-bold">
+					          <p><%= order.address %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.notes %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.status.capitalize %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.restaurant.name %></p>
+					        </td>
+					        <td class="v-align-middle">
+					         <p><%= order.user.email %></p>
+					        </td>
+					      </tr>
+
+					      <% end %>
+					    </tbody>
+					  </table>
+					</div>
+				</div>
+				<!-- END PANEL -->
+            </div>
+          </div>
+          <div class="tab-pane" id="tab3">
+            <div class="container-fluid container-fixed-lg bg-white">
+                <!-- START PANEL -->
+				<div class="panel panel-transparent">
+					<div class="panel-heading">
+					  <div class="panel-title">Monthly Earning: 139
+					  </div>
+					  <div class="pull-right">
+					    <div class="col-xs-12">
+					      <input type="text" id="search-table-one" class="form-control pull-right" placeholder="Search">
+					    </div>
+					  </div>
+					  <div class="clearfix"></div>
+					</div>
+					<div class="panel-body">
+					  <table class="table table-striped demo-table-search" id="tableWithSearchOne">
+					    <thead>
+					      <tr>
+					        <th>Order ID</th>
+					        <th>Address</th>
+					        <th>Notes</th>
+					        <th>Status</th>
+					        <th>Restaurant</th>
+					        <th>User</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+					      <% @orders.where("created_at >= ?", Time.now.beginning_of_month).each do |order| %>
+					      <tr>
+					        <td class="v-align-middle semi-bold">
+					          <p>O<%= order.id %></p>
+					        </td>
+					        <td class="v-align-middle semi-bold">
+					          <p><%= order.address %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.notes %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.status.capitalize %></p>
+					        </td>
+					        <td class="v-align-middle">
+					          <p><%= order.restaurant.name %></p>
+					        </td>
+					        <td class="v-align-middle">
+					         <p><%= order.user.email %></p>
+					        </td>
+					      </tr>
+
+					      <% end %>
+					    </tbody>
+					  </table>
+					</div>
+				</div>
+				<!-- END PANEL -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

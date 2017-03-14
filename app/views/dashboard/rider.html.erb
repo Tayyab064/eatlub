@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                       <% @user.each do |user| %>
-                      <tr>
+                      <tr onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                         <td class="v-align-middle semi-bold">
                           <p>R<%= user.id %></p>
                         </td>
@@ -95,16 +95,16 @@
                     <tbody>
                       <% @user.where(verified: false).each do |user| %>
                       <tr>
-                        <td class="v-align-middle semi-bold">
+                        <td class="v-align-middle semi-bold" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p>R<%= user.id %></p>
                         </td>
-                        <td class="v-align-middle semi-bold">
+                        <td class="v-align-middle semi-bold" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p><%= user.username %></p>
                         </td>
-                        <td class="v-align-middle bold">
+                        <td class="v-align-middle bold" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p><%= user.email %></p>
                         </td>
-                        <td class="v-align-middle">
+                        <td class="v-align-middle" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p><%= user.gender.present? ? user.gender.capitalize : 'Record Missing' %></p>
                         </td>
                         <td class="v-align-middle">
@@ -180,7 +180,7 @@
                     </thead>
                     <tbody>
                       <% @user.where(verified: true).each do |user| %>
-                      <tr>
+                      <tr onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                         <td class="v-align-middle semi-bold">
                           <p>R<%= user.id %></p>
                         </td>
@@ -229,16 +229,16 @@
                     <tbody>
                       <% @user.where(block: true).each do |user| %>
                       <tr>
-                        <td class="v-align-middle semi-bold">
+                        <td class="v-align-middle semi-bold" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p>R<%= user.id %></p>
                         </td>
-                        <td class="v-align-middle semi-bold">
+                        <td class="v-align-middle semi-bold" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p><%= user.username %></p>
                         </td>
-                        <td class="v-align-middle bold">
+                        <td class="v-align-middle bold" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p><%= user.email %></p>
                         </td>
-                        <td class="v-align-middle">
+                        <td class="v-align-middle" onclick="window.location.assign('<%= dashboard_rider_orders_path(user.id) %>')" style='cursor:pointer;'>
                           <p><%= user.gender.present? ? user.gender.capitalize : 'Record Missing' %></p>
                         </td>
                         <td class="v-align-middle">

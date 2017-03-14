@@ -86,7 +86,8 @@ class WebsiteController < ApplicationController
 	end
 
 	def save_driver
-		User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
+		c = User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
+		Detail.create(city: params[:mycity] , vehicle: params[:myvehi] , rider_id: c.id)
 		redirect_to thankyou_path , notice: "Successfully Submitted"
 	end
 
