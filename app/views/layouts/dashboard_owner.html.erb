@@ -86,7 +86,16 @@
       <div class="sidebar-menu">
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
+        <% if session[:admin].present? %>
           <li class="m-t-30 ">
+            <a href="<%= dashboard_index_path %>" class="title">
+              <span class="title">Admin</span>
+              <!-- <span class="details">12 New Updates</span> -->
+            </a>
+            <span class="icon-thumbnail"><i class="fa fa-unlock-alt"></i></span>
+          </li>
+        <% end %>
+          <li class="<%= session[:admin].present? ?  '' : 'm-t-30' %>">
             <a href="<%= owner_index_path %>" class="detailed">
               <span class="title">Dashboard</span>
               <!-- <span class="details">12 New Updates</span> -->
@@ -572,10 +581,7 @@
                 <li><a href="#"><i class="pg-signals"></i> Help</a>
                 </li> -->
                 <li class="bg-master-lighter">
-                  <a href="#" class="clearfix">
-                    <span class="pull-left">Logout</span>
-                    <span class="pull-right"><i class="pg-power"></i></span>
-                  </a>
+                  <%= link_to '<span class="pull-left">Logout</span><span class="pull-right"><i class="pg-power"></i></span>'.html_safe, owner_signout_path, :method => :delete %>
                 </li>
               </ul>
             </div>

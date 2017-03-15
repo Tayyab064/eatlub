@@ -18,15 +18,15 @@ class ApplicationController < ActionController::Base
   end
 
   def is_owner
-  	if session[:owner].present?
-  		unless u = User.where(role: 1).find_by_email(session[:owner])
-        if u.verified == true && u.block == false
-         redirect_to owner_signin_path
-        else
-          redirect_to dashboard_signin_path
-        end
+  	if session[:owner].present? || session[:admin].present?
+  		if (u = User.where(role: 1).find_by_email(session[:owner])) || (u = User.where(role: 3).find_by_email(session[:admin]))
+          unless u.verified == true && u.block == false
+            redirect_to owner_signin_path
+          end
+          if u.role == 'restaurant_owner'
+            @owner = u
+          end
   		end
-      @owner = u
   	else
   		redirect_to owner_signin_path
   	end

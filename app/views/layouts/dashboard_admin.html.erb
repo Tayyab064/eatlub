@@ -87,12 +87,19 @@
         <!-- BEGIN SIDEBAR MENU ITEMS-->
         <ul class="menu-items">
           <li class="m-t-30 ">
-            <a href="<%= dashboard_index_path %>" class="detailed">
-              <span class="title">Dashboard</span>
-              <!-- <span class="details">12 New Updates</span> -->
-            </a>
-            <span class="bg-success icon-thumbnail"><i class="pg-home"></i></span>
-          </li>
+            <a href="javascript:;"><span class="title">Dashboard</span>
+            <span class=" arrow"></span></a>
+            <span class="icon-thumbnail"><i class="pg-home"></i></span>
+            <ul class="sub-menu">
+              <li class="">
+                <a href="<%= dashboard_index_path %>">Admin</a>
+                <span class="icon-thumbnail">A</span>
+              </li>
+              <li class="">
+                <a href="<%= owner_index_path %>">Restaurant Owner</a>
+                <span class="icon-thumbnail">RO</span>
+              </li>
+            </ul>
           <li class="">
             <a href="<%= dashboard_restaurants_path %>"><span class="title">Restaurants</span></a>
             <span class="icon-thumbnail"><i class="fa fa-cutlery"></i></span>
@@ -591,10 +598,7 @@
                 <li><a href="#"><i class="pg-signals"></i> Help</a>
                 </li> -->
                 <li class="bg-master-lighter">
-                  <a href="#" class="clearfix">
-                    <span class="pull-left">Logout</span>
-                    <span class="pull-right"><i class="pg-power"></i></span>
-                  </a>
+                  <%= link_to '<span class="pull-left">Logout</span><span class="pull-right"><i class="pg-power"></i></span>'.html_safe, admin_signout_path, :method => :delete %>
                 </li>
               </ul>
             </div>

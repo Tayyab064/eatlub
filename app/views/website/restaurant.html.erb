@@ -5,19 +5,24 @@
 <link href="website/css/slider-pro.min.css" rel="stylesheet">
 
 <!-- SubHeader =============================================== -->
-<section class="parallax-window" data-parallax="scroll" data-image-src="website/img/sub_header_2.jpg" data-natural-width="1400" data-natural-height="470">
+<section class="parallax-window" data-parallax="scroll" data-image-src="<%= @restaurant.cover_url.present? ? @restaurant.cover_url : 'website/img/sub_header_2.jpg' %>" data-natural-width="1400" data-natural-height="470">
     <div id="subheader">
 	<div id="sub_content">
-    	<div id="thumb"><img src="website/img/thumb_restaurant.jpg" alt=""></div>
+    	<div id="thumb"><img src="<%= @restaurant.image_url.present? ? @restaurant.image_url : 'website/img/thumb_restaurant.jpg' %>" alt=""></div>
                      <div class="rating">
-                        <% t_rat = ( @restaurant.reviews.pluck("SUM(rating)").first.to_f / @restaurant.reviews.count ).round %>
-                        <% t_rat.times do |th| %>
-                        <i class="icon_star voted"></i>
+                     <% revi_coun = @reviews.count %>
+                        <% if revi_coun > 0 %>
+                            <% t_rat = ( @restaurant.reviews.pluck("SUM(rating)").first.to_f / @restaurant.reviews.count ).round %>
+                            <% t_rat.times do |th| %>
+                            <i class="icon_star voted"></i>
+                            <% end %>
+                            <% (5-t_rat).times do |th| %>
+                            <i class="icon_star"></i>
+                            <% end %>
+                        <% else %>
+                            <i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
                         <% end %>
-                        <% (5-t_rat).times do |th| %>
-                        <i class="icon_star"></i>
-                        <% end %>
-                     ( <small><a id="#resti_review"><%= @restaurant.reviews.count %> reviews</a></small> )
+                     ( <small><a id="#resti_review"><%= revi_coun %> reviews</a></small> )
                      </div>
                     <h1><%= @restaurant.name %></h1>
                     <div><em><%= @restaurant.cuisine %></em></div>
@@ -28,7 +33,7 @@
 </section><!-- End section -->
 <!-- End SubHeader ============================================ -->
 
-    <div id="position">
+    <div id="position" class="hidden">
         <div class="container">
             <ul>
                 <li><a href="<%= root_path %>">Home</a></li>
@@ -211,14 +216,20 @@
 					</p>
 					<div id="summary_review">
 						<div id="general_rating">
-							<%= @reviews.count %> Reviews
+							<%= revi_coun %> Reviews
 							<div class="rating">
-								<% t_rat = ( @reviews.pluck("SUM(rating)").first.to_f / @reviews.count ).round %>
-                                <% t_rat.times do |th| %>
-                                <i class="icon_star voted"></i>
-                                <% end %>
-                                <% (5-t_rat).times do |th| %>
-                                <i class="icon_star"></i>
+                                <% if revi_coun > 0 %>
+    								<% t_rat = ( @reviews.pluck("SUM(rating)").first.to_f / @reviews.count ).round %>
+                                    <% t_rat.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-t_rat).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
+                                <% else %>
+                                    <% 5.times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
                                 <% end %>
 							</div>
 						</div>
@@ -228,23 +239,35 @@
 								<ul>
 									<li>Food Quality
 									<div class="rating">
-                                        <% t_qua = ( @reviews.pluck("SUM(quality)").first.to_f / @reviews.count ).round %>
-										<% t_qua.times do |th| %>
-                                        <i class="icon_star voted"></i>
-                                        <% end %>
-                                        <% (5-t_qua).times do |th| %>
-                                        <i class="icon_star"></i>
-                                        <% end %>  
+                                        <% if revi_coun > 0 %>
+                                            <% t_qua = ( @reviews.pluck("SUM(quality)").first.to_f / @reviews.count ).round %>
+    										<% t_qua.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_qua).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% end %>   
 									</div>
 									</li>
 									<li>Price
 									<div class="rating">
-										<% t_pri = ( @reviews.pluck("SUM(price)").first.to_f / @reviews.count ).round %>
-                                        <% t_pri.times do |th| %>
-                                        <i class="icon_star voted"></i>
-                                        <% end %>
-                                        <% (5-t_pri).times do |th| %>
-                                        <i class="icon_star"></i>
+                                        <% if revi_coun > 0 %>
+    										<% t_pri = ( @reviews.pluck("SUM(price)").first.to_f / @reviews.count ).round %>
+                                            <% t_pri.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_pri).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
                                         <% end %>
 									</div>
 									</li>
@@ -254,23 +277,35 @@
 								<ul>
 									<li>Punctuality
 									<div class="rating">
-										<% t_pun = ( @reviews.pluck("SUM(punctuality)").first.to_f / @reviews.count ).round %>
-                                        <% t_pun.times do |th| %>
-                                        <i class="icon_star voted"></i>
-                                        <% end %>
-                                        <% (5-t_pun).times do |th| %>
-                                        <i class="icon_star"></i>
+                                        <% if revi_coun > 0 %>
+    										<% t_pun = ( @reviews.pluck("SUM(punctuality)").first.to_f / @reviews.count ).round %>
+                                            <% t_pun.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_pun).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
                                         <% end %>
 									</div>
 									</li>
 									<li>Courtesy
 									<div class="rating">
-										<% t_cou = ( @reviews.pluck("SUM(courtesy)").first.to_f / @reviews.count ).round %>
-                                        <% t_cou.times do |th| %>
-                                        <i class="icon_star voted"></i>
-                                        <% end %>
-                                        <% (5-t_cou).times do |th| %>
-                                        <i class="icon_star"></i>
+                                        <% if revi_coun > 0 %>
+    										<% t_cou = ( @reviews.pluck("SUM(courtesy)").first.to_f / @reviews.count ).round %>
+                                            <% t_cou.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_cou).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
                                         <% end %>
 									</div>
 									</li>

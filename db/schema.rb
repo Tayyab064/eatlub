@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170314064903) do
+ActiveRecord::Schema.define(version: 20170315134913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20170314064903) do
     t.boolean  "delivery",       default: false
     t.float    "delivery_fee",   default: 0.0
     t.float    "commission",     default: 0.0
+    t.string   "cover"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -145,19 +146,20 @@ ActiveRecord::Schema.define(version: 20170314064903) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name",            default: ""
-    t.string   "username",        default: ""
+    t.string   "name",                 default: ""
+    t.string   "username",             default: ""
     t.string   "email"
     t.integer  "gender"
-    t.integer  "role",            default: 0
-    t.boolean  "verified",        default: false
-    t.boolean  "block",           default: false
+    t.integer  "role",                 default: 0
+    t.boolean  "verified",             default: false
+    t.boolean  "block",                default: false
     t.string   "password_digest"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "inpas"
     t.string   "token"
     t.string   "mobile_number"
+    t.string   "password_reset_token"
     t.index ["email"], name: "index_users_on_email", using: :btree
     t.index ["role"], name: "index_users_on_role", using: :btree
   end

@@ -1,6 +1,6 @@
 class OwnerController < ApplicationController
 	before_action :is_owner , except: [:signin , :approve_signin]
-	skip_before_action :verify_authenticity_token, :only => [:approve_signin]
+	skip_before_action :verify_authenticity_token, :only => [:approve_signin , :signout]
 	layout "dashboard_owner" , except: [:signin]
 
 	def signin
@@ -22,16 +22,29 @@ class OwnerController < ApplicationController
 		end
 	end
 
+	def signout
+		session[:owner] = nil
+		redirect_to '/owner/signin' , notice: 'Successfully SignedOut!'
+	end
+
 	def index
 
 	end
 
 	def restaurants
-		@restaurant = @owner.restaurants
+		if @owner.present?
+			@restaurant = @owner.restaurants
+		else
+			@restaurant = Restaurant.all
+		end
 	end
 
 	def restaurant_menu_add
-		@restaurant = @owner.restaurants.find(params[:id])
+		if @owner.present?
+			@restaurant = @owner.restaurants.find(params[:id])
+		else
+			@restaurant = Restaurant.find(params[:id])
+		end
 		unless @restaurant.menu.present?
 			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
 			redirect_to :back
@@ -40,7 +53,12 @@ class OwnerController < ApplicationController
 
 	def save_fooditem
 		if params[:section].length > 0
-			res = @owner.restaurants.find(params[:restaurant_id])
+			if @owner.present?
+				res = @owner.restaurants.find(params[:restaurant_id])
+			else
+				res = Restaurant.find(params[:restaurant_id])
+			end
+			
 			sec = Section.create(title: params[:section], menu_id: res.menu.id)
 			sec_f = sec.id
 		else
@@ -55,7 +73,11 @@ class OwnerController < ApplicationController
 	end
 
 	def restaurant_menu
-		@restaurant = @owner.restaurants.find(params[:id])
+		if @owner.present?
+			@restaurant = @owner.restaurants.find(params[:id])
+		else
+			@restaurant = Restaurant.find(params[:id])
+		end
 		unless @restaurant.menu.present?
 			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
 			redirect_to :back
@@ -63,22 +85,38 @@ class OwnerController < ApplicationController
 	end
 
 	def orders
-		@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id))
+		if @owner.present?
+			@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id))
+		else
+			@order = Order.all
+		end
 	end
 
 	def order
-		@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+		if @owner.present?
+			@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+		else
+			@order = Order.find(params[:id])
+		end
 	end
 
 	def order_accept
-		order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+		if @owner.present?
+			order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+		else
+			order = Order.find(params[:id])
+		end
 		order.update(status: 1)
 		# call job order accepted
 		redirect_to owner_order_path(order)
 	end
 
 	def order_dispatch
-		order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+		if @owner.present?
+			order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+		else
+			order = Order.find(params[:id])
+		end
 		order.update(status: 2)
 		#job for sending request to riders
 		redirect_to owner_order_path(order)

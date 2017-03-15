@@ -30,10 +30,13 @@ Rails.application.routes.draw do
   get 'order_O:id' => 'website#order' , as: 'web_user_order'
   get 'cancel_order_O:id' => 'website#cancel_order', as: 'web_user_cancel_order'
   get 'thankyou' => 'website#thankyou' , as: 'thankyou'
+  post 'forget_password' => 'website#forget_password' , as: 'forget_password_website'
+  get 'password_:token' => 'website#set_password' , as: 'set_password'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
     post 'signin_admin' => 'dashboard#approve_signin' , as: 'signin_admin'
+    delete 'signout' => 'dashboard#signout' , as: 'admin_signout'
 
   	get 'index' => 'dashboard#index' , as: 'dashboard_index'
   	get 'restaurants' => 'dashboard#restaurants' , as: 'dashboard_restaurants'
@@ -57,6 +60,7 @@ Rails.application.routes.draw do
   scope 'owner' do
     get 'signin' => 'owner#signin' , as: 'owner_signin'
     post 'signin_admin' => 'owner#approve_signin' , as: 'signin_owner'
+    delete 'signout' => 'owner#signout' , as: 'owner_signout'
 
     get 'index' => 'owner#index' , as: 'owner_index'
     get 'restaurants' => 'owner#restaurants' , as: 'owner_restaurants'

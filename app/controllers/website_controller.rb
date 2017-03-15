@@ -33,11 +33,27 @@ class WebsiteController < ApplicationController
 		end
 	end
 
+	def forget_password
+		if u = User.find_by_email(params[:email])
+			u.regenerate_password_reset_token
+			UserMailer.forget_password(u).deliver_now
+			redirect_to '/' , notice: 'Kindly check your email'
+		else
+			redirect_to '/' , notice: 'Error: Invalid email!'
+		end
+	end
+
+	def set_password
+		unless @user = User.find_by_password_reset_token(params[:token])
+			redirect_to '/' , notice: 'Error: Invalid password reset token'
+		end
+	end
+
 	def index
-		@restaurants = Restaurant.approved.order(created_at: 'ASC').limit(6)
-		@res_count = Restaurant.approved.count
-		@ord_count = Order.where(status: 'completed').count
-		@end_user_count = User.where(role: 'end_user').count
+		@restaurants = Restaurant.approved.order(created_at: 'DESC').limit(6)
+		#@res_count = Restaurant.approved.count
+		#@ord_count = Order.where(status: 'completed').count
+		#@end_user_count = User.where(role: 'end_user').count
 	end
 
 	def restaurant_listing
@@ -60,14 +76,14 @@ class WebsiteController < ApplicationController
 
 	def save_restaurant
 		p params
-		if /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/.match(params[:email]) && params[:name].length > 0
+		if /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/.match(params[:email]) && params[:name].length > 0 && params[:image].present? && params[:cover].present? 
 			if User.exists?(email: params[:email])
 				use = User.find_by_email(params[:email])
 			else		
-				use = User.create(name: params[:owner_name] , email: params[:email] , role: 1 , password: '123456')
+				use = User.create(name: params[:owner_name] , email: params[:email] , role: 1 , password: '123456' , mobile_number: params[:mobile_number] )
 			end
 			if use.role == 'restaurant_owner'
-				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , post_code: params[:post_code] , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery])
+				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , post_code: params[:post_code] , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , image: params[:image] , cover: params[:cover] )
 				redirect_to thankyou_path , notice: "Successfully Submitted"
 			else
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"

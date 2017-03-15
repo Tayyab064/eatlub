@@ -54,14 +54,15 @@
         <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a>.</p>
     <![endif]-->
     
-    <div id="preloader">
-        <div class="sk-spinner sk-spinner-wave" id="status">
+    <div id="preloader" style="background-color: #61d2f7;display: flex; align-items: center;">
+        <div class="sk-spinner sk-spinner-wave hidden" id="status">
             <div class="sk-rect1"></div>
             <div class="sk-rect2"></div>
             <div class="sk-rect3"></div>
             <div class="sk-rect4"></div>
             <div class="sk-rect5"></div>
         </div>
+        <img src="website/img/logofinal.png" class="img-responsive" alt="Deliverush" width="20%" height="auto" style="display: block; margin: 0 auto;"> 
     </div><!-- End Preload -->
     
     <!-- Header ================================================== -->
@@ -116,6 +117,8 @@
                     <ul>
                         <% if @end_user.present? %>
                         <li><a href="<%= web_user_orders_path %>">My Orders</a></li>
+                        <% else %>
+                        <li><a href="#" data-toggle="modal" data-target="#forget">Forget Password</a></li>
                         <% end %>
                         <li><a href="<%= dashboard_index_path %>">Admin section</a></li>
                         <li><a href="<%= owner_index_path %>">Owner section</a></li>
@@ -248,6 +251,21 @@
 			</div>
 		</div>
 	</div><!-- End modal -->   
+
+    <!-- Login modal -->   
+<div class="modal fade" id="forget" tabindex="-1" role="dialog" aria-labelledby="myLogin" aria-hidden="true" style="z-index: 999 !important;">
+    <div class="modal-dialog">
+        <div class="modal-content modal-popup">
+            <a href="index.html#" class="close-link"><i class="icon_close_alt2"></i></a>
+            <%= form_tag(forget_password_website_path , method: :post , class: 'popup-form') do %>
+                <div class="login_icon"><i class="icon_lock_alt"></i></div>
+                <%= text_field_tag :email, '' , class: 'form-control form-white' , placeholder: 'johndoe@example.com' %>
+                <!-- <button type="submit" class="btn btn-submit">Submit</button> -->
+                <%= submit_tag "Forget Password", class: "btn btn-submit" %>
+            <% end %>
+        </div>
+    </div>
+</div><!-- End modal -->  
     
 <!-- Register modal -->   
 <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myRegister" aria-hidden="true" style="z-index: 999 !important;">

@@ -47,7 +47,7 @@
 	        </div><!-- End sub_content -->
 	    </div>
 	    <img src="website/img/video_fix.png" alt="" class="header-video--media" data-video-src="website/video/intro" data-teaser-source="website/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
-	    <div id="count" class="hidden-xs">
+	    <div id="count" class="hidden-xs hidden">
 	        <ul>
 	            <li><span class="number"><%= @res_count %></span> Restaurant</li>
 	            <li><span class="number"><%= @ord_count %></span> People Served</li>
@@ -127,16 +127,22 @@
 	                <div class="<%= @restaurants.first.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
-	                            <img src="website/img/thumb_restaurant.jpg" alt="">
+	                            <img src="<%= @restaurants.first.image_url.present? ? @restaurants.first.image_url : 'website/img/thumb_restaurant.jpg' %>" alt="">
 	                        </div>
 	                        <div class="rating">
-	                        	<% t_rat = ( @restaurants.first.reviews.pluck("SUM(rating)").first.to_f / @restaurants.first.reviews.count ).round %>
-	                            <% t_rat.times do |th| %>
-	                            <i class="icon_star voted"></i>
-	                            <% end %>
-	                            <% (5-t_rat).times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
+	                        	<% if @restaurants.first.reviews.count > 0 %>
+		                        	<% t_rat = ( @restaurants.first.reviews.pluck("SUM(rating)").first.to_f / @restaurants.first.reviews.count ).round %>
+		                            <% t_rat.times do |th| %>
+		                            <i class="icon_star voted"></i>
+		                            <% end %>
+		                            <% (5-t_rat).times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% else %>
+		                        	<% 5.times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.first.name %></h3>
 	                        <div class="type">
@@ -155,16 +161,22 @@
 	               <div class="<%= @restaurants.second.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
-	                            <img src="website/img/thumb_restaurant_2.jpg" alt="">
+	                            <img src="<%= @restaurants.second.image_url.present? ? @restaurants.second.image_url : 'website/img/thumb_restaurant.jpg' %>" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <% t_rat = ( @restaurants.second.reviews.pluck("SUM(rating)").first.to_f / @restaurants.second.reviews.count ).round %>
-	                            <% t_rat.times do |th| %>
-	                            <i class="icon_star voted"></i>
-	                            <% end %>
-	                            <% (5-t_rat).times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
+	                        	<% if @restaurants.second.reviews.count > 0 %>
+		                            <% t_rat = ( @restaurants.second.reviews.pluck("SUM(rating)").first.to_f / @restaurants.second.reviews.count ).round %>
+		                            <% t_rat.times do |th| %>
+		                            <i class="icon_star voted"></i>
+		                            <% end %>
+		                            <% (5-t_rat).times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% else %>
+		                        	<% 5.times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.second.name %></h3>
 	                        <div class="type">
@@ -183,16 +195,22 @@
 	                <div class="<%= @restaurants.third.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
-	                            <img src="website/img/thumb_restaurant_3.jpg" alt="">
+	                            <img src="<%= @restaurants.third.image_url.present? ? @restaurants.third.image_url : 'website/img/thumb_restaurant.jpg' %>" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <% t_rat = ( @restaurants.third.reviews.pluck("SUM(rating)").first.to_f / @restaurants.third.reviews.count ).round %>
-	                            <% t_rat.times do |th| %>
-	                            <i class="icon_star voted"></i>
-	                            <% end %>
-	                            <% (5-t_rat).times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
+	                       		<% if @restaurants.third.reviews.count > 0 %>
+		                            <% t_rat = ( @restaurants.third.reviews.pluck("SUM(rating)").first.to_f / @restaurants.third.reviews.count ).round %>
+		                            <% t_rat.times do |th| %>
+		                            <i class="icon_star voted"></i>
+		                            <% end %>
+		                            <% (5-t_rat).times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% else %>
+		                        	<% 5.times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.third.name %></h3>
 	                        <div class="type">
@@ -213,16 +231,22 @@
 	                <div class="<%= @restaurants.fourth.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
-	                            <img src="website/img/thumb_restaurant_4.jpg" alt="">
+	                            <img src="<%= @restaurants.fourth.image_url.present? ? @restaurants.fourth.image_url : 'website/img/thumb_restaurant.jpg' %>" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <% t_rat = ( @restaurants.fourth.reviews.pluck("SUM(rating)").first.to_f / @restaurants.fourth.reviews.count ).round %>
-	                            <% t_rat.times do |th| %>
-	                            <i class="icon_star voted"></i>
-	                            <% end %>
-	                            <% (5-t_rat).times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
+	                        	<% if @restaurants.fourth.reviews.count > 0 %>
+		                            <% t_rat = ( @restaurants.fourth.reviews.pluck("SUM(rating)").first.to_f / @restaurants.fourth.reviews.count ).round %>
+		                            <% t_rat.times do |th| %>
+		                            <i class="icon_star voted"></i>
+		                            <% end %>
+		                            <% (5-t_rat).times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% else %>
+		                        	<% 5.times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.fourth.name %></h3>
 	                        <div class="type">
@@ -241,16 +265,22 @@
 	                <div class="<%= @restaurants.fifth.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
-	                            <img src="website/img/thumb_restaurant_5.jpg" alt="">
+	                            <img src="<%= @restaurants.fifth.image_url.present? ? @restaurants.fifth.image_url : 'website/img/thumb_restaurant.jpg' %>" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <% t_rat = ( @restaurants.fifth.reviews.pluck("SUM(rating)").first.to_f / @restaurants.fifth.reviews.count ).round %>
-	                            <% t_rat.times do |th| %>
-	                            <i class="icon_star voted"></i>
-	                            <% end %>
-	                            <% (5-t_rat).times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
+	                        	<% if @restaurants.fifth.reviews.count > 1 %>
+		                            <% t_rat = ( @restaurants.fifth.reviews.pluck("SUM(rating)").first.to_f / @restaurants.fifth.reviews.count ).round %>
+		                            <% t_rat.times do |th| %>
+		                            <i class="icon_star voted"></i>
+		                            <% end %>
+		                            <% (5-t_rat).times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% else %>
+		                        	<% 5.times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.fifth.name %></h3>
 	                        <div class="type">
@@ -269,16 +299,22 @@
 	                <div class="<%= @restaurants.last.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
-	                            <img src="website/img/thumb_restaurant_6.jpg" alt="">
+	                            <img src="<%= @restaurants.last.image_url.present? ? @restaurants.last.image_url : 'website/img/thumb_restaurant.jpg' %>" alt="">
 	                        </div>
 	                        <div class="rating">
-	                            <% t_rat = ( @restaurants.last.reviews.pluck("SUM(rating)").first.to_f / @restaurants.last.reviews.count ).round %>
-	                            <% t_rat.times do |th| %>
-	                            <i class="icon_star voted"></i>
-	                            <% end %>
-	                            <% (5-t_rat).times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
+	                       		<% if @restaurants.last.reviews.count > 0 %>
+		                            <% t_rat = ( @restaurants.last.reviews.pluck("SUM(rating)").first.to_f / @restaurants.last.reviews.count ).round %>
+		                            <% t_rat.times do |th| %>
+		                            <i class="icon_star voted"></i>
+		                            <% end %>
+		                            <% (5-t_rat).times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% else %>
+		                        	<% 5.times do |th| %>
+		                            <i class="icon_star"></i>
+		                            <% end %>
+		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.last.name %></h3>
 	                        <div class="type">

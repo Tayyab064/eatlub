@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
 	before_action :is_admin , except: [:signin , :approve_signin]
-	skip_before_action :verify_authenticity_token, :only => [:approve_signin]
+	skip_before_action :verify_authenticity_token, :only => [:approve_signin , :signout]
 	layout "dashboard_admin" , except: [:signin]
 
 	def signin
@@ -21,6 +21,11 @@ class DashboardController < ApplicationController
 		else
 			redirect_to :back , notice: 'Error: Check Email/Password'
 		end
+	end
+
+	def signout
+		session[:admin] = nil
+		redirect_to '/dashboard/signin' , notice: 'Successfully SignedOut!'
 	end
 
 	def index
@@ -107,6 +112,19 @@ class DashboardController < ApplicationController
 
 	def rider_orders
 		@orders = Order.where(rider_id: params[:id])
+		@total = 0.0
+		@today = 0.0
+		@month = 0.0
+		order = @orders.where(status: 'completed')
+		order.each do |se|
+			@total = @total + se.restaurant.delivery_fee
+		end
+		order.where("created_at >= ?", Time.zone.now.beginning_of_day).each do |se|
+			@today = @today + se.restaurant.delivery_fee
+		end
+		order.where("created_at >= ?", Time.now.beginning_of_month).each do |se|
+			@month = @month + se.restaurant.delivery_fee
+		end
 	end
 
 	def user_orders

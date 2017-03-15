@@ -4,6 +4,7 @@ class User < ApplicationRecord
 	has_secure_password
 
 	has_secure_token :token
+	has_secure_token :password_reset_token
 	
 	has_many :restaurants , foreign_key: "owner_id" ,dependent: :destroy
 	has_many :reviews , foreign_key: "reviewer_id" , dependent: :destroy
