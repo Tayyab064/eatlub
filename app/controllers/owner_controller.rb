@@ -12,6 +12,9 @@ class OwnerController < ApplicationController
 	def approve_signin
 		if owner = User.where(role: 1).where(verified: true).find_by(email: params[:email]).try(:authenticate, params[:password]) 
 			if owner.verified == true && owner.block == false
+				if owner.inpas.present?
+					owner.update(inpas: nil)
+				end
 				session[:owner] = params[:email]
 				redirect_to '/owner/index' , notice: 'Successfully SignedIn!'
 			else
@@ -59,12 +62,13 @@ class OwnerController < ApplicationController
 				res = Restaurant.find(params[:restaurant_id])
 			end
 			
-			sec = Section.create(title: params[:section], menu_id: res.menu.id)
+			sec = Section.create(title: params[:section], description: params[:section_desc] , menu_id: res.menu.id)
+
 			sec_f = sec.id
 		else
 			sec_f = params[:menu_section].to_i
 		end
-		foo = FoodItem.create(name: params[:name], price: params[:price], section_id: sec_f, image: params[:image])
+		foo = FoodItem.create(name: params[:name] , description: params[:name_desc] , price: params[:price], section_id: sec_f, image: params[:image])
 		params[:menu_category].each do |sd|
 			cati = Category.find(sd.to_i)
 			foo.categories << cati

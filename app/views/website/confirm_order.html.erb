@@ -7,10 +7,10 @@
                 <div class="col-xs-6 bs-wizard-step complete">
                   <div class="text-center bs-wizard-stepnum"><strong>1.</strong> Your details</div>
                   <div class="progress"><div class="progress-bar"></div></div>
-                  <a href="cart.html" class="bs-wizard-dot"></a>
+                  <a href="cart" class="bs-wizard-dot"></a>
                 </div>
             
-              <div class="col-xs-6 bs-wizard-step complete">
+                <div class="col-xs-6 bs-wizard-step complete">
                   <div class="text-center bs-wizard-stepnum"><strong>2.</strong> Finish!</div>
                   <div class="progress"><div class="progress-bar"></div></div>
                   <a href="#" class="bs-wizard-dot"></a>
@@ -54,12 +54,22 @@
 			</div>
 		</div>
 	</div><!-- End row -->
+  <div class="row" style="margin-top: 5px;">
+    <div class="col-md-offset-3 col-md-6">
+      <button onclick="pathred();" style="cursor: pointer; width: 100%;" class="btn_1">View Order</button>
+    </div>
+  </div>
 </div><!-- End container -->
 <!-- End Content =============================================== -->
 
 <script type="text/javascript">
 	window.onload = function(e){
     coun = parseInt(window.localStorage.getItem('count'));
+    if(window.localStorage.getItem('delivery_fee')){
+      deli = parseFloat(window.localStorage.getItem('delivery_fee'));
+    }else{
+      deli = 0 ;
+    }
     var tot_pri = 0.0 ;
     console.log('Fetching');
  
@@ -71,11 +81,21 @@
         tot_pri = tot_pri + t.price ;
       }
     }
+
+    cvs = tot_pri + deli ;
  
-    da = da + '<tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">$' + tot_pri.toFixed(2) +'</span></td></tr>' ;
+    da = da + '<tr><td>Delivery Fee</td><td><strong class="pull-right">$ ' + deli.toFixed(2) +  '</strong></td></tr><tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">$' + cvs.toFixed(2) +'</span></td></tr>' ;
  
     document.getElementById("mycarti").innerHTML = da ;
  
     localStorage.clear();
+  }
+
+  function pathred(){
+    var url = window.location.href;
+    var id = url.split("?id=");
+    if(id.length > 0){
+      window.location.assign("/order_" + id[1]);
+    }
   }
 </script>

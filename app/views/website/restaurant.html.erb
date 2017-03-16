@@ -4,6 +4,12 @@
 <!-- Gallery -->
 <link href="website/css/slider-pro.min.css" rel="stylesheet">
 
+<style type="text/css">
+    .optimania{
+        background-color: #78cfcf;
+    }
+</style>
+
 <!-- SubHeader =============================================== -->
 <section class="parallax-window" data-parallax="scroll" data-image-src="<%= @restaurant.cover_url.present? ? @restaurant.cover_url : 'website/img/sub_header_2.jpg' %>" data-natural-width="1400" data-natural-height="470">
     <div id="subheader">
@@ -26,7 +32,7 @@
                      </div>
                     <h1><%= @restaurant.name %></h1>
                     <div><em><%= @restaurant.cuisine %></em></div>
-                    <div><i class="icon_pin"></i> <%= @restaurant.location %> - <strong>Delivery charge:</strong> $10, free over $15.</div>
+                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> $#{@restaurant.delivery_fee.round(2)} , free over $15.".html_safe : '' %></div>
                     <h1><%= link_to 'Menu' , restaurant_menu_page_path , class: 'btn' , style: 'background-color: #78cfcf; width: 15%;text-decoration: none;' %></h1>
     </div><!-- End sub_content -->
 </div><!-- End subheader -->
@@ -59,20 +65,20 @@
 				<div class="box_style_2">
 					<h4 class="nomargin_top">Opening time <i class="icon_clock_alt pull-right"></i></h4>
 					<ul class="opening_list">
-						<li>Monday<span><%= @restaurant.opening_time.strftime("%I:%M %p") %>-<%= @restaurant.closing_time.strftime("%I:%M %p") %></span></li>
-						<li>Tuesday<span><%= @restaurant.opening_time.strftime("%I:%M %p") %>-<%= @restaurant.closing_time.strftime("%I:%M %p") %></span></li>
-						<li>Wednesday <span class="label label-danger">Closed</span></li>
-						<li>Thursday<span><%= @restaurant.opening_time.strftime("%I:%M %p") %>-<%= @restaurant.closing_time.strftime("%I:%M %p") %></span></li>
-						<li>Friday<span><%= @restaurant.opening_time.strftime("%I:%M %p") %>-<%= @restaurant.closing_time.strftime("%I:%M %p") %></span></li>
-						<li>Saturday<span><%= @restaurant.opening_time.strftime("%I:%M %p") %>-<%= @restaurant.closing_time.strftime("%I:%M %p") %></span></li>
-						<li>Sunday <span class="label label-danger">Closed</span></li>
+						<li>Monday<%= @restaurant.close_day.include?('Monday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Tuesday<%= @restaurant.close_day.include?('Tuesday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Wednesday<%= @restaurant.close_day.include?('Wednesday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Thursday<%= @restaurant.close_day.include?('Thursday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Friday<%= @restaurant.close_day.include?('Friday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Saturday<%= @restaurant.close_day.include?('Saturday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Sunday<%= @restaurant.close_day.include?('Sunday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
 					</ul>
 				</div>
 				<div class="box_style_2 hidden-xs" id="help">
 					<i class="icon_lifesaver"></i>
 					<h4>Need <span>Help?</span></h4>
-					<a href="tel://004542344599" class="phone">+45 423 445 99</a>
-					<small>Monday to Friday 9.00am - 7.30pm</small>
+					<a href="tel://<%= @restaurant.phone_number %>" class="phone"><%= @restaurant.phone_number %></a>
+					<small><%= @restaurant.opening_time.strftime('%I:%M %p') %> - <%= @restaurant.closing_time.strftime('%I:%M %p') %></small>
 				</div>
 			</div>
             
@@ -383,39 +389,28 @@
 <div class="modal fade" id="myReview" tabindex="-1" role="dialog" aria-labelledby="review" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content modal-popup">
-            <a href="detail_page_2.html#" class="close-link"><i class="icon_close_alt2"></i></a>
-                <form method="post" action="http://www.ansonika.com/quickfood/assets/review_restaurant.php" name="review" id="review" class="popup-form">  
+            <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
+                <%= form_tag(leave_a_review_path , method: :post , class: 'popup-form') do %>
                 <div class="login_icon"><i class="icon_comment_alt"></i></div>
-                 <input name="restaurant_name" id="restaurant_name" type="hidden" value="Mexican Taco Mex"> 
-                    <div class="row" >
-                        <div class="col-md-6">
-                        <input name="name_review" id="name_review" type="text" placeholder="Name" class="form-control form-white">          
-                        </div>
-                        <div class="col-md-6">
-                            <input name="email_review" id="email_review" type="email" placeholder="Your email" class="form-control form-white">
-                        </div>
-                    </div><!-- End Row --> 
-                    
+                    <input name="restaurant" id="restaurant" type="hidden" value="<%= @restaurant.id %>">                 
                     <div class="row">
                         <div class="col-md-6">
                         <select class="form-control form-white" name="food_review" id="food_review">
-                                <option value="">Food Quality</option>
-                                <option value="Low">Low</option>
-                                <option value="Sufficient">Sufficient</option>
-                                <option value="Good">Good</option>
-                                <option value="Excellent">Excellent</option>
-                                <option value="Superb">Super</option>
-                                <option value="Not rated">I don't know</option>
+                                <option value="0" class="optimania">Food Quality</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>n>
                             </select>                            </div>
                         <div class="col-md-6">
                             <select class="form-control form-white"  name="price_review" id="price_review">
-                                <option value="">Price</option>
-                                <option value="Low">Low</option>
-                                <option value="Sufficient">Sufficient</option>
-                                <option value="Good">Good</option>
-                                <option value="Excellent">Excellent</option>
-                                <option value="Superb">Super</option>
-                                <option value="Not rated">I don't know</option>
+                                <option value="0" class="optimania">Price</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>
                             </select>
                         </div>
                     </div><!--End Row -->    
@@ -423,30 +418,28 @@
                     <div class="row">
                         <div class="col-md-6">
                                 <select class="form-control form-white"  name="punctuality_review" id="punctuality_review">
-                                <option value="">Punctuality</option>
-                                <option value="Low">Low</option>
-                                <option value="Sufficient">Sufficient</option>
-                                <option value="Good">Good</option>
-                                <option value="Excellent">Excellent</option>
-                                <option value="Superb">Super</option>
-                                <option value="Not rated">I don't know</option>
+                                <option value="0" class="optimania">Punctuality</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>
                             </select>                       </div>
                         <div class="col-md-6">
                             <select class="form-control form-white"  name="courtesy_review" id="courtesy_review">
-                                <option value="">Courtesy</option>
-                                <option value="Low">Low</option>
-                                <option value="Sufficient">Sufficient</option>
-                                <option value="Good">Good</option>
-                                <option value="Excellent">Excellent</option>
-                                <option value="Superb">Super</option>
-                                <option value="Not rated">I don't know</option>
+                                <option value="0" class="optimania">Courtesy</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>
                             </select>
                         </div>
                     </div><!--End Row -->     
                     <textarea name="review_text" id="review_text" class="form-control form-white" style="height:100px" placeholder="Write your review"></textarea>
-                    <input type="text" id="verify_review" class="form-control form-white" placeholder="Are you human? 3 + 1 =">
-                <input type="submit" value="Submit" class="btn btn-submit" id="submit-review">
-            </form>
+                    
+                <input type="submit"  class="btn btn-submit" id="submit-review" value="Submit">
+            <% end %>
             <div id="message-review"></div>
         </div>
     </div>
@@ -543,4 +536,16 @@
             autoplay: false
         });
     });
+</script>
+
+<script type="text/javascript">
+    function leavareview(){
+        /*onclick="leavareview();"*/
+        console.log(document.getElementById('restaurant').value);
+        console.log(document.getElementById('food_review').value);
+        console.log(document.getElementById('price_review').value);
+        console.log(document.getElementById('punctuality_review').value);
+        console.log(document.getElementById('courtesy_review').value);
+        console.log(document.getElementById('review_text').value);
+    }
 </script>

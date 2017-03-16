@@ -95,8 +95,8 @@
 							<%= rest.location %>. <span class="opening">Opens at <%= rest.opening_time.strftime("%R") %></span> Minimum order: $15
 						</div>
 						<ul>
-							<li>Take away<i class="icon_check_alt2 no"></i></li>
-							<li>Delivery<i class="icon_check_alt2 ok"></i></li>
+							<li>Take away<i class="icon_check_alt2 ok"></i></li>
+							<li>Delivery<i class="<%= rest.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
 						</ul>
 					</div>
 				</div>
@@ -154,7 +154,7 @@
 
         var locations = [];
         <% @restaurants.each do |res| %>
-        locations.push(['<%= res.name %>', <%= res.latitude %>, <%= res.longitude %>, '<%= res.location %>']);
+        locations.push(['<%= res.name %>', <%= res.latitude %>, <%= res.longitude %>, '<%= res.location %>' , <%= res.id %>]);
         <% end %>
         var infowindow = new google.maps.InfoWindow();
 
@@ -178,6 +178,12 @@
           google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
             return function() {
               infowindow.close();
+            }
+          })(marker, i));
+
+          google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+              window.location.assign('/restaurant_' + locations[i][4]);
             }
           })(marker, i));
         }

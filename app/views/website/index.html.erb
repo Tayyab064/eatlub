@@ -153,7 +153,7 @@
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-	                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+	                            <li>Delivery<i class="<%= @restaurants.first.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
@@ -187,7 +187,7 @@
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-	                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+	                            <li>Delivery<i class="<%= @restaurants.second.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
@@ -221,7 +221,7 @@
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-	                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+	                            <li>Delivery<i class="<%= @restaurants.third.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
@@ -257,7 +257,7 @@
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-	                            <li>Delivery<i class="icon_close_alt2 no"></i></li>
+	                            <li>Delivery<i class="<%= @restaurants.fourth.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
@@ -291,7 +291,7 @@
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-	                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+	                            <li>Delivery<i class="<%= @restaurants.fifth.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
@@ -325,7 +325,7 @@
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
-	                            <li>Delivery<i class="icon_check_alt2 ok"></i></li>
+	                            <li>Delivery<i class=" <%= @restaurants.last.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->

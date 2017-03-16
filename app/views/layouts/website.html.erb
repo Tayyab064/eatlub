@@ -70,7 +70,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col--md-4 col-sm-4 col-xs-4">
-                <a href="index.html" id="logo">
+                <a href="/" id="logo">
                 <img src="website/img/logo.png" width="190" height="40 !important" alt="" data-retina="true" class="hidden-xs" style="width: inherit; margin-top: -10px;">
                 <img src="website/img/logo.png" width="59" height="23" alt="" data-retina="true" class="hidden-lg hidden-md hidden-sm" style="width: inherit;">
                 </a>
@@ -81,7 +81,7 @@
                 <div id="header_menu">
                     <img src="website/img/logo.png" width="190" height="30" alt="" data-retina="true" style="width: inherit;">
                 </div>
-                <a href="index.html#" class="open_close" id="close_in"><i class="icon_close"></i></a>
+                <a href="#" class="open_close" id="close_in"><i class="icon_close"></i></a>
                 <ul>
                     <li class="submenu">
                     <a href="<%= root_path %>" class="show-submenu">Home<!-- <i class="icon-down-open-mini"></i> --></a>
@@ -137,9 +137,9 @@
                     </ul>
                     </li>
                     <% if @end_user.present? %>
-                    <li><a >Welcome</a></li>
+                    <li><a ><%= @end_user.name %></a></li>
                     <% else %>
-                    <li><a href="index.html#0" data-toggle="modal" data-target="#login_2">Login</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#login_2">Login</a></li>
                     <% end %>
                     <!-- <li><a href="http://themeforest.net/item/quickfood-delivery-or-takeaway-food-template/13958100?ref=ansonika">Purchase this template</a></li> -->
                 </ul>
@@ -169,10 +169,10 @@
                     <li><a href="faq.html">Faq</a></li>
                     <li><a href="contacts.html">Contacts</a></li>
                     <% unless @end_user.present? %>
-                    <li><a href="index.html#0" data-toggle="modal" data-target="#login_2">Login</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#login_2">Login</a></li>
                     <% end %>
-                    <li><a href="index.html#0" data-toggle="modal" data-target="#register">Register</a></li>
-                    <li><a href="index.html#0">Terms and conditions</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#register">Register</a></li>
+                    <li><a href="#">Terms and conditions</a></li>
                 </ul>
             </div>
             <div class="col-md-3 col-sm-3" id="newsletter">
@@ -237,14 +237,19 @@
 <div class="modal fade" id="login_2" tabindex="-1" role="dialog" aria-labelledby="myLogin" aria-hidden="true" style="z-index: 999 !important;">
 		<div class="modal-dialog">
 			<div class="modal-content modal-popup">
-				<a href="index.html#" class="close-link"><i class="icon_close_alt2"></i></a>
+				<a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
                 <%= form_tag(website_signin_path , method: :post , class: 'popup-form') do %>
                 	<div class="login_icon"><i class="icon_lock_alt"></i></div>
                     <%= text_field_tag :email, '' , class: 'form-control form-white' , placeholder: 'johndoe@example.com' %>
 					<%= password_field_tag :password , '' , class: 'form-control form-white' , placeholder: 'Password' %>
-					<div class="text-left">
-						<a href="#">Forgot Password?</a>
-					</div>
+					<div class="row">
+                        <div class="col-md-6 text-left">
+    						<a onclick="forget_pass();">Forgot Password?</a>
+    					</div>
+                        <div class="col-md-6 text-left">
+                            <a onclick="register();">Register</a>
+                        </div>
+                    </div>
 					<!-- <button type="submit" class="btn btn-submit">Submit</button> -->
                     <%= submit_tag "Submit", class: "btn btn-submit" %>
 				<% end %>
@@ -256,10 +261,13 @@
 <div class="modal fade" id="forget" tabindex="-1" role="dialog" aria-labelledby="myLogin" aria-hidden="true" style="z-index: 999 !important;">
     <div class="modal-dialog">
         <div class="modal-content modal-popup">
-            <a href="index.html#" class="close-link"><i class="icon_close_alt2"></i></a>
+            <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
             <%= form_tag(forget_password_website_path , method: :post , class: 'popup-form') do %>
                 <div class="login_icon"><i class="icon_lock_alt"></i></div>
                 <%= text_field_tag :email, '' , class: 'form-control form-white' , placeholder: 'johndoe@example.com' %>
+                <div class="text-left">
+                    <a onclick="signin();">SignIn</a>
+                </div>
                 <!-- <button type="submit" class="btn btn-submit">Submit</button> -->
                 <%= submit_tag "Forget Password", class: "btn btn-submit" %>
             <% end %>
@@ -271,7 +279,7 @@
 <div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myRegister" aria-hidden="true" style="z-index: 999 !important;">
 	<div class="modal-dialog">
 		<div class="modal-content modal-popup">
-			<a href="index.html#" class="close-link"><i class="icon_close_alt2"></i></a>
+			<a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
 			<%= form_tag(website_signup_path , method: :post , class: 'popup-form') do %>
             	<div class="login_icon"><i class="icon_lock_alt"></i></div>
 				<%= text_field_tag :name, '' , class: 'form-control form-white' , placeholder: 'John Doe' %>
@@ -279,15 +287,15 @@
 				<%= text_field_tag :email, '' , class: 'form-control form-white' , placeholder: 'johndoe@example.com' %>
                 <%= password_field_tag :password , '' , class: 'form-control form-white' , placeholder: 'Password' %>
                 <%= password_field_tag :c_password , '' , class: 'form-control form-white' , placeholder: 'Confirm Password' %>
-                <div id="pass-info" class="clearfix"></div>
+                <!-- <div id="pass-info" class="clearfix"></div>
 				<div class="checkbox-holder text-left">
 					<div class="checkbox">
 						<input type="checkbox" value="accept_2" id="check_2" name="check_2" />
 						<label for="check_2"><span>I Agree to the <strong>Terms &amp; Conditions</strong></span></label>
 					</div>
-				</div>
+				</div> -->
 				<!-- <button type="submit" class="btn btn-submit">Register</button> -->
-                <%= submit_tag "Register", class: "btn btn-submit" %>
+                <%= submit_tag "Register", class: "btn btn-submit" , style: 'margin: 0px !important;'%>
 			<% end %>
 		</div>
 	</div>
@@ -303,6 +311,23 @@
 <script src="website/js/video_header.js" type="text/javascript"></script>
 
 <script src="alertify/alertify.min.js"></script>
+
+<script type="text/javascript">
+    function forget_pass(){
+        $('#login_2').modal('hide');
+        $('#forget').modal('show');
+    }
+
+    function register(){
+        $('#login_2').modal('hide');
+        $('#register').modal('show');
+    }
+
+    function signin(){
+        $('#forget').modal('hide');
+        $('#login_2').modal('show');
+    }
+</script>
 <% flash.each do |name, msg| %>
   <% if msg.is_a?(String) %>
     <% if msg.split(' ')[0] == 'Error:' %>

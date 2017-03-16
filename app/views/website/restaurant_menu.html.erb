@@ -21,7 +21,7 @@
                          </div>
 	                    <h1><%= @restaurant.name %></h1>
 	                    <div><em><%= @restaurant.cuisine %></em></div>
-	                    <div><i class="icon_pin"></i> <%= @restaurant.location %> - <strong>Delivery charge:</strong> $10, free over $15.</div>
+	                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> $#{@restaurant.delivery_fee.round(2)} , free over $15.".html_safe : '' %></div>
 	    </div><!-- End sub_content -->
 	</div><!-- End subheader -->
 </section><!-- End section -->
@@ -64,8 +64,8 @@
 				<div class="box_style_2 hidden-xs" id="help">
 					<i class="icon_lifesaver"></i>
 					<h4>Need <span>Help?</span></h4>
-					<a href="tel://004542344599" class="phone">+45 423 445 99</a>
-					<small>Monday to Friday 9.00am - 7.30pm</small>
+					<a href="tel://<%= @restaurant.phone_number %>" class="phone"><%= @restaurant.phone_number %></a>
+                    <small><%= @restaurant.opening_time.strftime('%I:%M %p') %> - <%= @restaurant.closing_time.strftime('%I:%M %p') %></small>
 				</div>
 			</div><!-- End col-md-3 -->
             
@@ -81,7 +81,7 @@
         					<h3 id="<%= sec.title %>"><%= sec.title %></h3>
                         <% end %>
                         <p>
-                            Te ferri iisque aliquando pro, posse nonumes efficiantur in cum. Sensibus reprimique eu pro. Fuisset mentitum deleniti sit ea.
+                            <%= sec.description %>
                         </p>
                         <table class="table table-striped cart-list">
                             <thead>
@@ -104,7 +104,7 @@
                                         <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : 'website/img/menu-thumb-1.jpg' %>" alt="thumb"></figure>
                                         <h5 id='food_ti_<%= food.id %>'><%= ind +1 %>. <%= food.name %></h5>
                                         <p>
-                                            Fuisset mentitum deleniti sit ea.
+                                            <%= food.description %>
                                         </p>
                                     </td>
                                     <td>
@@ -113,7 +113,7 @@
                                     <td class="options">
                                         <div class="dropdown dropdown-options">
                                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><i class="icon_plus_alt2"></i></a>
-                                            <div class="dropdown-menu">
+                                            <div class="dropdown-menu <%= @restaurant.delivery ? '' : 'hidden' %>">
                                                 <h5>Select an option</h5>
                                                 <label>
                                                 <input type="radio" value="option1" name="options_1" checked>Medium <span>+ $3.30</span>
@@ -175,7 +175,7 @@
 						</tr>
 						<tr>
 							<td>
-								 Delivery fee <span class="pull-right">$0</span>
+								 Delivery fee <span id="deli_fee" class="pull-right" >$0</span>
 							</td>
 						</tr>
 						<tr>
@@ -198,6 +198,11 @@
 
 	window.onload = function(e){
 		coun = parseInt(window.localStorage.getItem('count'));
+        if(window.localStorage.getItem('delivery_fee')){
+          deli = parseFloat(window.localStorage.getItem('delivery_fee'));
+        }else{
+          deli = 0 ;
+        }
 		var tot_pri = 0.0 ;
 		console.log('Fetching');
 
@@ -212,18 +217,24 @@
 
         document.getElementById("mycarti").innerHTML = da ;
         document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+        document.getElementById("deli_fee").innerHTML = '$' + deli;
+        cvs = tot_pri + deli ;
+        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
+        
 	}
 
 
 	function add_cart(i) {
 		coun = 0;
+        deli = <%= @restaurant.delivery_fee %> ;
 
 		if(window.localStorage.getItem('count')){
-			coun = parseInt(window.localStorage.getItem('count'));
-		}else{
-			window.localStorage.setItem('count', 0);
-		}
+            coun = parseInt(window.localStorage.getItem('count'));
+        }else{
+            window.localStorage.setItem('count', 0);
+        }
+
+        window.localStorage.setItem('delivery_fee', <%= @restaurant.delivery_fee %>);
 
         if(window.localStorage.getItem('restaurant')){
             restaurant = parseInt(window.localStorage.getItem('restaurant'));
@@ -260,7 +271,9 @@
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = '$' + deli;
+                    cvs = tot_pri + deli ;
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
                }
             });
         }else{
@@ -293,7 +306,9 @@
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = '$' + deli;
+                    cvs = tot_pri + deli ;
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
 
                     if(chk_co == 0){
                         window.localStorage.setItem('count', 0);

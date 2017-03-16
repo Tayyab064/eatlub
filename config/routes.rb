@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   get 'thankyou' => 'website#thankyou' , as: 'thankyou'
   post 'forget_password' => 'website#forget_password' , as: 'forget_password_website'
   get 'password_:token' => 'website#set_password' , as: 'set_password'
+  put 'forgot_password' => 'website#save_password' , as: 'save_password_web'
+  post 'review' => 'website#leaveareview' , as: 'leave_a_review'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'

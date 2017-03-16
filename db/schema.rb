@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315134913) do
+ActiveRecord::Schema.define(version: 20170316141348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "address"
+    t.string   "title"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_addresses_on_user_id", using: :btree
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name",       default: ""
@@ -51,10 +60,11 @@ ActiveRecord::Schema.define(version: 20170315134913) do
     t.string   "name"
     t.float    "price"
     t.integer  "section_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "image",      default: ""
-    t.boolean  "publish",    default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "image",       default: ""
+    t.boolean  "publish",     default: true
+    t.string   "description"
     t.index ["section_id"], name: "index_food_items_on_section_id", using: :btree
   end
 
@@ -121,6 +131,8 @@ ActiveRecord::Schema.define(version: 20170315134913) do
     t.float    "delivery_fee",   default: 0.0
     t.float    "commission",     default: 0.0
     t.string   "cover"
+    t.string   "phone_number"
+    t.string   "close_day",      default: [],                 array: true
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -138,10 +150,11 @@ ActiveRecord::Schema.define(version: 20170315134913) do
   end
 
   create_table "sections", force: :cascade do |t|
-    t.string   "title",      default: ""
+    t.string   "title",       default: ""
     t.integer  "menu_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "description"
     t.index ["menu_id"], name: "index_sections_on_menu_id", using: :btree
   end
 

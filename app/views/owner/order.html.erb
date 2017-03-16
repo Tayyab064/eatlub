@@ -1,13 +1,51 @@
-<div class="box_style_2" id="main_menu">
-    <div class="row">
-        <div class='col-md-6'>
-            <h2 class="inner">Order No:  O<%= @order.id %></h2>
-        </div>
-        <div class='col-md-6'>
-            <h3 class="inner" style="float: right;">Status: <%= @order.status.capitalize %></h3>
-        </div>
-    </div>
-    	
+<link rel="stylesheet" type="text/css" href="../website/css/style.css">
+<section class="parallax-window" id="short" data-parallax="scroll" data-image-src="img/sub_header_cart.jpg" data-natural-width="1400" data-natural-height="350">
+    <div id="subheader">
+        <div id="sub_content">
+         <h1>Order No:  O<%= @order.id %></h1>
+            <div class="bs-wizard">
+            <% if @order.status == 'cancel' %>
+                <div class="col-xs-6 bs-wizard-step complete">
+                  <div class="text-center bs-wizard-stepnum"><strong>1.</strong> Requested</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+            
+                <div class="col-xs-6 bs-wizard-step complete">
+                  <div class="text-center bs-wizard-stepnum"><strong>2.</strong> Cancel</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div> 
+            <% else %>
+                <div class="col-xs-3 bs-wizard-step <%= (@order.status=='pending' || @order.status=='approved' || @order.status=='dispatched' || @order.status=='finish' || @order.status=='completed') ? 'complete' : 'disabled' %>">
+                  <div class="text-center bs-wizard-stepnum"><strong>1.</strong> Pending</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+            
+                <div class="col-xs-3 bs-wizard-step <%= (@order.status=='approved' || @order.status=='dispatched' || @order.status=='finish' || @order.status=='completed') ? 'complete' : 'disabled' %>">
+                  <div class="text-center bs-wizard-stepnum"><strong>2.</strong> Approved</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div> 
+
+                <div class="col-xs-3 bs-wizard-step <%= (@order.status=='dispatched' || @order.status=='finish' || @order.status=='completed') ? 'complete' : 'disabled' %>">
+                  <div class="text-center bs-wizard-stepnum"><strong>3.</strong> Dispatched</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+            
+                <div class="col-xs-3 bs-wizard-step <%= (@order.status=='finish' || @order.status=='completed') ? 'complete' : 'disabled' %>">
+                  <div class="text-center bs-wizard-stepnum"><strong>4.</strong> Completed</div>
+                  <div class="progress"><div class="progress-bar"></div></div>
+                  <a href="#" class="bs-wizard-dot"></a>
+                </div>
+            <% end %>
+        </div><!-- End bs-wizard --> 
+        </div><!-- End sub_content -->
+    </div><!-- End subheader -->
+</section><!-- End section -->
+<div class="box_style_2" id="main_menu">    	
     <h3 class="nomargin_top"><%= @order.address %></h3>
     <h3 ><%= @order.notes %></h3>
     <p>
@@ -43,7 +81,7 @@
                 <td class="v-align-middle">
                     <h5><%= food.name %></h5>
                     <p>
-                        Fuisset mentitum deleniti sit ea.
+                        <%= food.description %>
                     </p>
                     
                 </td>
@@ -55,11 +93,21 @@
             <tr>
                 <td></td>
                 <td class="v-align-middle">
+                    <h5>Delivery Fee</h5>
+                </td>
+                <td></td>
+                <td class="options v-align-middle">
+                    <strong>€ <%= @order.restaurant.delivery_fee.round(2) %></strong>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="v-align-middle">
                     <h2>Total</h2>
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>€ <%= pr.round(2) %></strong>
+                    <strong>€ <%= @order.restaurant.delivery_fee.round(2) + pr.round(2) %></strong>
                 </td>
             </tr>
         </tbody>

@@ -13,6 +13,9 @@ class DashboardController < ApplicationController
 		p params
 		if admin = User.where(role: 3).find_by(email: params[:email]).try(:authenticate, params[:password]) 
 			if admin.verified == true && admin.block == false
+				if admin.inpas.present?
+					admin.update(inpas: nil)
+				end
 				session[:admin] = params[:email]
 				redirect_to '/dashboard/index' , notice: 'Successfully SignedIn!'
 			else

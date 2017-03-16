@@ -186,7 +186,7 @@
 					</tr>
 					<tr>
 						<td>
-							 Delivery fee <span class="pull-right">$0</span>
+							 Delivery fee <span class="pull-right" id="deli_fee">$0</span>
 						</td>
 					</tr>
 					<tr>
@@ -218,6 +218,11 @@
 <script type="text/javascript">
 	window.onload = function(e){
 		coun = parseInt(window.localStorage.getItem('count'));
+        if(window.localStorage.getItem('delivery_fee')){
+	      deli = parseFloat(window.localStorage.getItem('delivery_fee'));
+	    }else{
+	      deli = 0 ;
+	    }
 		var tot_pri = 0.0 ;
 		console.log('Fetching');
 
@@ -232,7 +237,10 @@
 
         document.getElementById("mycarti").innerHTML = da ;
         document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+        document.getElementById("deli_fee").innerHTML = '$' + deli;
+        cvs = tot_pri + deli ;
+        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
+        
 	}
 
     function remove_cart(i) {
@@ -260,11 +268,13 @@
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = '$' + deli;
+                    cvs = tot_pri + deli ;
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
 
                     if(chk_co == 0){
-                    	window.localStorage.setItem('count', 0);
-                    	localStorage.removeItem('restaurant');
+                        window.localStorage.setItem('count', 0);
+                        localStorage.removeItem('restaurant');
                     }
                }
             });
@@ -295,7 +305,7 @@
 		       data: { restaurant_id: res, address: addr , notes: note , item: items , user_id: <%= @end_user.id %> },
 	           success: function(data) {
 	           	   alertify.success('Order is successfully placed');
-	               window.location.assign("<%= confirm_order_path %>");
+	               window.location.assign("<%= confirm_order_path %>"+'?id=O' + data.id);
 	           }
 	        });
 	    }else{

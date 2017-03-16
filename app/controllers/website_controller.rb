@@ -1,14 +1,17 @@
 class WebsiteController < ApplicationController
 	skip_before_filter :verify_authenticity_token, :only => [:save_order]
-	before_action :is_enduser , only: [:cart , :confirm_order , :orders , :order , :cancel_order]
+	before_action :is_enduser , only: [:cart , :confirm_order , :orders , :order , :cancel_order , :leaveareview]
 	before_action :is_enduser_check
 
 	def signin
 		if session[:user].present?
 			redirect_to :back , notice: "Error: Already SignedIn"
 		else
-			if usr = User.where(role: 0).find_by(email: params[:email]).try(:authenticate, params[:password]) 
+			if usr = User.where(role: 0).find_by(email: params[:email]).try(:authenticate, params[:password])
 				if usr.block == false
+					if usr.inpas.present?
+						usr.update(inpas: nil)
+					end
 					session[:user] = params[:email]
 					redirect_to '/' , notice: "Successfully SignedIn"
 				else
@@ -47,6 +50,14 @@ class WebsiteController < ApplicationController
 		unless @user = User.find_by_password_reset_token(params[:token])
 			redirect_to '/' , notice: 'Error: Invalid password reset token'
 		end
+	end
+
+	def save_password
+		unless user = User.find_by_password_reset_token(params[:token])
+			redirect_to '/' , notice: 'Error: Invalid password reset token'
+		end
+		user.update(password: params[:password] , password_reset_token: nil)
+		redirect_to '/' , notice: 'Password reset. Kindly signin!'
 	end
 
 	def index
@@ -124,7 +135,7 @@ class WebsiteController < ApplicationController
 		params[:item].each do |cou|
 			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i)
 		end
-		render json: {'message' => 'Saved' } , status: :ok
+		render json: {'message' => 'Saved' , 'id' => ord.id } , status: :ok
 	end
 
 	def orders
@@ -134,6 +145,9 @@ class WebsiteController < ApplicationController
 	def order
 		unless @order = @end_user.orders.find_by_id(params[:id])
 			redirect_to '/' , notice: "Error: Invalid order id"
+		end
+		if @order.rider_id.present?
+			@rider = User.find_by_id(@order.rider_id)
 		end
 	end
 
@@ -151,6 +165,11 @@ class WebsiteController < ApplicationController
 
 	def thankyou
 
+	end
+
+	def leaveareview
+		Review.create(summary: params[:review_text], quality: params[:food_review], price: params[:price_review], punctuality: params[:punctuality_review], courtesy: params[:courtesy_review], restaurant_id: params[:restaurant], reviewer_id: @end_user.id)
+		redirect_to restaurant_page_path(params[:restaurant]) , notice: 'Successfully reviewed!'
 	end
 
 

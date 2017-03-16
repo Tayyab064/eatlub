@@ -1,62 +1,281 @@
 <div class="page-content-wrapper ">
   <!-- START PAGE CONTENT -->
-   <div class="container-fluid container-fixed-lg bg-white">
-      <!-- START PANEL -->
-      <div class="panel panel-transparent">
-        <div class="panel-heading">
-          <div class="panel-title">Orders
-          </div>
-          <div class="pull-right">
-            <div class="col-xs-12">
-              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+
+  <div class="content full-width overlay-footer" style="padding-top: 0px !important;">
+
+    <div class="container-fluid container-fixed-lg ">
+      <div id="rootwizard">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm">
+          <li class="active">
+            <a data-toggle="tab" href="#tab1"><i class="fa fa-globe  tab-icon"></i> <span>All</span></a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#tab2"><i class="fa fa-question tab-icon"></i> <span>Pending</span></a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#tab3"><i class="fa fa-cutlery tab-icon"></i><span>Approved</span></a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#tab4"><i class="fa fa-check tab-icon"></i><span>Dispatched</span></a>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane padding-20 active slide-left" id="tab1">
+            <div class="container-fluid container-fixed-lg bg-white">
+              <!-- START PANEL -->
+              <div class="panel panel-transparent">
+                <div class="panel-heading">
+                  <div class="panel-title">All
+                  </div>
+                  <div class="pull-right">
+                    <div class="col-xs-12">
+                      <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped demo-table-search" id="tableWithSearch">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Restaurant Name</th>
+                        <th>Branch</th>
+                        <th>Delivery Address</th>
+                        <th>User</th>
+                        <th>Notes</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @order.each do |order| %>
+                      <tr onclick="window.location.assign('<%= owner_order_path(order.id) %>')" style='cursor: pointer;'>
+                        <td class="v-align-middle semi-bold">
+                          <p>O<%= order.id %></p>
+                        </td>
+                         <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.name %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.location %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.address %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.user.email %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.notes %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.status.capitalize %></p>
+                        </td>           
+                      </tr>
+
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- END PANEL -->
             </div>
           </div>
-          <div class="clearfix"></div>
-        </div>
-        <div class="panel-body">
-          <table class="table table-striped demo-table-search" id="tableWithSearch">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Restaurant Name</th>
-                <th>Branch</th>
-                <th>Delivery Address</th>
-                <th>User</th>
-                <th>Notes</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @order.each do |order| %>
-              <tr onclick="window.location.assign('<%= owner_order_path(order.id) %>')" style='cursor: pointer;'>
-                <td class="v-align-middle semi-bold">
-                  <p>O<%= order.id %></p>
-                </td>
-                 <td class="v-align-middle semi-bold">
-                  <p><%= order.restaurant.name %></p>
-                </td>
-                <td class="v-align-middle semi-bold">
-                  <p><%= order.restaurant.location %></p>
-                </td>
-                <td class="v-align-middle">
-                  <p><%= order.address %></p>
-                </td>
-                <td class="v-align-middle semi-bold">
-                  <p><%= order.user.email %></p>
-                </td>
-                <td class="v-align-middle">
-                  <p><%= order.notes %></p>
-                </td>
-                <td class="v-align-middle semi-bold">
-                  <p><%= order.status.capitalize %></p>
-                </td>              
-              </tr>
+          <div class="tab-pane slide-left padding-20" id="tab2">
+            <div class="container-fluid container-fixed-lg bg-white">
+               <!-- START PANEL -->
+              <div class="panel panel-transparent">
+                <div class="panel-heading">
+                  <div class="panel-title">Pending
+                  </div>
+                  <div class="pull-right">
+                    <div class="col-xs-12">
+                      <input type="text" id="search-table-one" class="form-control pull-right" placeholder="Search">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped demo-table-search" id="tableWithSearchOne">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Restaurant Name</th>
+                        <th>Branch</th>
+                        <th>Delivery Address</th>
+                        <th>User</th>
+                        <th>Notes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @order.where(status: 'pending').each do |order| %>
+                      <tr onclick="window.location.assign('<%= owner_order_path(order.id) %>')" style='cursor: pointer;'>
+                        <td class="v-align-middle semi-bold">
+                          <p>O<%= order.id %></p>
+                        </td>
+                         <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.name %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.location %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.address %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.user.email %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.notes %></p>
+                        </td>             
+                      </tr>
 
-              <% end %>
-            </tbody>
-          </table>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- END PANEL -->
+            </div>
+          </div>
+          <div class="tab-pane slide-left padding-20" id="tab3">
+            <div class="container-fluid container-fixed-lg bg-white">
+               <!-- START PANEL -->
+              <div class="panel panel-transparent">
+                <div class="panel-heading">
+                  <div class="panel-title">Approved
+                  </div>
+                  <div class="pull-right">
+                    <div class="col-xs-12">
+                      <input type="text" id="search-table-two" class="form-control pull-right" placeholder="Search">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped demo-table-search" id="tableWithSearchTwo">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Restaurant Name</th>
+                        <th>Branch</th>
+                        <th>Delivery Address</th>
+                        <th>User</th>
+                        <th>Notes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @order.where(status: 'approved').each do |order| %>
+                      <tr onclick="window.location.assign('<%= owner_order_path(order.id) %>')" style='cursor: pointer;'>
+                        <td class="v-align-middle semi-bold">
+                          <p>O<%= order.id %></p>
+                        </td>
+                         <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.name %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.location %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.address %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.user.email %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.notes %></p>
+                        </td>             
+                      </tr>
+
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- END PANEL -->
+            </div>
+          </div>
+          <div class="tab-pane slide-left padding-20" id="tab4">
+            <div class="container-fluid container-fixed-lg bg-white">
+               <!-- START PANEL -->
+              <div class="panel panel-transparent">
+                <div class="panel-heading">
+                  <div class="panel-title">Dispatched
+                  </div>
+                  <div class="pull-right">
+                    <div class="col-xs-12">
+                      <input type="text" id="search-table-three" class="form-control pull-right" placeholder="Search">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped demo-table-search" id="tableWithSearchThree">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Restaurant Name</th>
+                        <th>Branch</th>
+                        <th>Delivery Address</th>
+                        <th>User</th>
+                        <th>Notes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @order.where(status: 'dispatched').each do |order| %>
+                      <tr onclick="window.location.assign('<%= owner_order_path(order.id) %>')" style='cursor: pointer;'>
+                        <td class="v-align-middle semi-bold">
+                          <p>O<%= order.id %></p>
+                        </td>
+                         <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.name %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.restaurant.location %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.address %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= order.user.email %></p>
+                        </td>
+                        <td class="v-align-middle">
+                          <p><%= order.notes %></p>
+                        </td>             
+                      </tr>
+
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- END PANEL -->
+            </div>
+          </div>
         </div>
       </div>
-      <!-- END PANEL -->
     </div>
+
+  </div>
 </div>
+
+<script src="https://js.pusher.com/3.2/pusher.min.js"></script>
+<script>
+
+  // Enable pusher logging - don't include this in production
+  Pusher.logToConsole = true;
+
+  var pusher = new Pusher('754f7de9154c1cc6036b', {
+    cluster: 'eu',
+    encrypted: true
+  });
+
+  var channel = pusher.subscribe('my-channel');
+  channel.bind('my-event', function(data) {
+    var audio = new Audio('tone.mp3');
+    audio.play();
+    location.reload();
+  });
+</script>
