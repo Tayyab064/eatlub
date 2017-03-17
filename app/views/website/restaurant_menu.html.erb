@@ -50,9 +50,9 @@
                           <% menu = @restaurant.menu %>
                           <% menu.sections.each_with_index do |sec,index| %>
                             <% if index == 0 %>
-						      <li><a href="#<%= sec.title %>" class="active"><%= sec.title.capitalize %> <span>(<%= sec.food_items.count %>)</span></a></li>
+						      <li><a href="#<%= sec.title %>" class="active"><%= sec.title.capitalize %> <span>(<%= sec.food_items.where(publish: true).count %>)</span></a></li>
                             <% else %>
-                            <li><a href="#<%= sec.title %>" class=""><%= sec.title.capitalize %> <span>(<%= sec.food_items.count %>)</span></a></li>
+                            <li><a href="#<%= sec.title %>" class=""><%= sec.title.capitalize %> <span>(<%= sec.food_items.where(publish: true).count %>)</span></a></li>
                             <% end %>
                           <% end %>
                         <% else %>
@@ -98,7 +98,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% sec.food_items.each_with_index do |food,ind| %>
+                                <% sec.food_items.where(publish: true).each_with_index do |food,ind| %>
                                 <tr>
                                     <td>
                                         <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : 'website/img/menu-thumb-1.jpg' %>" alt="thumb"></figure>
@@ -112,7 +112,7 @@
                                     </td>
                                     <td class="options">
                                         <div class="dropdown dropdown-options">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true"><i class="icon_plus_alt2"></i></a>
+                                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"><i class="icon_plus_alt2"></i></a>
                                             <div class="dropdown-menu <%= @restaurant.delivery ? '' : 'hidden' %>">
                                                 <h5>Select an option</h5>
                                                 <label>
@@ -131,7 +131,7 @@
                                                 <label>
                                                 <input type="checkbox" value="">Extra Peppers <span>+ $2.50</span>
                                                 </label>
-                                                <a class="add_to_basket" onclick="add_cart(<%= food.id %>);">Add to cart</a>
+                                                <a class="add_to_basket" href="#" onclick="add_cart(<%= food.id %>);">Add to cart</a>
                                             </div>
                                         </div>
                                     </td>

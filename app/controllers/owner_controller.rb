@@ -55,25 +55,67 @@ class OwnerController < ApplicationController
 	end
 
 	def save_fooditem
-		if params[:section].length > 0
-			if @owner.present?
-				res = @owner.restaurants.find(params[:restaurant_id])
-			else
-				res = Restaurant.find(params[:restaurant_id])
-			end
-			
-			sec = Section.create(title: params[:section], description: params[:section_desc] , menu_id: res.menu.id)
+		if params[:image].present?
+			if params[:section].length > 0
+				if @owner.present?
+					res = @owner.restaurants.find(params[:restaurant_id])
+				else
+					res = Restaurant.find(params[:restaurant_id])
+				end
+				
+				sec = Section.create(title: params[:section], description: params[:section_desc] , menu_id: res.menu.id)
 
-			sec_f = sec.id
+				sec_f = sec.id
+			else
+				sec_f = params[:menu_section].to_i
+			end
+			foo = FoodItem.create(name: params[:name] , description: params[:name_desc] , price: params[:price], section_id: sec_f, image: params[:image])
+			if params[:menu_category].present?
+				params[:menu_category].each do |sd|
+					cati = Category.find(sd.to_i)
+					foo.categories << cati
+				end
+			end
+			redirect_to owner_restaurant_menu_path(params[:restaurant_id]) , notice: 'Successfully Added!'
 		else
-			sec_f = params[:menu_section].to_i
+			redirect_to :back , notice: 'Image Missing'
 		end
-		foo = FoodItem.create(name: params[:name] , description: params[:name_desc] , price: params[:price], section_id: sec_f, image: params[:image])
-		params[:menu_category].each do |sd|
-			cati = Category.find(sd.to_i)
-			foo.categories << cati
+	end
+
+	def edit_food
+		if @owner.present?
+			@food = FoodItem.find(params[:id])
+			@restaurant = @food.section.menu.restaurant
+			unless @restaurant.owner == @owner
+				redirect_to '/' , notice: 'Error: Unauthorized'
+			end
+		else
+			@food = FoodItem.find(params[:id])
 		end
-		redirect_to :back , notice: 'Successfully Added!'
+	end
+
+	def update_food
+		if @owner.present?
+			@food = FoodItem.find(params[:id])
+			restaurant = @food.section.menu.restaurant
+			unless restaurant.owner == @owner
+				redirect_to '/' , notice: 'Error: Unauthorized'
+			end
+		else
+			@food = FoodItem.find(params[:id])
+			restaurant = @food.section.menu.restaurant
+		end
+		if params[:section].present? && params[:section].length > 1
+			s = Section.create(title: params[:section] , menu_id: @food.section.menu.id , description: params[:section_desc])
+			@food.update(section_id: s.id)
+		elsif params[:menu_section].length > 0 
+			@food.update(section_id: params[:menu_section])
+		end
+		if params[:food_item][:image].present?
+			@food.update(image: params[:food_item][:image])
+		end
+		@food.update(fooditem_update_params)
+		redirect_to owner_restaurant_menu_path(restaurant.id) , notice: 'Successfully Updated!'
 	end
 
 	def restaurant_menu
@@ -123,6 +165,7 @@ class OwnerController < ApplicationController
 		end
 		order.update(status: 2)
 		#job for sending request to riders
+		DispatchRiderJob.perform_later(order)
 		redirect_to owner_order_path(order)
 	end
 
@@ -130,5 +173,25 @@ class OwnerController < ApplicationController
 		food = FoodItem.find(params[:id])
 		food.update(publish: !food.publish)
 		redirect_to owner_restaurant_menu_path(food.section.menu.restaurant.id) , notice: 'Successfully Done'
+	end
+
+	def set_password
+		if @owner.try(:authenticate, params[:old_password])
+			if (params[:new_password] == params[:confirm_password]) && params[:new_password].length > 6
+				@owner.update(password: params[:new_password])
+				session[:owner] = nil
+				redirect_to '/owner/signin' , notice: 'Successfully Updated Password!'
+			else
+				redirect_to '/owner/index' , notice: 'Error: Password doesnt match or too short'
+			end
+		else
+			redirect_to '/owner/index' , notice: 'Error: Invalid Password'
+		end
+	end
+
+
+	private
+	def fooditem_update_params
+		params.require(:food_item).permit(:name , :price , :description)
 	end
 end

@@ -74,6 +74,9 @@ Rails.application.routes.draw do
     get 'accept_:id' => 'owner#order_accept' , as: 'owner_order_accept'
     get 'dispatch_:id' => 'owner#order_dispatch' , as: 'owner_order_dispatch'
     get 'food_publish_:id' => 'owner#food_mark_visible' , as: 'fooditem_publish'
+    get 'edit_fooditem_:id' => 'owner#edit_food' , as: 'edit_fooditem_owner'
+    put 'fooditem_:id' => 'owner#update_food' , as: 'owner_restaurant_food_edit'
+    post 'password' => 'owner#set_password' , as: 'owner_password'
   end
 
   scope 'api' do

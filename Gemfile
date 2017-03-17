@@ -26,6 +26,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'sidekiq'
 gem 'geocoder'
 
+gem 'gcm'
+
 gem 'pusher'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'

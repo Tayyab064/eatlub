@@ -61,7 +61,7 @@
 					</p>
 				</div><!-- End box_style_1 -->
                 
-				<div class="box_style_2 hidden-xs" id="help">
+				<div class="box_style_2 hidden-xs hidden" id="help">
 					<i class="icon_lifesaver"></i>
 					<h4>Need <span>Help?</span></h4>
 					<a href="tel://004542344599" class="phone">+45 423 445 99</a>
@@ -91,7 +91,10 @@
 					</div> -->
 					<div class="form-group">
 						<label>Your full address</label>
+						<%= select_tag 'address', options_for_select(@end_user.addresses.order(title: 'ASC').collect{ |u| [u.title, u.id] }) , { class: 'selectpicker form-control', "data-live-search" => "true"} %>
+						<h4 style="text-align: center;">OR</h4>
 						<input type="text" id="address_order" name="address_order" class="form-control" placeholder=" Your full address">
+
 					</div>
 					<!-- <div class="row">
 						<div class="col-md-6 col-sm-6">
@@ -286,7 +289,10 @@
 
     function place_order(){
     	var addr = document.getElementById('address_order').value;
+    	var addrres = document.getElementById('address').value;
+    	console.log(addrres);
     	var note = document.getElementById('notes').value;
+
 
     	var items = [];
     	for(i = 0; i < coun; i++){
@@ -298,11 +304,11 @@
 
         res = JSON.parse(window.localStorage.getItem('restaurant'));
 
-        if(addr.length > 1 && items.length > 0){
+        if((addr.length > 1 || addrres.length > 0) && items.length > 0){
 	    	$.ajax({
 	           url: '/save_order',
 	           type: "POST",
-		       data: { restaurant_id: res, address: addr , notes: note , item: items , user_id: <%= @end_user.id %> },
+		       data: { restaurant_id: res, address: addr , address_id: addrres, notes: note , item: items , user_id: <%= @end_user.id %> },
 	           success: function(data) {
 	           	   alertify.success('Order is successfully placed');
 	               window.location.assign("<%= confirm_order_path %>"+'?id=O' + data.id);

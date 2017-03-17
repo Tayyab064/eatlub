@@ -131,7 +131,12 @@ class WebsiteController < ApplicationController
 	end
 
 	def save_order
-		ord = Order.create(address: params[:address] , notes: params[:notes] , restaurant_id: params[:restaurant_id] , user_id: params[:user_id])
+		if params[:address].length > 1
+			ad = params[:address]
+		else
+			ad = Address.find(params[:address_id]).address
+		end
+		ord = Order.create(address: ad , notes: params[:notes] , restaurant_id: params[:restaurant_id] , user_id: params[:user_id])
 		params[:item].each do |cou|
 			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i)
 		end

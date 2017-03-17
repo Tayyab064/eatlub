@@ -448,7 +448,7 @@
                             <a href="#" class="text-complete pull-left">
                               <i class="pg-map fs-16 m-r-10"></i>
                               <span class="bold">Carrot Design</span>
-                              <span class="fs-12 m-l-10">Owner</span>
+                              <span class="fs-12 m-l-10"><%= @owner.present? ? @owner.name : 'Admin' %></span>
                             </a>
                             <div class="pull-right">
                               <div class="thumbnail-wrapper d16 circular inline m-t-15 m-r-10 toggle-more-details">
@@ -565,7 +565,7 @@
           <!-- START User Info-->
           <div class="visible-lg visible-md m-t-10">
             <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
-              <span class="semi-bold">Ow</span><span class="text-master">ner</span>
+              <span class="semi-bold"><%= @owner.present? ? @owner.name : 'Admin' %></span>
             </div>
             <div class="dropdown pull-right">
               <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -574,12 +574,8 @@
             </span>
               </button>
               <ul class="dropdown-menu profile-dropdown" role="menu">
-                <!-- <li><a href="#"><i class="pg-settings_small"></i> Settings</a>
+                <li><a data-toggle="modal" data-target="#myModal" href="#"><i class="pg-settings_small"></i>Set Password</a>
                 </li>
-                <li><a href="#"><i class="pg-outdent"></i> Feedback</a>
-                </li>
-                <li><a href="#"><i class="pg-signals"></i> Help</a>
-                </li> -->
                 <li class="bg-master-lighter">
                   <%= link_to '<span class="pull-left">Logout</span><span class="pull-right"><i class="pg-power"></i></span>'.html_safe, owner_signout_path, :method => :delete %>
                 </li>
@@ -1880,6 +1876,43 @@
       </div>
       <!-- END Overlay Content !-->
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Set Password</h4>
+          </div>
+          <div class="modal-body">
+            <%= form_tag(owner_password_path , method: "post" , :multipart => true) do %>
+                <div class="form-group">
+                  <label>Old Password</label>
+                  <%= password_field_tag 'old_password', nil, class: 'form-control' %>
+                </div>
+                <div class="form-group">
+                  <label>New Password</label>
+                  <%= password_field_tag 'new_password', nil, class: 'form-control' %>
+                </div>
+                <div class="form-group">
+                  <label>Confirmd Password</label>
+                  <%= password_field_tag 'confirm_password', nil, class: 'form-control' %>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <%= submit_tag "Update", class: "btn btn-default" %>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+            <% end %>
+        </div>
+        
+      </div>
+    </div>
+
+
     <!-- END OVERLAY -->
     <!-- BEGIN VENDOR JS -->
     <script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>

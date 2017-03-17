@@ -1,0 +1,198 @@
+<link rel="stylesheet" type="text/css" href="../website/css/main.css">
+<link href="../website/css/dropzone.css" rel="stylesheet" type="text/css">
+
+<section id="section-2" style="padding: 5%; background-color: #ffffff;">
+    <div class="indent_title_in">
+        <h3>Edit Menu</h3>
+    </div>
+    
+    <hr class="styled_2">
+    
+    <div class="wrapper_indent">
+    <%= form_for @food , method: "put" , url: owner_restaurant_food_edit_path(@food) , :multipart => true do |f| %>
+        <div class="form-group">
+            <label>Section</label>
+            <!-- <input type="text" name="menu_category" class="form-control" placeholder="EX. Main courses"> -->
+
+            <%= select_tag(:menu_section, options_for_select(@restaurant.menu.sections.map {|s| [s.title, s.id]}), {  :include_blank => 'Select Section' , class: 'form-control select2' , style: 'width: 100%'} ) %>
+        </div>
+        <div class="form-group">
+            <label id="section_new" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Add New Section</label>
+            <%= text_field_tag :section, '' , class: 'form-control' , style: 'display: none ; margin-top: 3px;' , placeholder: 'Title'%>
+            <%= text_field_tag :section_desc, '' , class: 'form-control' , style: 'display: none ; margin-top: 3px;' , placeholder: 'Description'%>
+        </div>
+
+        <!-- <div class="form-group">
+            <label>Category</label>
+            <%= select_tag(:menu_category, options_for_select(Category.all.map {|s| [s.name, s.id]}), { :multiple => true , class: 'form-control select2' , style: 'width: 100%'}) %>
+        </div>
+        <div class="form-group hidden">
+            <label id="category_new" class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Add New Category</label>
+            <%= text_field_tag :category, '' , class: 'form-control' , style: 'display: none ; margin-top: 3px;'%>
+        </div> -->
+
+        <div class="menu-item-section clearfix">
+            <h4>Menu item #1</h4>
+            <div><a href="#"><i class="icon_plus_alt"></i></a><a href="#"><i class="icon_minus_alt"></i></a>
+            </div>
+        </div>
+
+        <div class="strip_menu_items">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="menu-item-pic dropzone">
+                        <%= f.file_field "image" %>
+                        <div class="dz-default dz-message"><span>Click or Drop<br>Images Here</span>
+                        </div>
+                    </div>
+                    <%= f.file_field "image" %>
+                </div>
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label>Title</label>
+                                <!-- <input type="text" name="menu_item_title" class="form-control"> -->
+                                <%= f.text_field :name , class: 'form-control', autofocus: true %>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Price</label>
+                                <!-- <input type="text" name="menu_item_title_price" class="form-control"> -->
+                                <%= f.number_field :price , class: 'form-control' %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <!-- <input type="text" name="menu_item_title" class="form-control"> -->
+                            <%= f.text_field :description , class: 'form-control', autofocus: true %>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label>Short description</label>
+                        <input type="text" name="menu_item_description" class="form-control">
+                    </div> -->
+
+                    <div class="form-group">
+                        <label>Item options</label>
+                        <div class="table-responsive">
+                        <table class="table table-striped notifications">
+                            <tbody>
+                                <tr>
+                                    <td style="width:20%">
+                                        <input type="text" class="form-control" placeholder="+ $3.50">
+                                    </td>
+                                    <td style="width:50%">
+                                        <input type="text" class="form-control" placeholder="Ex. Medium">
+                                    </td>
+                                    <td style="width:30%">
+                                        <label>
+                                            <input type="radio" name="rad" checked class="icheck" value="checkbox">Radio</label>
+                                        <label class="margin_left">
+                                            <input type="radio" name="rad" class="icheck" value="radio">Radio</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:20%">
+                                        <input type="text" class="form-control" placeholder="+ $5.50">
+                                    </td>
+                                    <td style="width:50%">
+                                        <input type="text" class="form-control" placeholder="Ex. Large">
+                                    </td>
+                                    <td style="width:30%">
+                                        <label>
+                                            <input type="radio" name="rad_1" class="icheck" value="checkbox">Radio</label>
+                                        <label class="margin_left">
+                                            <input type="radio" name="rad_1" class="icheck" value="radio" checked>Radio</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div><!-- End form-group -->
+
+                    <div class="form-group">
+                        <label>Item ingredients</label>
+                        <div class="table-responsive">
+                        <table class="table table-striped notifications">
+                            <tbody>
+                                <tr>
+                                    <td style="width:20%">
+                                        <input type="text" class="form-control" placeholder="+ $2.50">
+                                    </td>
+                                    <td style="width:50%">
+                                        <input type="text" class="form-control" placeholder="Ex. Extra tomato">
+                                    </td>
+                                    <td style="width:30%">
+                                        <label>
+                                            <input type="radio" name="rad_2" checked class="icheck" value="checkbox">Radio</label>
+                                        <label class="margin_left">
+                                            <input type="radio" name="rad_2" class="icheck" value="radio">Radio</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:20%">
+                                        <input type="text" class="form-control" placeholder="+ $5.50">
+                                    </td>
+                                    <td style="width:50%">
+                                        <input type="text" class="form-control" placeholder="Ex. Extra Pepper">
+                                    </td>
+                                    <td style="width:30%">
+                                        <label>
+                                            <input type="radio" name="rad_3" class="icheck" value="checkbox">Radio</label>
+                                        <label class="margin_left">
+                                            <input type="radio" name="rad_3" class="icheck" value="radio" checked>Radio</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div><!-- End form-group -->
+                </div>
+            </div><!-- End row -->
+        </div><!-- End strip_menu_items -->
+    </div><!-- End wrapper_indent -->
+    
+    <hr class="styled_2">
+    
+    <div class="wrapper_indent">
+        <div class="add_more_cat">
+            <!-- <a href="admin.html#0" class="btn_1">Save now</a> -->
+            <%= f.submit "Update", class: "btn_1" %>
+
+            <!-- <a href="admin.html#0" class="btn_1">Add menu category</a> --> 
+        </div>
+    </div><!-- End wrapper_indent -->
+    <% end %>
+    
+</section><!-- End section 2 -->
+
+<script src="../website/js/dropzone.min.js"></script>
+<script>
+    if ($('.dropzone').length > 0) {
+        Dropzone.autoDiscover = false;
+        $(".menu-item-pic").dropzone({
+            url: "<%= owner_save_fooditem_path %>",
+            maxFiles: 1,
+            addRemoveLinks: true
+        });
+    }
+</script>
+
+<script>
+  $(function () {
+   
+    $("#section_new").click(function(){
+        $("#section").toggle();
+        $("#section_desc").toggle();
+    });
+
+    $("#category_new").click(function(){
+        $("#category").toggle();
+    });
+
+  });
+</script>
