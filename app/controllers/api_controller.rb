@@ -23,10 +23,12 @@ class ApiController < ApplicationController
 		em = params[:user][:email].downcase
 		if u = User.find_by(email: em).try(:authenticate, params[:user][:password] )
 			if u.role == 'end_user'
-				if u.devices.count >= 5
-    				u.devices.first.update(token: params[:user][:token], device: params[:user][:device])
-				else
-					Device.create(token: params[:user][:token], device: params[:user][:device] , user_id: u.id)
+				unless u.devices.find_by_token params[:user][:token]
+					if u.devices.count >= 5
+	    				u.devices.first.update(token: params[:user][:token], device: params[:user][:device])
+					else
+						Device.create(token: params[:user][:token], device: params[:user][:device] , user_id: u.id)
+					end
 				end
 				u.regenerate_token
 				@user = u
@@ -61,10 +63,12 @@ class ApiController < ApplicationController
 		em = params[:rider][:email].downcase
 		if u = User.find_by(email: em).try(:authenticate, params[:rider][:password] )
 			if u.role == 'rider'
-				if u.devices.count >= 5
-    				u.devices.first.update(token: params[:rider][:token], device: params[:rider][:device])
-				else
-					Device.create(token: params[:rider][:token], device: params[:rider][:device] , user_id: u.id)
+				unless u.devices.find_by_token params[:rider][:token]
+					if u.devices.count >= 5
+	    				u.devices.first.update(token: params[:rider][:token], device: params[:rider][:device])
+					else
+						Device.create(token: params[:rider][:token], device: params[:rider][:device] , user_id: u.id)
+					end
 				end
 				u.regenerate_token
 				@rider = u
@@ -136,16 +140,18 @@ class ApiController < ApplicationController
 	end
 
 	def rider_accept
-		if ord = Order.find_by_id(params[:id])
-			if ord.status == 'dispatched' && ord.rider_id.nil?
-				ord.update(rider_id: @current_rider.id)
-				RiderAcceptOrderJob.perform_later(ord)
-				render json: {'message' => 'Successfully accepted'} , status: 200
+		if @ord = Order.find_by_id(params[:id])
+			if @ord.status == 'dispatched' && @ord.rider_id.nil?
+				@ord.update(rider_id: @current_rider.id)
+				RiderAcceptOrderJob.perform_later(@ord)
+				render status: 200
 			else
-				render json: {'message' => 'Order expired'} , status: 409
+				@message = 'Order Expired'
+				render status: 409
 			end
 		else
-			render json: {'message' => 'Invalid Order id'} , status: 404
+			@message = 'Invalid order id'
+			render status: 404
 		end
 	end
 
