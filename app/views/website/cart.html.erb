@@ -298,7 +298,7 @@
     	for(i = 0; i < coun; i++){
            if(window.localStorage.getItem('carti[' + i + ']')){
                t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-               items[items.length] = {id: t.id , title: t.title , price: t.price , quantity: 1};
+               items[items.length] = {id: t.id , title: t.title , price: t.price , quantity: 1 , option: t.options , ingredients: t.ingredients};
            }
         }
 

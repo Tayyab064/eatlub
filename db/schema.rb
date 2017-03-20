@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316141348) do
+ActiveRecord::Schema.define(version: 20170320114525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,13 +68,24 @@ ActiveRecord::Schema.define(version: 20170316141348) do
     t.index ["section_id"], name: "index_food_items_on_section_id", using: :btree
   end
 
+  create_table "ingredients", force: :cascade do |t|
+    t.string   "title"
+    t.float    "price",        default: 0.0
+    t.integer  "food_item_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["food_item_id"], name: "index_ingredients_on_food_item_id", using: :btree
+  end
+
   create_table "items", force: :cascade do |t|
     t.integer  "order_id"
     t.string   "orderable_type"
     t.integer  "orderable_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "quantity",       default: 0
+    t.integer  "ingredients",    default: [],              array: true
+    t.integer  "option"
     t.index ["order_id"], name: "index_items_on_order_id", using: :btree
   end
 
@@ -93,6 +104,15 @@ ActiveRecord::Schema.define(version: 20170316141348) do
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.index ["restaurant_id"], name: "index_menus_on_restaurant_id", using: :btree
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.string   "title"
+    t.float    "price",        default: 0.0
+    t.integer  "food_item_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["food_item_id"], name: "index_options_on_food_item_id", using: :btree
   end
 
   create_table "orders", force: :cascade do |t|

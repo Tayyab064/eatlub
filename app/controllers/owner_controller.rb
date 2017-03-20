@@ -76,6 +76,14 @@ class OwnerController < ApplicationController
 					foo.categories << cati
 				end
 			end
+			3.times do |ss|
+				if params['option_' + ss.to_s].length > 0
+					Option.create(title: params['option_' + ss.to_s], price: params['option_p_' + ss.to_s], food_item_id: foo.id)
+				end
+				if params['ingredient_' + ss.to_s].length > 0
+					Ingredient.create(title: params['ingredient_' + ss.to_s], price: params['ingredient_p_' + ss.to_s], food_item_id: foo.id)
+				end
+			end
 			redirect_to owner_restaurant_menu_path(params[:restaurant_id]) , notice: 'Successfully Added!'
 		else
 			redirect_to :back , notice: 'Image Missing'

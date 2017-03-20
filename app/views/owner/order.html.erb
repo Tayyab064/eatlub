@@ -48,9 +48,6 @@
 <div class="box_style_2" id="main_menu">    	
     <h3 class="nomargin_top"><%= @order.address %></h3>
     <h3 ><%= @order.notes %></h3>
-    <p>
-        Te ferri iisque aliquando pro, posse nonumes efficiantur in cum. Sensibus reprimique eu pro. Fuisset mentitum deleniti sit ea.
-    </p>
     <table class="table table-striped cart-list">
         <thead>
             <tr>
@@ -72,7 +69,10 @@
             <% pr = 0 %>
             <% @order.items.each_with_index do |foodi,ind| %>
             <% food = foodi.orderable %>
-            <% pr = pr + food.price %>
+
+            <% if foodi.option.present? %>
+            <% ord = Option.find(foodi.option) %>
+            <% end %>
             <tr>
                 <td class="v-align-middle"><%= ind +1 %>.</td>
                 <td>
@@ -80,15 +80,24 @@
                 </td>
                 <td class="v-align-middle">
                     <h5><%= food.name %></h5>
-                    <p>
-                        <%= food.description %>
-                    </p>
+                    <% if ord.present? %>
+                    <% itm_pric = ord.price + food.price %>
+                    <%= ord.title%>: €<%= ord.price %>
+                    <% else %>
+                    <% itm_pric = food.price %>
+                    <% end %>
+                    <% Ingredient.where(id: foodi.ingredients).each do |ingre| %>
+                      <br>
+                      <% itm_pric = itm_pric + ingre.price %>
+                      <%= ingre.title%>: €<%= ingre.price %>
+                    <% end %>
                     
                 </td>
                 <td class="options v-align-middle">
-                    <strong>€ <%= food.price %></strong>
+                    <strong>€ <%= itm_pric %></strong>
                 </td>
             </tr>
+            <% pr = pr + itm_pric %>
             <% end %>
             <tr>
                 <td></td>

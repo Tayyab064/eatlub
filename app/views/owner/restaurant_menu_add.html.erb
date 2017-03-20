@@ -84,32 +84,46 @@
                         <table class="table table-striped notifications">
                             <tbody>
                                 <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $3.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Medium">
-                                    </td>
                                     <td style="width:30%">
+                                        <%= number_field_tag :option_p_0 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    </td>
+                                    <td style="width:70%">
+                                        <%= text_field_tag :option_0 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Small' %>
+                                    </td>
+                                    <!-- <td style="width:30%">
                                         <label>
                                             <input type="radio" name="rad" checked class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
                                             <input type="radio" name="rad" class="icheck" value="radio">Radio</label>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $5.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Large">
-                                    </td>
                                     <td style="width:30%">
+                                        <%= number_field_tag :option_p_1 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    </td>
+                                    <td style="width:70%">
+                                        <%= text_field_tag :option_1 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Medium' %>
+                                    </td>
+                                    <!-- <td style="width:30%">
                                         <label>
                                             <input type="radio" name="rad_1" class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
                                             <input type="radio" name="rad_1" class="icheck" value="radio" checked>Radio</label>
+                                    </td> -->
+                                </tr>
+                                <tr>
+                                    <td style="width:30%">
+                                        <%= number_field_tag :option_p_2 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
                                     </td>
+                                    <td style="width:70%">
+                                        <%= text_field_tag :option_2 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Large' %>
+                                    </td>
+                                    <!-- <td style="width:30%">
+                                        <label>
+                                            <input type="radio" name="rad_1" class="icheck" value="checkbox">Radio</label>
+                                        <label class="margin_left">
+                                            <input type="radio" name="rad_1" class="icheck" value="radio" checked>Radio</label>
+                                    </td> -->
                                 </tr>
                             </tbody>
                         </table>
@@ -122,32 +136,47 @@
                         <table class="table table-striped notifications">
                             <tbody>
                                 <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $2.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Extra tomato">
-                                    </td>
                                     <td style="width:30%">
+                                        <%= number_field_tag :ingredient_p_0 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    </td>
+                                    <td style="width:70%">
+                                        <%= text_field_tag :ingredient_0 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Extra Tomato' %>
+                                    </td>
+                                    <!-- <td style="width:30%">
                                         <label>
                                             <input type="radio" name="rad_2" checked class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
-                                            <input type="radio" name="rad_2" class="icheck" value="radio">Radio</label>
+                                             <input type="radio" name="rad_2" class="icheck" value="radio">Radio</label>
                                     </td>
+                                    -->
                                 </tr>
                                 <tr>
-                                    <td style="width:20%">
-                                        <input type="text" class="form-control" placeholder="+ $5.50">
-                                    </td>
-                                    <td style="width:50%">
-                                        <input type="text" class="form-control" placeholder="Ex. Extra Pepper">
-                                    </td>
                                     <td style="width:30%">
+                                        <%= number_field_tag :ingredient_p_1 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    </td>
+                                    <td style="width:70%">
+                                        <%= text_field_tag :ingredient_1 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Extra Pepper' %>
+                                    </td>
+                                    <!-- <td style="width:30%">
                                         <label>
                                             <input type="radio" name="rad_3" class="icheck" value="checkbox">Radio</label>
                                         <label class="margin_left">
                                             <input type="radio" name="rad_3" class="icheck" value="radio" checked>Radio</label>
+                                    </td> -->
+                                </tr>
+                                <tr>
+                                    <td style="width:30%">
+                                        <%= number_field_tag :ingredient_p_2 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
                                     </td>
+                                    <td style="width:70%">
+                                        <%= text_field_tag :ingredient_2 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Extra Olive' %>
+                                    </td>
+                                    <!-- <td style="width:30%">
+                                        <label>
+                                            <input type="radio" name="rad_3" class="icheck" value="checkbox">Radio</label>
+                                        <label class="margin_left">
+                                            <input type="radio" name="rad_3" class="icheck" value="radio" checked>Radio</label>
+                                    </td> -->
                                 </tr>
                             </tbody>
                         </table>

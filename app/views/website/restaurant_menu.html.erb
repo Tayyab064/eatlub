@@ -114,23 +114,22 @@
                                         <div class="dropdown dropdown-options">
                                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" href="#"><i class="icon_plus_alt2"></i></a>
                                             <div class="dropdown-menu <%= @restaurant.delivery ? '' : 'hidden' %>">
+                                                <% if food.options.count > 0 %>
                                                 <h5>Select an option</h5>
+                                                <% end %>
+                                                <% food.options.each_with_index do |opt,isn| %>
                                                 <label>
-                                                <input type="radio" value="option1" name="options_1" checked>Medium <span>+ $3.30</span>
+                                                <input type="radio" value="<%= opt.id %>_<%= opt.price %>" name="<%= food.id %>" <%= isn == 0 ? 'checked' : ''%> > <%= opt.title %> <span>+ $<%= opt.price %></span>
                                                 </label>
-                                                <label>
-                                                <input type="radio" value="option2" name="options_1" >Large <span>+ $5.30</span>
-                                                </label>
-                                                <label>
-                                                <input type="radio" value="option3" name="options_1" >Extra Large <span>+ $8.30</span>
-                                                </label>
+                                                <% end %>
+                                                <% if food.ingredients.count > 0 %>
                                                 <h5>Add ingredients</h5>
+                                                <% end %>
+                                                <% food.ingredients.each do |ingred| %>
                                                 <label>
-                                                <input type="checkbox" value="">Extra Tomato <span>+ $4.30</span>
+                                                <input type="checkbox" id="<%= ingred.id %>" value="<%= ingred.id %>_<%= ingred.price %>" name="ingre_<%= food.id %>"><%= ingred.title %><span>+ $<%= ingred.price %></span>
                                                 </label>
-                                                <label>
-                                                <input type="checkbox" value="">Extra Peppers <span>+ $2.50</span>
-                                                </label>
+                                                <% end %>
                                                 <a class="add_to_basket" href="#" onclick="add_cart(<%= food.id %>);">Add to cart</a>
                                             </div>
                                         </div>
@@ -228,6 +227,17 @@
 		coun = 0;
         deli = <%= @restaurant.delivery_fee %> ;
 
+        var ingre = [];
+
+        var option_id = $('input[name='+i+']:checked');
+        
+
+        var ingre_id = $('input[name=ingre_'+i+']:checked');
+       
+        for (var k = 0; k < ingre_id.length; k++) {
+            ingre.push(ingre_id[k].value.split("_")[0]);
+        }
+
 		if(window.localStorage.getItem('count')){
             coun = parseInt(window.localStorage.getItem('count'));
         }else{
@@ -246,9 +256,20 @@
         if(restaurant == <%= @restaurant.id %>){
     	    var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
     	    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(€ )/, ""));
+            if(option_id.length > 0){
+                var res = option_id.val().split("_");
+                var red = pric + parseFloat(res[1]);
+            }else{
+                var res = [0];
+                var red = pric;
+            }
+            
+            for (var k = 0; k < ingre_id.length; k++) {
+                red = red + parseFloat(ingre_id[k].value.split("_")[1]);
+            }
     	    console.log(titl + " " + pric);
 
-    	    window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: pric}));
+    	    window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: red , options: res[0] , ingredients: ingre }));
     		
     		coun = coun + 1;
     		window.localStorage.setItem('count', coun);
