@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
 	skip_before_action :verify_authenticity_token
 	before_action :restrict_user , only: [:create_order , :get_orders]
-	before_action :restrict_rider , only: [:rider_accept , :finish_order , :pay_bill]
+	before_action :restrict_rider , only: [:rider_accept , :finish_order , :pay_bill , :online]
 
 	def signup_user
 		em = params[:user][:email].downcase
@@ -167,6 +167,14 @@ class ApiController < ApplicationController
 		else
 			render json: {'message' => 'Invalid Order id'} , status: 404
 		end
+	end
+
+	def online
+		unless @current_rider.detail.present?
+			Detail.create(online: true, rider_id: @current_rider.id )
+		end
+		@current_rider.detail.update(online: !@current_rider.detail.online)
+		render json: {'status' => @current_rider.detail.online ? 'Online' : 'Offline'} , status: :ok
 	end
 
 	private

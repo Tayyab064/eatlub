@@ -98,6 +98,7 @@ Rails.application.routes.draw do
     scope 'rider' do
       post 'signup' => 'api#signup_rider' , as: 'api_signup_rider'
       post 'signin' => 'api#signin_rider' , as: 'api_signin_rider'
+      get 'online' => 'api#online'
 
       scope 'order' do
         get 'accept/:id' => 'api#rider_accept'
