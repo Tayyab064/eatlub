@@ -36,7 +36,7 @@
 	                <div id="custom-search-input">
 	                    <div class="input-group">
 	                        <!-- <input type="text" class=" search-query" placeholder="Your Address"> -->
-	                        <%= text_field_tag :address  , '' , class: 'search-query' , placeholder: 'Your Address', autofocus: true %>
+	                        <%= text_field_tag :address  , '' , class: 'search-query' , placeholder: 'Postal Code', autofocus: true %>
 	                        <span class="input-group-btn">
 	                        <!-- <input type="submit" class="btn_search" value="submit"> -->
 	                        <%= submit_tag "Search", class: 'btn_search' %>
@@ -405,8 +405,8 @@
 
     /*var autocomplete = new google.maps.places.Autocomplete(input,options);*/
 
-    var input_dest = document.getElementById('address');
-    var autocomplete_dest = new google.maps.places.Autocomplete(input_dest,options);
+    /*var input_dest = document.getElementById('address');
+    var autocomplete_dest = new google.maps.places.Autocomplete(input_dest,options);*/
   }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc&libraries=places&callback=initMap" async defer></script>

@@ -1,0 +1,88 @@
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+   <div class="container-fluid container-fixed-lg bg-white">
+      <!-- START PANEL -->
+      <div class="panel panel-transparent">
+        <div class="panel-heading">
+          <div class="pull-right">
+          	<div class="col-xs-6">
+          	<button class="btn btn-success" data-target="#give_wallet_modal" data-toggle="modal" style="float: left;">Give Credit</button>
+          	</div>
+            <div class="col-xs-6">
+              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped demo-table-search" id="tableWithSearch">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>UserName</th>
+                <th>Email</th>
+                <th>Wallet</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @wallet.each do |wallet| %>
+              <tr>
+                <td class="v-align-middle semi-bold">
+                  <p>EU<%= wallet.user.id %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= wallet.user.username %></p>
+                </td>
+                <td class="v-align-middle bold">
+                  <p><%= wallet.user.email %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= wallet.amount %></p>
+                </td>
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- END PANEL -->
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="give_wallet_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    <i class="pg-close"></i>
+  </button>
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="text-left p-b-5" style="text-align: center !important;"><span class="bold">Give</span> Credit</h5>
+      </div>
+      <div class="modal-body">
+        <%= form_tag( user_wallet_update_path , id: "form-personal" , method: "post") do %>
+            <div class="row clearfix">      
+              <div class="col-sm-12">
+                <div class="form-group form-group-default required">
+                  <label>User ID</label>
+                  <%= text_field_tag :user , "", class: 'form-control' , placeholder: 'EU1'%>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group form-group-default required">
+                  <label>Amount</label>
+                  <%= number_field_tag :amount , "", class: 'form-control' %>
+                </div>
+              </div>
+            </div>
+            <div style="text-align: center;"><%= submit_tag 'Give Credit' , class: "btn btn-primary" %></div>
+          <% end %>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

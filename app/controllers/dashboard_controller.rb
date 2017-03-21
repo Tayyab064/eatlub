@@ -133,4 +133,19 @@ class DashboardController < ApplicationController
 	def user_orders
 		@orders = User.find(params[:id]).orders
 	end
+
+	def wallet
+		@wallet = Wallet.all
+	end
+
+	def give_credit
+		c = params[:user].split('EU')[1]
+		if user = User.find_by_id(c)
+			amo = user.wallet.amount + params[:amount].to_i
+			user.wallet.update(amount: amo)
+			redirect_to user_wallets_path , notice: 'Successfully wallet updated'
+		else
+			redirect_to user_wallets_path , notice: 'Error: Invalid User ID'
+		end
+	end
 end

@@ -12,6 +12,7 @@ class ApiController < ApplicationController
 			c.email = em
 			c.role = 'end_user'
 			if c.save
+				Wallet.create(user_id: User.find_by_email(em).id)
 				render json: {'message' => 'Successfully signedup. Signin now'} , status: 201
 			else
 				render json: {'message' => 'Something went wrong. Check params'} , status: 422

@@ -13,6 +13,7 @@ class User < ApplicationRecord
 	has_one :detail , foreign_key: "rider_id" , dependent: :destroy
 	has_many :devices , dependent: :destroy
 	has_many :addresses , dependent: :destroy
+	has_one :wallet , dependent: :destroy
 	
 	enum gender: [:male , :female]
 	enum role: [:end_user , :restaurant_owner , :rider , :admin]

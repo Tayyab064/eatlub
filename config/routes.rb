@@ -57,6 +57,9 @@ Rails.application.routes.draw do
     get 'block_restaurant_:id' => 'dashboard#block_restaurant' , as: 'dashboard_block_restaurant'
 
     get 'rider_order_:id' => 'dashboard#rider_orders' , as: 'dashboard_rider_orders'
+
+    get 'wallet' => 'dashboard#wallet' , as: 'user_wallets'
+    post 'wallet' => 'dashboard#give_credit' , as: 'user_wallet_update'
   end
 
   scope 'owner' do

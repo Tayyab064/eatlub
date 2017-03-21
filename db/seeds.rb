@@ -57,9 +57,8 @@ Restaurant.all.each do |res|
 end
 
 
-Category.create(name: 'Desi')
-Category.create(name: 'Indica')
-Category.create(name: 'Chinese')
-Category.create(name: 'Burgers')
-Category.create(name: 'Pizza')
-Category.create(name: 'Shakes')
+User.where(role: 0).each do |u|
+  unless u.wallet.present?
+    Wallet.create(user_id: u.id)
+  end
+end

@@ -28,7 +28,8 @@ class WebsiteController < ApplicationController
 			redirect_to :back , notice: 'Error: Already SignedUp!'
 		else
 			if params[:password] == params[:c_password]
-				User.create(name: params[:name] , username: params[:username] , email: params[:email] , password: params[:password] , role: 0)
+				c = User.create(name: params[:name] , username: params[:username] , email: params[:email] , password: params[:password] , role: 0)
+				Wallet.create(user_id: c.id)
 				redirect_to '/' , notice: 'Successfully SignedUp!'
 			else
 				redirect_to :back , notice: 'Error: Password doesnot match'
@@ -72,7 +73,8 @@ class WebsiteController < ApplicationController
 	end
 
 	def restaurants_nearby
-		@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
+		#@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
+		@restaurants = Restaurant.approved.where(post_code: params[:address])
 		@address = params[:address]
 	end
 
@@ -95,6 +97,7 @@ class WebsiteController < ApplicationController
 			end
 			if use.role == 'restaurant_owner'
 				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , post_code: params[:post_code] , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , image: params[:image] , cover: params[:cover] )
+				UserMailer.restaurant_registered(use).deliver_now
 				redirect_to thankyou_path , notice: "Successfully Submitted"
 			else
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
