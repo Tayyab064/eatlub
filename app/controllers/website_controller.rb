@@ -147,8 +147,8 @@ class WebsiteController < ApplicationController
 			else
 				c = params[:item][cou]["option"].to_i
 			end
-			p c
-			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: c , ingredients: params[:item][cou]["ingredients"].collect{|i| i.to_i} )
+			p c		
+			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: c , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
 		end
 		render json: {'message' => 'Saved' , 'id' => ord.id } , status: :ok
 	end

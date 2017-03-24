@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
 	skip_before_action :verify_authenticity_token
 	before_action :restrict_user , only: [:create_order , :get_orders]
-	before_action :restrict_rider , only: [:rider_accept , :finish_order , :pay_bill , :online]
+	before_action :restrict_rider , only: [:rider_accept , :arrived_rest_order , :arrived_user_order , :finish_order , :pay_bill , :online]
 
 	def signup_user
 		em = params[:user][:email].downcase
@@ -158,10 +158,38 @@ class ApiController < ApplicationController
 
 	def finish_order
 		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
-			if ord.status == 'dispatched'
+			if ord.status == 'arrived_user'
 				ord.update(status: 'finish')
 				RiderFinishOrderJob.perform_later(ord)
 				render json: {'message' => 'Order finished'} , status: 200
+			else
+				render json: {'message' => 'Order expired'} , status: 409
+			end
+		else
+			render json: {'message' => 'Invalid Order id'} , status: 404
+		end
+	end
+
+	def arrived_rest_order
+		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
+			if ord.status == 'dispatched'
+				ord.update(status: 'arrived_restaurant' , assigned: Time.now)
+				RiderRestaurantArrivedJob.perform_later(ord)
+				render json: {'message' => 'Collect order'} , status: 200
+			else
+				render json: {'message' => 'Order expired'} , status: 409
+			end
+		else
+			render json: {'message' => 'Invalid Order id'} , status: 404
+		end
+	end
+
+	def arrived_user_order
+		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
+			if ord.status == 'arrived_restaurant'
+				ord.update(status: 'arrived_user')
+				RiderUserArrivedJob.perform_later(ord)
+				render json: {'message' => 'Call user'} , status: 200
 			else
 				render json: {'message' => 'Order expired'} , status: 409
 			end

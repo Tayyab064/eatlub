@@ -107,6 +107,8 @@ Rails.application.routes.draw do
         get 'accept/:id' => 'api#rider_accept'
         get 'finish/:id' => 'api#finish_order'
         get 'complete/:id' => 'api#pay_bill'
+        get 'arrived/restaurant/:id' => 'api#arrived_rest_order'
+        get 'arrived/user/:id' => 'api#arrived_user_order'
       end
     end
     

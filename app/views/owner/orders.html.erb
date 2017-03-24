@@ -71,7 +71,15 @@
                           <p><%= order.notes %></p>
                         </td>
                         <td class="v-align-middle">
-                          <p><%= order.status.capitalize %></p>
+                          <p>
+                          <% if order.status == 'arrived_restaurant' %>
+                            Order Picked
+                          <% elsif order.status == 'arrived_user' %>
+                            Rider Arrived
+                          <% else %>
+                            <%= order.status.capitalize %>
+                          <% end %>
+                          </p>
                         </td>           
                       </tr>
 
