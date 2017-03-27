@@ -21,7 +21,7 @@
                          </div>
 	                    <h1><%= @restaurant.name %></h1>
 	                    <div><em><%= @restaurant.cuisine %></em></div>
-	                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> $#{@restaurant.delivery_fee.round(2)} , free over $15.".html_safe : '' %></div>
+	                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
 	    </div><!-- End sub_content -->
 	</div><!-- End subheader -->
 </section><!-- End section -->
@@ -108,7 +108,7 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <strong id='food_pr_<%= food.id %>'>€ <%= food.price %></strong>
+                                        <strong id='food_pr_<%= food.id %>'>£ <%= food.price %></strong>
                                     </td>
                                     <td class="options">
                                         <div class="dropdown dropdown-options">
@@ -119,7 +119,7 @@
                                                 <% end %>
                                                 <% food.options.each_with_index do |opt,isn| %>
                                                 <label>
-                                                <input type="radio" value="<%= opt.id %>_<%= opt.price %>" name="<%= food.id %>" <%= isn == 0 ? 'checked' : ''%> > <%= opt.title %> <span>+ $<%= opt.price %></span>
+                                                <input type="radio" value="<%= opt.id %>_<%= opt.price %>" name="<%= food.id %>" <%= isn == 0 ? 'checked' : ''%> > <%= opt.title %> <span>+ £<%= opt.price %></span>
                                                 </label>
                                                 <% end %>
                                                 <% if food.ingredients.count > 0 %>
@@ -127,7 +127,7 @@
                                                 <% end %>
                                                 <% food.ingredients.each do |ingred| %>
                                                 <label>
-                                                <input type="checkbox" id="<%= ingred.id %>" value="<%= ingred.id %>_<%= ingred.price %>" name="ingre_<%= food.id %>"><%= ingred.title %><span>+ $<%= ingred.price %></span>
+                                                <input type="checkbox" id="<%= ingred.id %>" value="<%= ingred.id %>_<%= ingred.price %>" name="ingre_<%= food.id %>"><%= ingred.title %><span>+ £<%= ingred.price %></span>
                                                 </label>
                                                 <% end %>
                                                 <a class="add_to_basket" href="#" onclick="add_cart(<%= food.id %>);">Add to cart</a>
@@ -169,17 +169,17 @@
 					<tbody>
 						<tr>
 							<td>
-								 Subtotal <span class="pull-right tot_price">$0</span>
+								 Subtotal <span class="pull-right tot_price">£0</span>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								 Delivery fee <span id="deli_fee" class="pull-right" >$0</span>
+								 Delivery fee <span id="deli_fee" class="pull-right" >£0</span>
 							</td>
 						</tr>
 						<tr>
 							<td class="total">
-								 TOTAL <span class="pull-right tot_price">$0</span>
+								 TOTAL <span class="pull-right tot_price">£0</span>
 							</td>
 						</tr>
 					</tbody>
@@ -209,16 +209,16 @@
 		for(i = 0; i < coun; i++){
             if(window.localStorage.getItem('carti[' + i + ']')){
                t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
                tot_pri = tot_pri + t.price ;
             }
         }
 
         document.getElementById("mycarti").innerHTML = da ;
-        document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-        document.getElementById("deli_fee").innerHTML = '$' + deli;
+        document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
+        document.getElementById("deli_fee").innerHTML = '£' + deli;
         cvs = tot_pri + deli ;
-        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
+        document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
         
 	}
 
@@ -255,7 +255,7 @@
 		
         if(restaurant == <%= @restaurant.id %>){
     	    var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
-    	    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(€ )/, ""));
+    	    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(£ )/, ""));
             if(option_id.length > 0){
                 var res = option_id.val().split("_");
                 var red = pric + parseFloat(res[1]);
@@ -285,16 +285,16 @@
                     for(i = 0; i < coun; i++){
                        if(window.localStorage.getItem('carti[' + i + ']')){
                            t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
                            tot_pri = tot_pri + t.price ;
                         }
                     }
 
                     document.getElementById("mycarti").innerHTML = da ;
-                    document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '$' + deli;
+                    document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = '£' + deli;
                     cvs = tot_pri + deli ;
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
                }
             });
         }else{
@@ -319,17 +319,17 @@
                     for(i = 0; i < coun; i++){
                        if(window.localStorage.getItem('carti[' + i + ']')){
                            t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
                            tot_pri = tot_pri + t.price ;
                            chk_co = chk_co + 1;
                        }
                     }
 
                     document.getElementById("mycarti").innerHTML = da ;
-                    document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '$' + deli;
+                    document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = '£' + deli;
                     cvs = tot_pri + deli ;
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
 
                     if(chk_co == 0){
                         window.localStorage.setItem('count', 0);

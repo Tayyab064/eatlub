@@ -94,19 +94,19 @@
                     <h5><%= food.name %></h5>
                     <% if ord.present? %>
                     <% itm_pric = ord.price + food.price %>
-                    <%= ord.title%>: €<%= ord.price %>
+                    <%= ord.title%>: £<%= ord.price %>
                     <% else %>
                     <% itm_pric = food.price %>
                     <% end %>
                     <% Ingredient.where(id: foodi.ingredients).each do |ingre| %>
                       <br>
                       <% itm_pric = itm_pric + ingre.price %>
-                      <%= ingre.title%>: €<%= ingre.price %>
+                      <%= ingre.title%>: £<%= ingre.price %>
                     <% end %>
                     
                 </td>
                 <td class="options v-align-middle">
-                    <strong>€ <%= itm_pric %></strong>
+                    <strong>£ <%= itm_pric %></strong>
                 </td>
             </tr>
             <% pr = pr + itm_pric %>
@@ -118,7 +118,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>€ <%= @order.restaurant.delivery_fee.round(2) %></strong>
+                    <strong>£ <%= @order.restaurant.delivery_fee.round(2) %></strong>
                 </td>
             </tr>
             <tr>
@@ -128,7 +128,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>€ <%= @order.restaurant.delivery_fee.round(2) + pr.round(2) %></strong>
+                    <strong>£ <%= @order.restaurant.delivery_fee.round(2) + pr.round(2) %></strong>
                 </td>
             </tr>
         </tbody>

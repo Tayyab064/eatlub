@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321113531) do
+ActiveRecord::Schema.define(version: 20170324132212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 20170321113531) do
     t.string   "cover"
     t.string   "phone_number"
     t.string   "close_day",      default: [],                 array: true
+    t.integer  "order_status",   default: 0
   end
 
   create_table "reviews", force: :cascade do |t|

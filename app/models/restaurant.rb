@@ -12,6 +12,7 @@ class Restaurant < ApplicationRecord
 	has_many :orders , dependent: :destroy
 
 	enum status: [:pending , :approved , :block]
+	enum order_status: [:quiet , :moderate , :busy]
 
 	scope :approved, lambda {where(:status => 'approved')}
 	scope :popular, lambda {where(:popular => true)}

@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     get 'edit_fooditem_:id' => 'owner#edit_food' , as: 'edit_fooditem_owner'
     put 'fooditem_:id' => 'owner#update_food' , as: 'owner_restaurant_food_edit'
     post 'password' => 'owner#set_password' , as: 'owner_password'
+    put 'order_:id' => 'owner#order_status' , as: 'owner_restaurant_order_status'
   end
 
   scope 'api' do

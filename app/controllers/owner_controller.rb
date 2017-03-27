@@ -76,12 +76,17 @@ class OwnerController < ApplicationController
 					foo.categories << cati
 				end
 			end
-			3.times do |ss|
-				if params['option_' + ss.to_s].length > 0
-					Option.create(title: params['option_' + ss.to_s], price: params['option_p_' + ss.to_s], food_item_id: foo.id)
+			10.times do |ss|
+				if params['option_' + ss.to_s].present?
+					if params['option_' + ss.to_s].length > 0
+						Option.create(title: params['option_' + ss.to_s], price: params['option_p_' + ss.to_s], food_item_id: foo.id)
+					end
 				end
-				if params['ingredient_' + ss.to_s].length > 0
-					Ingredient.create(title: params['ingredient_' + ss.to_s], price: params['ingredient_p_' + ss.to_s], food_item_id: foo.id)
+
+				if params['ingredient_' + ss.to_s].present?
+					if params['ingredient_' + ss.to_s].length > 0
+						Ingredient.create(title: params['ingredient_' + ss.to_s], price: params['ingredient_p_' + ss.to_s], food_item_id: foo.id)
+					end
 				end
 			end
 			redirect_to owner_restaurant_menu_path(params[:restaurant_id]) , notice: 'Successfully Added!'
@@ -172,8 +177,18 @@ class OwnerController < ApplicationController
 			order = Order.find(params[:id])
 		end
 		order.update(status: 2)
+		
+		case order.restaurant.order_status
+		when 'quiet'
+		  delay_interval = Time.now + 5.minutes
+		when 'moderate'
+		  delay_interval = Time.now + 10.minutes
+		else
+		  delay_interval = Time.now + 15.minutes
+		end
+
 		#job for sending request to riders
-		DispatchRiderJob.perform_later(order)
+		DispatchRiderJob.delay_for(delay_interval).perform_later(order)
 		redirect_to owner_order_path(order)
 	end
 
@@ -195,6 +210,16 @@ class OwnerController < ApplicationController
 		else
 			redirect_to '/owner/index' , notice: 'Error: Invalid Password'
 		end
+	end
+
+	def order_status
+		if @owner.present?
+			res = @owner.restaurants.find(params[:id])
+		else
+			res = Restaurant.find(params[:id])
+		end
+		res.update(order_status: params[:stat])
+		render json: {'message' => 'Success'} , status: :ok
 	end
 
 

@@ -184,17 +184,17 @@
 					<tbody>
 					<tr>
 						<td>
-							 Subtotal <span class="pull-right tot_price">$0</span>
+							 Subtotal <span class="pull-right tot_price">£0</span>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							 Delivery fee <span class="pull-right" id="deli_fee">$0</span>
+							 Delivery fee <span class="pull-right" id="deli_fee">£0</span>
 						</td>
 					</tr>
 					<tr>
 						<td class="total">
-							 TOTAL <span class="pull-right tot_price">$0</span>
+							 TOTAL <span class="pull-right tot_price">£0</span>
 						</td>
 					</tr>
 					</tbody>
@@ -233,16 +233,16 @@
 		for(i = 0; i < coun; i++){
             if(window.localStorage.getItem('carti[' + i + ']')){
                t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
                tot_pri = tot_pri + t.price ;
             }
         }
 
         document.getElementById("mycarti").innerHTML = da ;
-        document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-        document.getElementById("deli_fee").innerHTML = '$' + deli;
+        document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
+        document.getElementById("deli_fee").innerHTML = '£' + deli;
         cvs = tot_pri + deli ;
-        document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
+        document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
         
 	}
 
@@ -263,17 +263,17 @@
                     for(i = 0; i < coun; i++){
                        if(window.localStorage.getItem('carti[' + i + ']')){
                            t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>$"+ t.price +"</strong></td></tr>";
+                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
                            tot_pri = tot_pri + t.price ;
                            chk_co = chk_co + 1;
                        }
                     }
 
                     document.getElementById("mycarti").innerHTML = da ;
-                    document.getElementsByClassName("tot_price")[0].innerHTML = '$' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '$' + deli;
+                    document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = '£' + deli;
                     cvs = tot_pri + deli ;
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '$' + cvs.toFixed(2);
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
 
                     if(chk_co == 0){
                         window.localStorage.setItem('count', 0);
