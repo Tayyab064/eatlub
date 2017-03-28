@@ -282,7 +282,7 @@
 
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= my_lat_long.present? ? my_lat_long.first : '51.5074' %>, lng: <%= my_lat_long.present? ? my_lat_long.last : '0.1278' %>},
+          center: {lat: <%= @restaurants.count>0 ? @restaurants.first.latitude : '51.5074' %>, lng: <%= @restaurants.count>0 ? @restaurants.first.longitude : '0.1278' %>},
           scrollwheel: false,
           zoom: zoomLevel
         });
