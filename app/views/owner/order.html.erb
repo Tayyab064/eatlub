@@ -81,10 +81,8 @@
             <% pr = 0 %>
             <% @order.items.each_with_index do |foodi,ind| %>
             <% food = foodi.orderable %>
+            <% itm_pric = food.price %>
 
-            <% if foodi.option.present? %>
-            <% ord = Option.find(foodi.option) %>
-            <% end %>
             <tr>
                 <td class="v-align-middle"><%= ind +1 %>.</td>
                 <td>
@@ -92,12 +90,14 @@
                 </td>
                 <td class="v-align-middle">
                     <h5><%= food.name %></h5>
-                    <% if ord.present? %>
-                    <% itm_pric = ord.price + food.price %>
-                    <%= ord.title%>: £<%= ord.price %>
-                    <% else %>
-                    <% itm_pric = food.price %>
+                    <% Component.where(id: foodi.option).each do |opt| %>
+                      <strong><%= opt.option.title %></strong>
+                      <br>
+                      <% itm_pric = itm_pric + opt.price %>
+                      <%= opt.title%>: £<%= opt.price %>
+                      <br><br>
                     <% end %>
+                    <br>
                     <% Ingredient.where(id: foodi.ingredients).each do |ingre| %>
                       <br>
                       <% itm_pric = itm_pric + ingre.price %>

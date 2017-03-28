@@ -100,21 +100,41 @@
                         <label>Item options</label>
                         <button class="add_op_button btn btn_add_opt">Add More Options</button>
                         <div class="table-responsive">
-                        <table class="table table-striped notifications">
+                        <table class="table table-striped">
                             <tbody id="optionsd">
                                 <tr>
-                                    <td style="width:30%">
-                                        <%= number_field_tag :option_p_0 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    <td style="width: 10%">1.</td>
+                                    <td style="width:60%;">
+                                        <%= text_field_tag :option_0 , '' , class: 'form-control', autofocus: true , placeholder: 'Title' %>
                                     </td>
-                                    <td style="width:70%">
-                                        <%= text_field_tag :option_0 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Small' %>
+                                    <td style="width:30%;"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <%= text_field_tag :option_tit_0_1 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Small' %>
                                     </td>
-                                    <!-- <td style="width:30%">
-                                        <label>
-                                            <input type="radio" name="rad" checked class="icheck" value="checkbox">Radio</label>
-                                        <label class="margin_left">
-                                            <input type="radio" name="rad" class="icheck" value="radio">Radio</label>
-                                    </td> -->
+                                    <td>
+                                        <%= number_field_tag :option_0_1 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <%= text_field_tag :option_tit_0_2 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Medium' %>
+                                    </td>
+                                    <td>
+                                        <%= number_field_tag :option_0_2 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <%= text_field_tag :option_tit_0_3 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Large' %>
+                                    </td>
+                                    <td>
+                                        <%= number_field_tag :option_0_3 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -128,11 +148,12 @@
                         <table class="table table-striped notifications" >
                             <tbody id="ingredas">
                                 <tr>
+                                    <td style="width:5%">1.</td>
                                     <td style="width:30%">
-                                        <%= number_field_tag :ingredient_p_0 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
+                                        <%= number_field_tag :ingredient_p_1 , 0 , class: 'form-control' , placeholder: '3.5' , :step => 0.1 %>
                                     </td>
-                                    <td style="width:70%">
-                                        <%= text_field_tag :ingredient_0 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Extra Tomato' %>
+                                    <td style="width:65%">
+                                        <%= text_field_tag :ingredient_1 , '' , class: 'form-control', autofocus: true , placeholder: 'Ex. Extra Tomato' %>
                                     </td>
                                     <!-- <td style="width:30%">
                                         <label>
@@ -194,28 +215,29 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        var max_fields      = 9; //maximum input boxes allowed
+        var max_fields      = 8; //maximum input boxes allowed
         var wrapper         = $("#ingredas"); //Fields wrapper
         var option_button      = $(".add_option_button"); //Add button ID
 
         var opt_but = $(".add_op_button");
         var opt_wrapper         = $("#optionsd"); //Fields wrapper
         
-        var x = 0; //initlal text box count
+        var x = 1; //initlal text box count
         $(option_button).click(function(e){ //on add input button click
             e.preventDefault();
             if(x < max_fields){ //max input box allowed
-                x++; //text box increment
-                $(wrapper).append('<tr><td style="width:30%"><input type="number" name="ingredient_p_' + x + '" id="ingredient_p_' + x + '" value="0" class="form-control" placeholder="3.5" step="0.1"></td><td style="width:70%"><input type="text" name="ingredient_' + x + '" id="ingredient_' + x + '" value="" class="form-control" autofocus="autofocus" placeholder="Ex. Extra Tomato"></td></tr>'); //add input box
+                x = x + 1; //text box increment
+                $(wrapper).append('<tr><td style="width:5%">' + x + '.</td><td style="width:30%"><input type="number" name="ingredient_p_' + x + '" id="ingredient_p_' + x + '" value="0" class="form-control" placeholder="3.5" step="0.1"></td><td style="width:65%"><input type="text" name="ingredient_' + x + '" id="ingredient_' + x + '" value="" class="form-control" autofocus="autofocus" placeholder="Ex. Extra Tomato"></td></tr>'); //add input box
             }
         });
 
-        var y = 0;
+        var y = 1;
         $(opt_but).click(function(e){ //on add input button click
             e.preventDefault();
             if(y < max_fields){ //max input box allowed
-                y++; //text box increment
-                $(opt_wrapper).append('<tr><td style="width:30%"><input type="number" name="option_p_'+ y + '" id="option_p_'+ y + '" value="0" class="form-control" placeholder="3.5" step="0.1"></td><td style="width:70%"><input type="text" name="option_'+ y + '" id="option_'+ y + '" value="" class="form-control" autofocus="autofocus" placeholder="Ex. Small"></td></tr>'); //add input box
+                //y = y + 1; //text box increment
+                asd = y+1;
+                $(opt_wrapper).append('<tr><td style="width: 10%">'+asd+'.</td><td style="width:60%;"><input type="text" name="option_'+y+'" id="option_'+y+'" value="" class="form-control" autofocus="autofocus" placeholder="Title"></td><td style="width:30%;"></td></tr><tr><td></td><td><input type="text" name="option_tit_'+y+'_1" id="option_tit_'+y+'_1" value="" class="form-control" autofocus="autofocus" placeholder="Ex. Small"></td><td><input type="number" name="option_'+y+'_1" id="option_'+y+'_1" value="0" class="form-control" placeholder="3.5" step="0.1"></td></tr><tr><td></td><td><input type="text" name="option_tit_'+y+'_2" id="option_tit_'+y+'_2" value="" class="form-control" autofocus="autofocus" placeholder="Ex. Medium"></td><td><input type="number" name="option_'+y+'_2" id="option_'+y+'_2" value="0" class="form-control" placeholder="3.5" step="0.1"></td></tr><tr><td></td><td><input type="text" name="option_tit_'+y+'_3" id="option_tit_'+y+'_3" value="" class="form-control" autofocus="autofocus" placeholder="Ex. Large"></td><td><input type="number" name="option_'+y+'_3" id="option_'+y+'_3" value="0" class="form-control" placeholder="3.5" step="0.1"></td></tr>'); //add input box
             }
         });
     });

@@ -37,10 +37,18 @@ end
   c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 2 , verified: true , block: true )
 end
 
+Restaurant.all.each do |rws|
+  rws.update(post_code: nil)
+end
+
 Restaurant.all.each do |res|
+  if res.post_code.nil?
+    post_code = Geocoder.search([res.latitude, res.longitude]).first.postal_code
+    res.update(post_code: post_code)
+  end
   unless res.menu.present?
     c = Menu.create(title: Faker::Name.title, restaurant_id: res.id)
-    5.times do |_sd|
+    0.times do |_sd|
       d = Section.create(title: Faker::Name.title, menu_id: c.id)
       5.times do |_sdf|
         FoodItem.create(name: Faker::Name.title, price: Faker::Number.decimal(2), section_id: d.id)
@@ -53,12 +61,5 @@ Restaurant.all.each do |res|
     rev = Review.create(summary: Faker::Lorem.sentence , quality: Faker::Number.between(1, 5) , price: Faker::Number.between(1, 5) , punctuality: Faker::Number.between(1, 5) , courtesy: Faker::Number.between(1, 5) , restaurant_id: res.id , reviewer_id: User.where(role: 0).last.id)
     rating_tot =  ((rev.quality + rev.price + rev.punctuality + rev.courtesy ).to_f / 4).round
     rev.update(rating: rating_tot)
-  end
-end
-
-
-User.where(role: 0).each do |u|
-  unless u.wallet.present?
-    Wallet.create(user_id: u.id)
   end
 end

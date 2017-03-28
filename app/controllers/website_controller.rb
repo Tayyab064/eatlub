@@ -141,14 +141,8 @@ class WebsiteController < ApplicationController
 		end
 		
 		ord = Order.create(address: ad , notes: params[:notes] , restaurant_id: params[:restaurant_id] , user_id: params[:user_id])
-		params[:item].each do |cou|
-			if params[:item][cou]["option"] == '0'
-				c = nil
-			else
-				c = params[:item][cou]["option"].to_i
-			end
-			p c		
-			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: c , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
+		params[:item].each do |cou|		
+			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
 		end
 		render json: {'message' => 'Saved' , 'id' => ord.id } , status: :ok
 	end
