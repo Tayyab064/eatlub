@@ -17,4 +17,14 @@ class User < ApplicationRecord
 	
 	enum gender: [:male , :female]
 	enum role: [:end_user , :restaurant_owner , :rider , :admin]
+
+	def self.to_csv(options = {})
+	  cd = ["name","username","email","gender","mobile_number"]
+	  CSV.generate(options) do |csv|
+	    csv << cd
+	    all.each do |user|
+	      csv << user.attributes.values_at(*cd)
+	    end
+	  end
+	end
 end

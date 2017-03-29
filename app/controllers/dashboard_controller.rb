@@ -37,10 +37,18 @@ class DashboardController < ApplicationController
 
 	def restaurants
 		@restaurant = Restaurant.all
+		respond_to do |format|
+			format.html
+			format.csv { send_data @restaurant.to_csv }
+		end
 	end
 
 	def end_user
 		@user = User.where(role: 0)
+		respond_to do |format|
+			format.html
+			format.csv { send_data @user.to_csv }
+		end
 	end
 
 	def set_password_user
@@ -68,10 +76,18 @@ class DashboardController < ApplicationController
 
 	def restaurant_owner
 		@user = User.where(role: 1)
+		respond_to do |format|
+			format.html
+			format.csv { send_data @user.to_csv }
+		end
 	end
 
 	def rider
 		@user = User.where(role: 2)
+		respond_to do |format|
+			format.html
+			format.csv { send_data @user.to_csv }
+		end
 	end
 
 	def admin

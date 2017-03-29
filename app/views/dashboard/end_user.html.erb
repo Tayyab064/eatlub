@@ -19,6 +19,9 @@
           <li class="">
             <a data-toggle="tab" href="#tab4"><i class="fa fa-ban tab-icon"></i><span>Block</span></a>
           </li>
+          <li class="" style="float: right;">
+            <%= link_to "Download CSV", dashboard_end_users_path(format: "csv") , class: '' %>
+          </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">

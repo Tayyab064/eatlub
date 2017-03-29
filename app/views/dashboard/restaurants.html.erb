@@ -16,6 +16,9 @@
           <li class="">
             <a data-toggle="tab" href="#tab3"><i class="fa fa-ban tab-icon"></i> <span>Blocked</span></a>
           </li>
+          <li class="" style="float: right;">
+          	<%= link_to "Download CSV", dashboard_restaurants_path(format: "csv") , class: '' %>
+          </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">

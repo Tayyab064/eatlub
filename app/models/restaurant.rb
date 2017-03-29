@@ -24,4 +24,13 @@ class Restaurant < ApplicationRecord
 	scope :approved, lambda {where(:status => 'approved')}
 	scope :popular, lambda {where(:popular => true)}
 
+	def self.to_csv(options = {})
+	  CSV.generate(options) do |csv|
+	    csv << column_names
+	    all.each do |restaurant|
+	      csv << restaurant.attributes.values_at(*column_names)
+	    end
+	  end
+	end
+
 end
