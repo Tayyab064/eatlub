@@ -142,7 +142,7 @@ class ApiController < ApplicationController
 
 	def rider_accept
 		if @ord = Order.find_by_id(params[:id])
-			if @ord.status == 'dispatched' && @ord.rider_id.nil?
+			if @ord.status == 'approved' && @ord.rider_id.nil?
 				@ord.update(rider_id: @current_rider.id)
 				RiderAcceptOrderJob.perform_later(@ord)
 				render status: 200
@@ -172,7 +172,7 @@ class ApiController < ApplicationController
 
 	def arrived_rest_order
 		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
-			if ord.status == 'dispatched'
+			if ord.status == 'approved'
 				ord.update(status: 'arrived_restaurant' , assigned: Time.now)
 				RiderRestaurantArrivedJob.perform_later(ord)
 				render json: {'message' => 'Collect order'} , status: 200

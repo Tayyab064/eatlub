@@ -3,7 +3,7 @@ class Order < ApplicationRecord
     belongs_to :user
 
     has_many :items , dependent: :destroy
-    enum status: [:pending , :approved , :dispatched , :arrived_restaurant , :arrived_user , :finish , :completed , :cancel]
+    enum status: [:pending , :approved , :arrived_restaurant , :arrived_user , :finish , :completed , :cancel]
 
     after_create :dashboard_noti
 

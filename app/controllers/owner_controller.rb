@@ -171,7 +171,17 @@ class OwnerController < ApplicationController
 			order = Order.find(params[:id])
 		end
 		order.update(status: 1)
-		# call job order accepted
+
+		case order.restaurant.order_status
+		when 'quiet'
+		  delay_interval = 5.minutes
+		when 'moderate'
+		  delay_interval = 10.minutes
+		else
+		  delay_interval = 15.minutes
+		end
+		#job for sending request to riders
+		DispatchRiderJob.delay_for(delay_interval).perform_later(order)
 		redirect_to owner_order_path(order)
 	end
 

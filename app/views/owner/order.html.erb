@@ -136,8 +136,6 @@
     <div style="text-align: center;">
         <% if @order.status == 'pending' %>
             <%= link_to "Accept", owner_order_accept_path, :class => "btn btn-success", style: 'width: 30%;' %>
-        <% elsif @order.status == 'approved' %>
-            <%= link_to "Dispatch", owner_order_dispatch_path, :class => "btn btn-success", style: 'width: 30%;' %>
         <% end %>
     </div>
 </div><!-- End box_style_1 -->

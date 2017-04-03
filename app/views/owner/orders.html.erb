@@ -17,7 +17,7 @@
             <a data-toggle="tab" href="#tab3"><i class="fa fa-cutlery tab-icon"></i><span>Approved</span></a>
           </li>
           <li class="">
-            <a data-toggle="tab" href="#tab4"><i class="fa fa-check tab-icon"></i><span>Dispatched</span></a>
+            <a data-toggle="tab" href="#tab4"><i class="fa fa-check tab-icon"></i><span>Completed</span></a>
           </li>
         </ul>
         <!-- Tab panes -->
@@ -210,7 +210,7 @@
                <!-- START PANEL -->
               <div class="panel panel-transparent">
                 <div class="panel-heading">
-                  <div class="panel-title">Dispatched
+                  <div class="panel-title">Completed
                   </div>
                   <div class="pull-right">
                     <div class="col-xs-12">
@@ -232,7 +232,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <% @order.where(status: 'dispatched').each do |order| %>
+                      <% @order.where(status: 'completed').each do |order| %>
                       <tr onclick="window.location.assign('<%= owner_order_path(order.id) %>')" style='cursor: pointer;'>
                         <td class="v-align-middle semi-bold">
                           <p>O<%= order.id %></p>

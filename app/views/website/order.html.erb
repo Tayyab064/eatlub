@@ -192,7 +192,7 @@
         var locations = [];
         locations.push(['Order ID: O<%= @order.id%>', <%= cds.first %> , <%= cds.last %> , '<%= @order.address %>']);
 
-        <% if @rider.present? && @order.status=='dispatched' %>
+        <% if @rider.present? && @order.status=='arrived_restaurant' %>
             <% if @rider.location.present? %>
             locations.push(['Rider', <%= @rider.location.latitude %>, <%= @rider.location.longitude %>, '<%= @rider.location.address %>']);
             <% end %>
