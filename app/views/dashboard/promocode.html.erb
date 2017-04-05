@@ -1,0 +1,154 @@
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+
+  <div class="content full-width overlay-footer" style="padding-top: 0px !important;">
+
+    <div class="container-fluid container-fixed-lg ">
+      <div id="rootwizard">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm">
+          <li class="active">
+            <a data-toggle="tab" href="#tab1"><i class="fa fa-globe  tab-icon"></i> <span>New</span></a>
+          </li>
+          <li class="">
+            <a data-toggle="tab" href="#tab2"><i class="fa fa-check tab-icon"></i><span>Used</span></a>
+          </li>
+          <li class="" style="float: right;">
+            <button class="btn btn-success" data-target="#promo_modal" data-toggle="modal" >Add</button>
+          </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane padding-20 active slide-left" id="tab1">
+            <div class="container-fluid container-fixed-lg bg-white">
+              <!-- START PANEL -->
+              <div class="panel panel-transparent">
+                <div class="panel-heading">
+                  <div class="pull-right">
+                    <div class="col-xs-12">
+                      <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped demo-table-search" id="tableWithSearch">
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Discount %</th>
+                        <th>Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @promocode.where(used: false).each do |prom| %>
+                      <tr>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= prom.promocode %></p>
+                        </td>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= prom.amount %>%</p>
+                        </td>
+                        <td class="v-align-middle bold">
+                          <p><%= prom.created_at.strftime("%c") %></p>
+                        </td>
+                      </tr>
+
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- END PANEL -->
+            </div>
+          </div>
+          <div class="tab-pane slide-left padding-20" id="tab2">
+            <div class="container-fluid container-fixed-lg bg-white">
+              <!-- START PANEL -->
+              <div class="panel panel-transparent">
+                <div class="panel-heading">
+                  <div class="pull-right">
+                    <div class="col-xs-12">
+                      <input type="text" id="search-table-one" class="form-control pull-right" placeholder="Search">
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                  <table class="table table-striped demo-table-search" id="tableWithSearchOne">
+                    <thead>
+                      <tr>
+                        <th>Code</th>
+                        <th>Discount %</th>
+                        <th>Used By Order</th>
+                        <th>Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @promocode.where(used: true).each do |prom| %>
+                      <tr>
+                        <td class="v-align-middle semi-bold">
+                          <p><%= prom.promocode %></p>
+                        </td>
+                         <td class="v-align-middle semi-bold">
+                          <p><%= prom.amount %>%</p>
+                        </td>
+                        <td class="v-align-middle bold">
+                        	<p><%= prom.usedby %></p>
+                        </td>
+                        <td class="v-align-middle bold">
+                          <p><%= prom.created_at.strftime("%c") %></p>
+                        </td>
+                      </tr>
+
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- END PANEL -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="promo_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+    <i class="pg-close"></i>
+  </button>
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="text-left p-b-5" style="text-align: center !important;"><span class="bold">Add</span> Promocode</h5>
+      </div>
+      <div class="modal-body">
+        <%= form_tag( promocode_path , id: "form-personal" , method: "post") do %>
+            <div class="row clearfix">      
+              <div class="col-sm-12">
+                <div class="form-group form-group-default required">
+                  <label>PromoCode</label>
+                  <%= text_field_tag :code , "", class: 'form-control' , placeholder: 'EU1'%>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group form-group-default required">
+                  <label>Amount %</label>
+                  <%= number_field_tag :amount , "", class: 'form-control' , step: 0.1 %>
+                </div>
+              </div>
+            </div>
+            <div style="text-align: center;"><%= submit_tag 'Save' , class: "btn btn-primary" %></div>
+          <% end %>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>

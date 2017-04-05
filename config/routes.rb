@@ -60,6 +60,9 @@ Rails.application.routes.draw do
 
     get 'wallet' => 'dashboard#wallet' , as: 'user_wallets'
     post 'wallet' => 'dashboard#give_credit' , as: 'user_wallet_update'
+
+    get 'promocode' => 'dashboard#promocode' , as: 'dashboard_promocode'
+    post 'promocode' => 'dashboard#save_promocode'
   end
 
   scope 'owner' do

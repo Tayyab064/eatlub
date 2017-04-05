@@ -164,4 +164,13 @@ class DashboardController < ApplicationController
 			redirect_to user_wallets_path , notice: 'Error: Invalid User ID'
 		end
 	end
+
+	def promocode
+		@promocode = Promocode.all
+	end
+
+	def save_promocode
+		Promocode.create(promocode: params[:code] , amount: params[:amount])
+		redirect_to dashboard_promocode_path , notice: 'Successfully added'
+	end
 end

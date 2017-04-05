@@ -85,7 +85,7 @@
                 <a href="#" class="open_close" id="close_in"><i class="icon_close"></i></a>
                 <ul>
                     <li class="submenu">
-                    <a href="<%= root_path %>" class="show-submenu">Home<!-- <i class="icon-down-open-mini"></i> --></a>
+                    <a href="<%= root_path %>" class="show-submenu" style="font-size: 20px !important;">Home</a>
                     <!-- <ul>
                         <li><a href="index.html">Home Video background</a></li>
                         <li><a href="index_2.html">Home Static image</a></li>
@@ -98,7 +98,7 @@
                     </ul> -->
                     </li>
                     <li class="submenu">
-                    <a href="javascript:void(0);" class="show-submenu">Restaurants<i class="icon-down-open-mini"></i></a>
+                    <a href="javascript:void(0);" class="show-submenu" style="font-size: 20px !important;">Restaurants<i class="icon-down-open-mini"></i></a>
                     <ul>
                         <!-- <li><a href="list_page.html">Row listing</a></li>
                         <li><a href="grid_list.html">Grid listing</a></li>
@@ -111,10 +111,10 @@
                         <li><a href="cart_datepicker.html">Order Date/Time picker</a></li> -->
                     </ul>
                     </li>
-                    <li><a href="#">About us</a></li>
+                    <li><a href="#" style="font-size: 20px !important;">About us</a></li>
                     <!-- <li><a href="faq.html">Faq</a></li> -->
                     <li class="submenu">
-                    <a href="javascript:void(0);" class="show-submenu">Pages<i class="icon-down-open-mini"></i></a>
+                    <a href="javascript:void(0);" class="show-submenu" style="font-size: 20px !important;">Pages<i class="icon-down-open-mini"></i></a>
                     <ul>
                         <% if @end_user.present? %>
                         <li><a href="<%= web_user_orders_path %>">My Orders</a></li>
@@ -138,9 +138,9 @@
                     </ul>
                     </li>
                     <% if @end_user.present? %>
-                    <li><a ><%= @end_user.name %></a></li>
+                    <li><a style="font-size: 20px !important;"><%= @end_user.name %></a></li>
                     <% else %>
-                    <li><a href="#" data-toggle="modal" data-target="#login_2">Login</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#login_2" style="font-size: 20px !important;">Login</a></li>
                     <% end %>
                     <!-- <li><a href="http://themeforest.net/item/quickfood-delivery-or-takeaway-food-template/13958100?ref=ansonika">Purchase this template</a></li> -->
                 </ul>
