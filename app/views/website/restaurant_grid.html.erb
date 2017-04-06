@@ -35,7 +35,7 @@
         
 		<div class="col-md-9">
         
-        	<div id="tools">
+      <div id="tools">
 				<div class="row">
 					<div class="col-md-3 col-sm-3 col-xs-6">
 						<div class="styled-select">
@@ -47,7 +47,7 @@
 						</div>
 					</div>
 					<div class="col-md-9 col-sm-9 hidden-xs">
-						<a href="/restaurants_grid" class="bt_filters"><i class="icon-th"></i></a>
+						<a href="/restaurants" class="bt_filters"><i class="icon-list"></i></a>
 					</div>
 				</div>
 			</div><!--End tools -->
@@ -56,64 +56,51 @@
         
 	</div><!-- End row -->
 
-	<div class="row">
 	<% de = 0.1 %>
 	<% @restaurants.each do |rest| %>
-		<div class="strip_list wow fadeIn" data-wow-delay="<%= de %>s">
-			<% if rest.popular %>
-			<div class="ribbon_1">
-				Popular
-			</div>
-			<% end %>
-			<div class="row">
-				<div class="col-md-9 col-sm-9">
-					<div class="desc">
-						<div class="thumb_strip">
-							<a href="restaurant_<%= rest.id %>"><img src="<%= rest.image.present? ? rest.image : 'website/img/thumb_restaurant.jpg' %>" alt=""></a>
-						</div>
-						<div class="rating">
-							<% if rest.reviews.count > 0 %>
-								<% t_rat = ( rest.reviews.pluck("SUM(rating)").first.to_f / rest.reviews.count ).round %>
-	                            <% t_rat.times do |th| %>
-	                            <i class="icon_star voted"></i>
-	                            <% end %>
-	                            <% (5-t_rat).times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
-	                        <% else %>
-	                        	<% 5.times do |th| %>
-	                            <i class="icon_star"></i>
-	                            <% end %>
-	                        <% end %>
-							(<small><a ><%= rest.reviews.count %> reviews</a></small>)
-						</div>
-						<h3><%= rest.name %></h3>
-						<div class="type">
-							<%= rest.cuisine %>
-						</div>
-						<div class="location">
-							<%= rest.location %>. <span class="opening">Opens at <%= rest.opening_time.strftime("%R") %></span> Minimum order: £15
-						</div>
-						<ul>
-							<li>Take away<i class="icon_check_alt2 ok"></i></li>
-							<li>Delivery<i class="<%= rest.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md-3 col-sm-3">
-					<div class="go_to">
-						<div>
-							<a href="menu_<%= rest.id %>" class="btn_1">View Menu</a>
-						</div>
-					</div>
-				</div>
-			</div><!-- End row-->
-		</div><!-- End strip_list-->
+
+    <div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="<%= de %>s">
+      <a class="strip_list grid" href="menu_<%= rest.id %>">
+          <% if rest.popular %>
+          <div class="ribbon_1">Popular</div>
+          <% end %>
+          <div class="desc">
+            <div class="thumb_strip">
+              <img src="<%= rest.image.present? ? rest.image : 'website/img/thumb_restaurant.jpg' %>" alt="">
+            </div>
+            <div class="rating">
+            <% if rest.reviews.count > 0 %>
+              <% t_rat = ( rest.reviews.pluck("SUM(rating)").first.to_f / rest.reviews.count ).round %>
+                <% t_rat.times do |th| %>
+                <i class="icon_star voted"></i>
+                <% end %>
+                <% (5-t_rat).times do |th| %>
+                <i class="icon_star"></i>
+                <% end %>
+            <% else %>
+              <% 5.times do |th| %>
+                <i class="icon_star"></i>
+                <% end %>
+            <% end %>
+            </div>
+            <h3><%= rest.name %></h3>
+            <div class="type">
+              <%= rest.cuisine %>
+            </div>
+            <div class="location">
+              <%= rest.location %>. <span class="opening">Opens at <%= rest.opening_time.strftime("%R") %></span> Minimum order: £15
+            </div>
+            <ul>
+              <li>Take away<i class="icon_check_alt2 ok"></i></li>
+              <li>Delivery<i class="<%= rest.delivery ? 'icon_check_alt2 ok' : 'icon_close_alt2 no' %>"></i></li>
+            </ul>
+          </div>
+        </a><!-- End strip_list-->
+    </div><!-- End col-md-6-->
 	<% de = de + 0.1 %>
 	<% end %>
-	</div>
 </div><!-- End container -->
-<!-- End Content =============================================== -->
+<!-- End Content ============================================= -->
 
 
 

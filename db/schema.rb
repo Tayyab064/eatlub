@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405063555) do
+ActiveRecord::Schema.define(version: 20170406071331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,17 @@ ActiveRecord::Schema.define(version: 20170405063555) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.index ["option_id"], name: "index_components_on_option_id", using: :btree
+  end
+
+  create_table "deals", force: :cascade do |t|
+    t.datetime "avaliable"
+    t.integer  "total_order",   default: 1
+    t.integer  "order",         default: 0
+    t.float    "discount",      default: 1.0
+    t.integer  "restaurant_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["restaurant_id"], name: "index_deals_on_restaurant_id", using: :btree
   end
 
   create_table "details", force: :cascade do |t|

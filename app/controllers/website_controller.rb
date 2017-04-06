@@ -72,6 +72,10 @@ class WebsiteController < ApplicationController
 		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(100)
 	end
 
+	def restaurant_grid
+		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(100)
+	end
+
 	def restaurants_nearby
 		#@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
 		@restaurants = Restaurant.approved.where(post_code: params[:address])
@@ -97,6 +101,9 @@ class WebsiteController < ApplicationController
 			end
 			if use.role == 'restaurant_owner'
 				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number])
+				if params[:max_order].to_i > 0
+					Deal.create(total_order: params[:max_order] , discount: params[:discount] , restaurant_id: res.id)
+				end
 				UserMailer.restaurant_registered(use).deliver_now
 				redirect_to thankyou_path , notice: "Successfully Submitted"
 			else
