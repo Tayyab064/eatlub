@@ -110,7 +110,7 @@ class WebsiteController < ApplicationController
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
 			end
 		else
-			redirect_to root_path , notice: "Error: Check parameters"
+			redirect_to :back , notice: "Error: Check parameters"
 		end
 	end
 

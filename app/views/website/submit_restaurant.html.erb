@@ -156,7 +156,7 @@
         </div>
 	<div class="row">
     	<div class="col-md-8 col-md-offset-2">
-        	<%= form_tag( save_restaurant_path , :method => :post , :multipart => true) do  %>
+        	<%= form_tag( save_restaurant_path , :method => :post , :multipart => true , onsubmit: "return validateForm()") do  %>
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
 						<div class="form-group">
@@ -310,7 +310,7 @@
 				</div><!-- End row  -->
                 <div id="pass-info" class="clearfix"></div>
                 <hr style="border-color:#ddd;">
-                <div class="text-center"><button class="btn_full_outline">Submit</button></div>
+                <div class="text-center"><button class="btn_full_outline" type="submit">Submit</button></div>
 			<% end %>
         </div><!-- End col  -->
     </div><!-- End row  -->
@@ -344,6 +344,20 @@
 <script type="text/javascript">
 	function removdeal(){
 		$("#tes").removeClass("hidden");
+	}
+
+	function validateForm(){
+		var email = $('#email').val();
+		var name = $('#name').val();
+		var location = $('#location').val();
+		var image = $('#image').val();
+		var cover = $('#cover').val();
+		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0)){
+			return true;
+		}else{
+			alert('Check Parameters');
+			return false;
+		}
 	}
 </script>
 
