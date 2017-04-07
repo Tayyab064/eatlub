@@ -355,7 +355,7 @@
 		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0)){
 			return true;
 		}else{
-			alert('Check Parameters');
+			alertify.errorAlert("Check Parameters");
 			return false;
 		}
 	}
