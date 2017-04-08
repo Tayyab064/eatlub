@@ -76,10 +76,23 @@ class WebsiteController < ApplicationController
 		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(100)
 	end
 
+	def search_postal
+		if params[:address].present?
+			@address = params[:address]
+		else
+			@address = 'N19 4EE'
+		end
+	end
+
 	def restaurants_nearby
 		#@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
-		@restaurants = Restaurant.approved.where(post_code: params[:address])
-		@address = params[:address]
+		if params[:address].present?
+			@restaurants = Restaurant.approved.where(post_code: params[:address])
+			@address = params[:address]
+		else
+			@restaurants = Restaurant.approved.limit(100)
+			@address = ''
+		end
 	end
 
 	def restaurant
