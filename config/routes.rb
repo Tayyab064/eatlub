@@ -93,6 +93,7 @@ Rails.application.routes.draw do
     scope 'user' do
       post 'signup' => 'api#signup_user' , as: 'api_signup_user'
       post 'signin' => 'api#signin_user' , as: 'api_signin_user'
+      post 'forget_password' => 'api#forget_password'
       get 'nearby_restaurants' => 'api#nearby_restaurants' , as: 'api_nearby_restaurants'
 
       scope 'restaurant' do
@@ -107,6 +108,7 @@ Rails.application.routes.draw do
     scope 'rider' do
       post 'signup' => 'api#signup_rider' , as: 'api_signup_rider'
       post 'signin' => 'api#signin_rider' , as: 'api_signin_rider'
+      post 'forget_password' => 'api#forget_password'
       get 'online' => 'api#online'
 
       scope 'order' do

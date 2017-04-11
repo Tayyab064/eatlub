@@ -206,6 +206,16 @@ class ApiController < ApplicationController
 		render json: {'status' => @current_rider.detail.online ? 'Online' : 'Offline'} , status: :ok
 	end
 
+	def forget_password
+		if u = User.find_by_email(params[:email])
+			u.regenerate_password_reset_token
+			UserMailer.forget_password(u).deliver_now
+			render json: {'message' => 'Kindly check your email'} , status: :ok
+		else
+			render json: {'message' => 'Invalid email address'} , status: 404
+		end
+	end
+
 	private
 	def signup_user_params
 		params.require(:user).permit(:name, :username , :email , :gender , :password , :mobile_number)
