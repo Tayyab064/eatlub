@@ -108,7 +108,19 @@ class ApiController < ApplicationController
 			if res = Restaurant.find_by_id(params[:order][:restaurant_id])
 				@ord = Order.create(address: params[:order][:address], notes:  params[:order][:notes], restaurant_id: res.id , user_id: @current_user.id)
 				params[:order][:item].each do |itm|
-					Item.create(order_id: @ord.id , orderable_id: params[:order][:item][itm][:id].to_i, orderable_type: 'FoodItem', quantity: params[:order][:item][itm][:quantity].to_i)
+					it = Item.create(order_id: @ord.id , orderable_id: params[:order][:item][itm][:id].to_i, orderable_type: 'FoodItem', quantity: params[:order][:item][itm][:quantity].to_i)
+					if params[:order][:item][itm][:ingredients].present?
+						params[:order][:item][itm][:ingredients].split(',').each do |infg|
+							it.ingredients.push(infg.to_i)
+						end
+					end
+
+					if params[:order][:item][itm][:option].present?
+						params[:order][:item][itm][:option].split(',').each do |infg|
+							it.option.push(infg.to_i)
+						end
+					end
+					it.save
 				end
 				PlaceOrderJob.perform_later(@ord)
 				render status: 201
