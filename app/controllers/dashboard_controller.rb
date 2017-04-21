@@ -32,7 +32,10 @@ class DashboardController < ApplicationController
 	end
 
 	def index
-
+		@order = Order.all
+		@rider = User.where(role: 'rider')
+		@user = User.where(role: 'end_user')
+		@restaurant = Restaurant.all
 	end
 
 	def restaurants
