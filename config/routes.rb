@@ -65,6 +65,9 @@ Rails.application.routes.draw do
 
     get 'promocode' => 'dashboard#promocode' , as: 'dashboard_promocode'
     post 'promocode' => 'dashboard#save_promocode'
+
+    get 'deliverable_categories' => 'dashboard#deliverable_cat' , as: 'dashboard_deliverable_cat'
+    post 'deliverable_categories' => 'dashboard#save_deliverable' , as: 'dashboard_deliverable_cat_save'
   end
 
   scope 'owner' do
@@ -103,6 +106,8 @@ Rails.application.routes.draw do
       post 'order' => 'api#create_order'
       get 'order' => 'api#get_orders'
       get 'myorder/:id' => 'api#get_specific_order'
+
+      post 'tip/:id' => 'api#tip'
 
     end
 

@@ -176,4 +176,13 @@ class DashboardController < ApplicationController
 		Promocode.create(promocode: params[:code] , amount: params[:amount])
 		redirect_to dashboard_promocode_path , notice: 'Successfully added'
 	end
+
+	def deliverable_cat
+		@cat = DeliverCategory.all
+	end
+
+	def save_deliverable
+		DeliverCategory.create(image: params[:image] , name: params[:category])
+		redirect_to :back
+	end
 end

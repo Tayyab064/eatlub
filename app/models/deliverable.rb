@@ -16,7 +16,7 @@ class Deliverable < ApplicationRecord
 	enum status: [:pending , :approved , :block]
 	enum order_status: [:quiet , :moderate , :busy]
 
-	has_one :deliver_category , dependent: :destroy
+	belongs_to :deliver_category
 
 	scope :approved, lambda {where(:status => 'approved')}
 	scope :popular, lambda {where(:popular => true)}

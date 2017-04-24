@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
 	skip_before_action :verify_authenticity_token
-	before_action :restrict_user , only: [:create_order , :get_orders , :get_specific_order]
+	before_action :restrict_user , only: [:create_order , :get_orders , :get_specific_order , :tip]
 	before_action :restrict_rider , only: [:rider_accept , :arrived_rest_order , :arrived_user_order , :finish_order , :pay_bill , :online]
 
 	def signup_user
@@ -231,6 +231,14 @@ class ApiController < ApplicationController
 		else
 			render json: {'message' => 'Invalid email address'} , status: 404
 		end
+	end
+
+	def tip
+		order = @current_user.orders.find(params[:id])
+		if order.status == 'finish'
+			order.update(tip: params[:tip])
+		end
+		render json: {'message' => "Tip is #{order.tip}"} , status: 200
 	end
 
 	private

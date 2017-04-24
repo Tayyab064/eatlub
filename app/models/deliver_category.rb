@@ -1,3 +1,5 @@
 class DeliverCategory < ApplicationRecord
-	belongs_to :deliverable
+	has_many :deliverables , dependent: :destroy
+
+	mount_uploader :image, ImageUploader
 end

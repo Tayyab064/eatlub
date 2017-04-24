@@ -17,6 +17,11 @@ else
 		else
 			json.image ''
 		end
+		if restaurant.cover.present?
+			json.cover_image restaurant.cover_url.gsub(restaurant.cover_url.split('/')[6], 'q_50')
+		else
+			json.cover_image ''
+		end
 		json.popular restaurant.popular
 	end
 end
