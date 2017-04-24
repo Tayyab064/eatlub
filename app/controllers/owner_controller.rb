@@ -181,7 +181,8 @@ class OwnerController < ApplicationController
 		  delay_interval = 15.minutes
 		end
 		#job for sending request to riders
-		DispatchRiderJob.delay_for(delay_interval).perform_later(order)
+		#DispatchRiderJob.delay_for(delay_interval).perform_later(order)
+		DispatchRiderJob.perform_later(order)
 		redirect_to owner_order_path(order)
 	end
 
@@ -203,7 +204,8 @@ class OwnerController < ApplicationController
 		end
 
 		#job for sending request to riders
-		DispatchRiderJob.delay_for(delay_interval).perform_later(order)
+		#DispatchRiderJob.delay_for(delay_interval).perform_later(order)
+		DispatchRiderJob.perform_later(order)
 		redirect_to owner_order_path(order)
 	end
 
