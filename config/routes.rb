@@ -102,7 +102,7 @@ Rails.application.routes.draw do
 
       post 'order' => 'api#create_order'
       get 'order' => 'api#get_orders'
-      get 'order/:id' => 'api#get_specific_order'
+      get 'myorder/:id' => 'api#get_specific_order'
 
     end
 
