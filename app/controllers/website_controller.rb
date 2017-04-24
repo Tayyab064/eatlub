@@ -106,7 +106,25 @@ class WebsiteController < ApplicationController
 
 	def save_restaurant
 		p params
-		if /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/.match(params[:email]) && params[:name].length > 0 && params[:image].present? && params[:cover].present? 
+		if params[:category_test].present?
+			unless /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/.match(params[:emaili]) && params[:namei].length > 0 && params[:imagei].present? && params[:coveri].present? 
+				redirect_to :back , notice: "Error: Check parameters"
+			end	
+			if User.exists?(email: params[:email])
+				use = User.find_by_email(params[:emaili])
+			else		
+				use = User.create(name: params[:owner_namei] , email: params[:emaili] , role: 1 , password: '123456' , mobile_number: params[:mobile_numberi] )
+			end
+			if use.role == 'restaurant_owner'
+				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei] , location: params[:locationi]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi])
+				redirect_to thankyou_path , notice: "Successfully Submitted"
+			else
+				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
+			end
+		else
+			unless /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/.match(params[:email]) && params[:name].length > 0 && params[:image].present? && params[:cover].present? 
+				redirect_to :back , notice: "Error: Check parameters"
+			end	
 			if User.exists?(email: params[:email])
 				use = User.find_by_email(params[:email])
 			else		
@@ -122,8 +140,6 @@ class WebsiteController < ApplicationController
 			else
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
 			end
-		else
-			redirect_to :back , notice: "Error: Check parameters"
 		end
 	end
 

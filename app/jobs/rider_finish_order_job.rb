@@ -21,7 +21,9 @@ class RiderFinishOrderJob < ApplicationJob
 		end
 
 		final_pri = final_pri + item.orderable.price
-		tot_pri = final_pri * item.quantity
+		final_pri = final_pri * item.quantity
+
+		tot_pri = tot_pri + final_pri
 	end
 
     require 'gcm'

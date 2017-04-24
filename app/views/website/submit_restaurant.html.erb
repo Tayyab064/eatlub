@@ -370,13 +370,13 @@
     </div>
 	<div class="row">
     	<div class="col-md-8 col-md-offset-2">
-        	<%= form_tag( save_restaurant_path , :method => :post , :multipart => true , onsubmit: "return validateForm()") do  %>
+        	<%= form_tag( save_restaurant_path , :method => :post , :multipart => true , onsubmit: "return validateFormr()") do  %>
 				<div class="row">
 					<div class="col-md-12 col-sm-12">
 						<div class="form-group">
 							<label>Owner Email</label>
 							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
-							<%= text_field_tag :email  , '' , class: 'form-control' , placeholder: 'example@test.com', autofocus: true %>
+							<%= text_field_tag :emaili  , '' , class: 'form-control' , placeholder: 'example@test.com', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -385,14 +385,14 @@
 						<div class="form-group">
 							<label>Owner Name</label>
 							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
-							<%= text_field_tag :owner_name  , '' , class: 'form-control' , placeholder: 'John Doe', autofocus: true %>
+							<%= text_field_tag :owner_namei  , '' , class: 'form-control' , placeholder: 'John Doe', autofocus: true %>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">
 							<label>Mobile Number</label>
 							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
-							<%= text_field_tag :mobile_number  , '' , class: 'form-control' , placeholder: '+44xxxxxxxxxx', autofocus: true %>
+							<%= text_field_tag :mobile_numberi  , '' , class: 'form-control' , placeholder: '+44xxxxxxxxxx', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -403,13 +403,14 @@
 						<div class="form-group">
 							<label>Deliverable Name</label>
 							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
-							<%= text_field_tag :name  , '' , class: 'form-control' , placeholder: 'Mug House', autofocus: true %>
+							<%= text_field_tag :namei  , '' , class: 'form-control' , placeholder: 'Mug House', autofocus: true %>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">
 							<label>Deliverable Category</label>
-							
+							<br>
+							<%= select_tag 'category_test', options_for_select(DeliverCategory.all.collect{ |u| [u.name, u.id] } ) , {:class => 'form-control'} %>
 						</div>
 					</div>
 				</div>
@@ -418,14 +419,14 @@
 						<div class="form-group">
 							<label>Phone Number</label>
 							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
-							<%= text_field_tag :phone_number  , '' , class: 'form-control' , placeholder: '+44 xx xxxx xxxx', autofocus: true %>
+							<%= text_field_tag :phone_numberi  , '' , class: 'form-control' , placeholder: '+44 xx xxxx xxxx', autofocus: true %>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Location</label>
                            <!-- <input type="text" id="restaurant" name="restaurant" class="form-control" placeholder="Pizza King"> -->
-                           <%= text_field_tag :location  , '' , class: 'form-control' , placeholder: '1-3 Tooley Street, London', autofocus: true %>
+                           <%= text_field_tag :locationi  , '' , class: 'form-control' , placeholder: '1-3 Tooley Street, London', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -434,14 +435,14 @@
 						<div class="form-group">
 							<label>Post Code</label>
 							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
-							<%= text_field_tag :post_code  , '' , class: 'form-control' , placeholder: 'N19 4EE', autofocus: true %>
+							<%= text_field_tag :post_codei  , '' , class: 'form-control' , placeholder: 'N19 4EE', autofocus: true %>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">
 							<label>Estimated Weekly Orders</label>
 							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
-							<%= number_field_tag :weekly_order  , '' , class: 'form-control' , placeholder: '0', autofocus: true %>
+							<%= number_field_tag :weekly_orderi  , '' , class: 'form-control' , placeholder: '0', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -467,7 +468,7 @@
 						<div class="form-group">
 							<label>Opening Time</label>
 							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
-							<%= text_field_tag :opening_time  , '' , class: 'form-control time-pick' , placeholder: '12:00 AM', autofocus: true %>
+							<%= text_field_tag :opening_timei  , '' , class: 'form-control time-pick' , placeholder: '12:00 AM', autofocus: true %>
 							
 						</div>
 					</div>
@@ -475,7 +476,7 @@
 						<div class="form-group">
 							<label>Closing Time</label>
 							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
-							<%= text_field_tag :closing_time  , '' , class: 'time-pick form-control' , placeholder: '8:00 PM', autofocus: true %>
+							<%= text_field_tag :closing_timei  , '' , class: 'time-pick form-control' , placeholder: '8:00 PM', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -484,14 +485,14 @@
 						<div class="form-group">
 							<label>Image</label>
 							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
-							<%= file_field_tag "image" %>
+							<%= file_field_tag "imagei" %>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">
 							<label>Cover Image</label>
 							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
-							<%= file_field_tag "cover" %>
+							<%= file_field_tag "coveri" %>
 						</div>
 					</div>
 				</div><!-- End row  -->
@@ -569,6 +570,20 @@
 		var location = $('#location').val();
 		var image = $('#image').val();
 		var cover = $('#cover').val();
+		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0)){
+			return true;
+		}else{
+			alertify.errorAlert("Check Parameters");
+			return false;
+		}
+	}
+
+	function validateFormr(){
+		var email = $('#emaili').val();
+		var name = $('#namei').val();
+		var location = $('#locationi').val();
+		var image = $('#imagei').val();
+		var cover = $('#coveri').val();
 		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0)){
 			return true;
 		}else{
