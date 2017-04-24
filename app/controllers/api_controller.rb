@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
 	skip_before_action :verify_authenticity_token
-	before_action :restrict_user , only: [:create_order , :get_orders]
+	before_action :restrict_user , only: [:create_order , :get_orders , :get_specific_order]
 	before_action :restrict_rider , only: [:rider_accept , :arrived_rest_order , :arrived_user_order , :finish_order , :pay_bill , :online]
 
 	def signup_user
@@ -136,6 +136,11 @@ class ApiController < ApplicationController
 
 	def get_orders
 		@order = @current_user.orders.order(updated_at: 'DESC')
+		render status: 200
+	end
+
+	def get_specific_order
+		@order = @current_user.orders.find(params[:id])
 		render status: 200
 	end
 

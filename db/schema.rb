@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406071331) do
+ActiveRecord::Schema.define(version: 20170424072436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,42 @@ ActiveRecord::Schema.define(version: 20170406071331) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.index ["restaurant_id"], name: "index_deals_on_restaurant_id", using: :btree
+  end
+
+  create_table "deliver_categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "deliverable_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["deliverable_id"], name: "index_deliver_categories_on_deliverable_id", using: :btree
+  end
+
+  create_table "deliverables", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "opening_time"
+    t.datetime "closing_time"
+    t.string   "location"
+    t.integer  "owner_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "status",              default: 0
+    t.string   "image",               default: ""
+    t.boolean  "popular",             default: false
+    t.string   "about_us",            default: ""
+    t.string   "post_code"
+    t.integer  "weekly_order",        default: 0
+    t.string   "no_of_location"
+    t.boolean  "delivery",            default: false
+    t.float    "delivery_fee",        default: 0.0
+    t.float    "commission",          default: 0.0
+    t.string   "cover"
+    t.string   "phone_number"
+    t.string   "close_day",           default: [],                 array: true
+    t.integer  "order_status",        default: 0
+    t.integer  "deliver_category_id"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["deliver_category_id"], name: "index_deliverables_on_deliver_category_id", using: :btree
   end
 
   create_table "details", force: :cascade do |t|

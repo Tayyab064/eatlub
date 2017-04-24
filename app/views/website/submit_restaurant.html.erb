@@ -9,6 +9,35 @@
     top: 40px;
     width: 100%;
   }
+  .select_rest{
+	  $btn-color: random-color($max:200);
+	  $btn-color-dark: shade($btn-color, 40%);
+
+	  &:before,
+	  &:after {
+	    content: '';
+	    @include absolute(0,0,0,0);
+	    border-top: $btn-height/2 solid $btn-color-dark;
+	    border-bottom: $btn-height/2 solid $btn-color-dark;
+	  }
+	  
+	  &:before {
+	    border-right: $btn-height/2 solid transparent;
+	    transform: translateX(-100%);
+	  }
+
+	  &:after {
+	    border-left: $btn-height/2 solid transparent;
+	    transform: translateX(100%);
+	  }
+
+	  &:hover {
+	    color: tint($btn-color, 75%);
+	    
+	    &:before { transform: translateX(-30%); }    
+	    &:after { transform: translateX(30%); }
+	  }
+	}
 </style>
 <link href="website/css/date_time_picker.css" rel="stylesheet">
 <!-- SubHeader =============================================== -->
@@ -147,13 +176,28 @@
     </div><!-- End container -->
 </div><!-- End white_bg -->
 
-<div class="container margin_60">
+<div class="container margin_60" id='selectbutton'>
+	<div class="main_title margin_mobile">
+        <h2 class="nomargin_top">Please select a category</h2>
+    </div>
+<div class="row">
+	<div class="col-sm-6">
+		<button type="button" class="btn btn-info btn-lg" onclick="removerestaurant();" style="width: 100%;">Restaurant</button>
+	</div>
+	<div class="col-sm-6">
+		<button type="button" class="btn btn-info btn-lg" onclick="removedeliverable();" style="width: 100%;">Other Deliverable</button>
+	</div>
+</div>
+</div>
+
+
+<div class="container margin_60 hidden" id="form-restaurant">
 	 <div class="main_title margin_mobile">
-            <h2 class="nomargin_top">Please submit the form below</h2>
-            <p class="hidden">
-                Cum doctus civibus efficiantur in imperdiet deterruisset.
-            </p>
-        </div>
+        <h2 class="nomargin_top">Please submit the form below</h2>
+        <p class="hidden">
+            Cum doctus civibus efficiantur in imperdiet deterruisset.
+        </p>
+    </div>
 	<div class="row">
     	<div class="col-md-8 col-md-offset-2">
         	<%= form_tag( save_restaurant_path , :method => :post , :multipart => true , onsubmit: "return validateForm()") do  %>
@@ -317,6 +361,165 @@
 </div><!-- End container  -->
 <!-- End Content =============================================== -->
 
+<div class="container margin_60 hidden" id="form-deliverable">
+	 <div class="main_title margin_mobile">
+        <h2 class="nomargin_top">Please submit the form below</h2>
+        <p class="hidden">
+            Cum doctus civibus efficiantur in imperdiet deterruisset.
+        </p>
+    </div>
+	<div class="row">
+    	<div class="col-md-8 col-md-offset-2">
+        	<%= form_tag( save_restaurant_path , :method => :post , :multipart => true , onsubmit: "return validateForm()") do  %>
+				<div class="row">
+					<div class="col-md-12 col-sm-12">
+						<div class="form-group">
+							<label>Owner Email</label>
+							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
+							<%= text_field_tag :email  , '' , class: 'form-control' , placeholder: 'example@test.com', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Owner Name</label>
+							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
+							<%= text_field_tag :owner_name  , '' , class: 'form-control' , placeholder: 'John Doe', autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Mobile Number</label>
+							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
+							<%= text_field_tag :mobile_number  , '' , class: 'form-control' , placeholder: '+44xxxxxxxxxx', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div id="pass-info" class="clearfix"></div>
+                <hr style="border-color:#ddd;">
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Deliverable Name</label>
+							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
+							<%= text_field_tag :name  , '' , class: 'form-control' , placeholder: 'Mug House', autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Deliverable Category</label>
+							
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Phone Number</label>
+							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
+							<%= text_field_tag :phone_number  , '' , class: 'form-control' , placeholder: '+44 xx xxxx xxxx', autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Location</label>
+                           <!-- <input type="text" id="restaurant" name="restaurant" class="form-control" placeholder="Pizza King"> -->
+                           <%= text_field_tag :location  , '' , class: 'form-control' , placeholder: '1-3 Tooley Street, London', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Post Code</label>
+							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
+							<%= text_field_tag :post_code  , '' , class: 'form-control' , placeholder: 'N19 4EE', autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Estimated Weekly Orders</label>
+							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
+							<%= number_field_tag :weekly_order  , '' , class: 'form-control' , placeholder: '0', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>No of Locations</label>
+							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
+							<%= select_tag "no_of_location", "<option value='1'>1</option><option selected='selected' value='2-5'>2-5</option><option value='6-10'>6-10</option><option value='11-25'>11-25</option><option value='25+'>25+</option>".html_safe  , {class: 'form-control'} %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<h5>Delivery</h5>
+							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
+							<label>Yes <%= radio_button_tag 'delivery', "yes", true , class: 'icheck' %></label>
+							<label>No <%= radio_button_tag 'delivery', "no", false , class: 'icheck' %></label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Opening Time</label>
+							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
+							<%= text_field_tag :opening_time  , '' , class: 'form-control time-pick' , placeholder: '12:00 AM', autofocus: true %>
+							
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Closing Time</label>
+							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
+							<%= text_field_tag :closing_time  , '' , class: 'time-pick form-control' , placeholder: '8:00 PM', autofocus: true %>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Image</label>
+							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
+							<%= file_field_tag "image" %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Cover Image</label>
+							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
+							<%= file_field_tag "cover" %>
+						</div>
+					</div>
+				</div><!-- End row  -->
+				<div id="pass-info" class="clearfix"></div>
+                <hr style="border-color:#ddd;">
+				<div class="text-center hidden"><button class="btn_full_outline" type="button" onclick="removdees();">Want to add any deal?</button></div>
+				<div class="row hidden" id="dees">
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Max Orders</label>
+							<%= number_field_tag :max_order  , 0 , class: 'form-control' , autofocus: true %>
+						</div>
+					</div>
+					<div class="col-md-6 col-sm-6">
+						<div class="form-group">
+							<label>Discount</label>
+							<%= number_field_tag :discount  , 0.0 , class: 'form-control' , autofocus: true , step: 0.1 %>
+						</div>
+					</div>
+				</div><!-- End row  -->
+                <div id="pass-info" class="clearfix"></div>
+                <hr style="border-color:#ddd;">
+                <div class="text-center"><button class="btn_full_outline" type="submit">Submit</button></div>
+			<% end %>
+        </div><!-- End col  -->
+    </div><!-- End row  -->
+</div><!-- End container  -->
+
 <script>
   function initMap() {
     /*var input = document.getElementById('pickup_location');*/
@@ -344,6 +547,20 @@
 <script type="text/javascript">
 	function removdeal(){
 		$("#tes").removeClass("hidden");
+	}
+
+	function removdees(){
+		$("#dees").removeClass("hidden");
+	}
+
+	function removedeliverable(){
+		$("#form-deliverable").removeClass("hidden");
+		$("#selectbutton").addClass("hidden");
+	}
+
+	function removerestaurant(){
+		$("#form-restaurant").removeClass("hidden");
+		$("#selectbutton").addClass("hidden");
 	}
 
 	function validateForm(){
