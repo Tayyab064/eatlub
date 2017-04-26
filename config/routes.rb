@@ -68,6 +68,13 @@ Rails.application.routes.draw do
 
     get 'deliverable_categories' => 'dashboard#deliverable_cat' , as: 'dashboard_deliverable_cat'
     post 'deliverable_categories' => 'dashboard#save_deliverable' , as: 'dashboard_deliverable_cat_save'
+
+    get 'deliverable' => 'dashboard#deliverable' ,as: 'dashboard_deliverables'
+    get 'approve_deliverable_:id' => 'dashboard#approve_deliverables' , as: 'approve_deliverable'
+    get 'deliverable_mark_popular_:id' => 'dashboard#deliverable_mark_popular' , as: 'deliverable_mark_popular'
+    get 'unblock_deliverable_:id' => 'dashboard#unblock_deliverable' , as: 'unblock_deliverable'
+    get 'block_deliverable_:id' => 'dashboard#block_deliverable' , as: 'block_deliverable'
+    put 'set_commission_deliverable_:id' => 'dashboard#set_commission_deliverable' , as: 'set_commission_deliverable'
   end
 
   scope 'owner' do
