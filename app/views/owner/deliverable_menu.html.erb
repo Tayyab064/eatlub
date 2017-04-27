@@ -1,0 +1,171 @@
+<style type="text/css" rel="stylesheet">
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: red;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: green;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.order_stat{
+  background-color: #10cfbd !important;
+  color: white !important;
+}
+</style>
+<div class="box_style_2" id="main_menu">
+
+<div class="row">
+  <div class="col-md-3">
+    <h2 class="inner"> Orders Status </h2>
+  </div>
+  <div class="col-md-9">
+    <div class="btn-group btn-group-justified">
+      <a onclick="order_status('quiet');" class="btn <%= @restaurant.order_status=='quiet' ? 'order_stat' : '' %> ">Quiet</a>
+      <a onclick="order_status('moderate');" class="btn <%= @restaurant.order_status=='moderate' ? 'order_stat' : '' %>">Moderate</a>
+      <a onclick="order_status('busy');" class="btn <%= @restaurant.order_status=='busy' ? 'order_stat' : '' %>">Busy</a>
+    </div>
+  </div>
+</div>
+
+	<h2 class="inner">Menu <%= link_to 'Add Item' , owner_deliverable_menu_add_path  , class: 'btn' , style: 'background-color: #10cfbd; color: white; float: right;' %>
+
+        <% if @restaurant.status == 'approved' %>
+        <% link_to 'View Restaurant' , restaurant_page_path(@restaurant.id)  , class: 'btn' , style: 'background-color: #10cfbd; color: white; float: right;' %>
+        <% end %>
+        
+    </h2>
+    <% if @restaurant.menu.present? %>
+        <%  @restaurant.menu.sections.each_with_index do |sec,index| %>
+        <% if index == 0 %>
+			<h3 class="nomargin_top" id="<%= sec.title %>"><%= sec.title %></h3>
+        <% else %>
+			<hr>
+			<h3 id="<%= sec.title %>"><%= sec.title %></h3>
+        <% end %>
+        <p>
+            <%= sec.description %>
+        </p>
+        <table class="table table-striped cart-list">
+            <thead>
+                <tr>
+                    <th>
+                         #
+                    </th>
+                    <th>
+                         
+                    </th>
+                    <th>
+                         Item
+                    </th>
+                    <th>
+                         Price
+                    </th>
+                    <th>
+                        Visibility
+                    </th>
+                    <th>
+                      Edit
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sec.food_items.each_with_index do |food,ind| %>
+                <tr>
+                    <td><%= ind +1 %>.</td>
+                    <td>
+                        <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : '../website/img/menu-thumb-1.jpg' %>" alt="thumb" style='width: 60px; height: auto;'></figure>
+                    </td>
+                    <td>
+                        <h5><%= food.name %></h5>
+                        <p>
+                            <%= food.description %>
+                        </p>
+                        
+                    </td>
+                    <td class="options v-align-middle">
+                        <strong>£ <%= food.price %></strong>
+                    </td>
+                    <td class="v-align-middle">
+                        <label class="switch" onclick="location.href='<%= fooditem_publish_path(food.id) %>'">
+                          <input type="checkbox" <%= food.publish ? 'checked' : '' %>>
+                          <div class="slider round"></div>
+                        </label>
+                    </td>
+                    <td class="v-align-middle">
+                      <%= link_to 'Edit' , edit_fooditem_owner_path(food.id)  , class: 'btn' , style: 'background-color: #10cfbd; color: white;' %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <% end %>
+    <% else %>
+        <h3 >detail missing</h3>
+    <% end %>
+</div><!-- End box_style_1 -->
+
+<script type="text/javascript">
+  function order_status(stat){
+      $.ajax({
+        url: '/owner/deliver_order_<%= @restaurant.id %>',
+        type: "PUT",
+        headers: {
+          'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
+        },
+        data: { stat: stat },
+        success: function(data) {
+         console.log(data);
+         alertify.success('Order Status is successfully updated');
+         window.location.reload();
+        }
+      });
+  }
+</script>

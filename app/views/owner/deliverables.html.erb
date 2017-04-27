@@ -1,0 +1,54 @@
+<div class="page-content-wrapper ">
+  <!-- START PAGE CONTENT -->
+   <div class="container-fluid container-fixed-lg bg-white">
+      <!-- START PANEL -->
+      <div class="panel panel-transparent">
+        <div class="panel-heading">
+          <div class="panel-title">Deliverables
+          </div>
+          <div class="pull-right">
+            <div class="col-xs-12">
+              <input type="text" id="search-table" class="form-control pull-right" placeholder="Search">
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped demo-table-search" id="tableWithSearch">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @restaurant.each do |restaurant| %>
+              <tr onclick="window.location.assign('<%= owner_deliverable_menu_path(restaurant.id) %>')" style='cursor: pointer;'>
+                <td class="v-align-middle semi-bold">
+                  <p>D<%= restaurant.id %></p>
+                </td>
+                <td class="v-align-middle semi-bold">
+                  <p><%= restaurant.name %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= restaurant.location %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= restaurant.deliver_category.name %></p>
+                </td>
+                <td class="v-align-middle">
+                  <p><%= restaurant.status.capitalize %></p>
+                </td>
+              </tr>
+
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- END PANEL -->
+    </div>
+</div>

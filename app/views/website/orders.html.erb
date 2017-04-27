@@ -23,7 +23,7 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Restaurant Name</th>
+                <th>Deliverable Name</th>
                 <th>Branch</th>
                 <th>Delivery Address</th>
                 <th>Notes</th>
@@ -37,10 +37,10 @@
                   <p>O<%= order.id %></p>
                 </td>
                  <td class="v-align-middle semi-bold">
-                  <p><%= order.restaurant.name %></p>
+                  <p><%= order.ordera.present? ? order.ordera.name : '' %></p>
                 </td>
                 <td class="v-align-middle semi-bold">
-                  <p><%= order.restaurant.location %></p>
+                  <p><%= order.ordera.present? ? order.ordera.location : '' %></p>
                 </td>
                 <td class="v-align-middle">
                   <p><%= order.address %></p>

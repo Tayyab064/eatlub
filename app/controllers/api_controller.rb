@@ -105,8 +105,16 @@ class ApiController < ApplicationController
 
 	def create_order
 		if params[:order].length > 0
-			if res = Restaurant.find_by_id(params[:order][:restaurant_id])
-				@ord = Order.create(address: params[:order][:address], notes:  params[:order][:notes], restaurant_id: res.id , user_id: @current_user.id)
+			if params[:order][:orderable_type] == "Restaurant"
+				res = Restaurant.find_by_id(params[:order][:orderable_id])
+			else
+				res = Deliverable.find_by_id(params[:order][:orderable_id])
+				unless res.deliver_category.name == params[:order][:orderable_type]
+					res = nil
+				end
+			end
+			if res.present?
+				@ord = Order.create(address: params[:order][:address], notes:  params[:order][:notes], ordera_id: params[:order][:orderable_id] , ordera_type: params[:order][:orderable_type] , user_id: @current_user.id)
 				params[:order][:item].each do |itm|
 					it = Item.create(order_id: @ord.id , orderable_id: params[:order][:item][itm][:id].to_i, orderable_type: 'FoodItem', quantity: params[:order][:item][itm][:quantity].to_i)
 					if params[:order][:item][itm][:ingredients].present?
@@ -125,7 +133,7 @@ class ApiController < ApplicationController
 				PlaceOrderJob.perform_later(@ord)
 				render status: 201
     		else
-    			@message = 'Invalid restaurant id'
+    			@message = 'Invalid orderable id'
     			render status: 404
     		end
 		else

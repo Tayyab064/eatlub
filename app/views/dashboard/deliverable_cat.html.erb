@@ -20,21 +20,21 @@
               <tr>
                 <th></th>
                 <th>Title</th>
-                <th>Edit</th>
+                <!-- <th>Edit</th> -->
               </tr>
             </thead>
             <tbody>
               <% @cat.each do |cati| %>
               <tr>
                 <td class="v-align-middle semi-bold">
-                  <img src="<%= cati.image_url %>" alt="" border=3 height=100 width=100></img>
+                  <img src="<%= cati.image_url %>" alt="" border=3 height=100 width=150></img>
                 </td>
                 <td class="v-align-middle semi-bold">
                   <p><%= cati.name  %></p>
                 </td>
-                <td class="v-align-middle bold">
+                <!-- <td class="v-align-middle bold">
                   <p></p>
-                </td>
+                </td> -->
               </tr>
 
               <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424133740) do
+ActiveRecord::Schema.define(version: 20170427130212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,10 +155,10 @@ ActiveRecord::Schema.define(version: 20170424133740) do
 
   create_table "menus", force: :cascade do |t|
     t.string   "title",         default: "Menu"
-    t.integer  "restaurant_id"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
-    t.index ["restaurant_id"], name: "index_menus_on_restaurant_id", using: :btree
+    t.integer  "menuable_id"
+    t.string   "menuable_type"
   end
 
   create_table "options", force: :cascade do |t|
@@ -171,17 +171,17 @@ ActiveRecord::Schema.define(version: 20170424133740) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "address",       default: ""
-    t.string   "notes",         default: ""
-    t.integer  "status",        default: 0
-    t.integer  "restaurant_id"
+    t.string   "address",     default: ""
+    t.string   "notes",       default: ""
+    t.integer  "status",      default: 0
     t.integer  "user_id"
     t.integer  "rider_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.datetime "assigned"
-    t.float    "tip",           default: 0.0
-    t.index ["restaurant_id"], name: "index_orders_on_restaurant_id", using: :btree
+    t.float    "tip",         default: 0.0
+    t.integer  "ordera_id"
+    t.string   "ordera_type"
     t.index ["user_id"], name: "index_orders_on_user_id", using: :btree
   end
 
@@ -223,17 +223,17 @@ ActiveRecord::Schema.define(version: 20170424133740) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string   "summary",       default: ""
-    t.integer  "rating",        default: 1
-    t.integer  "quality",       default: 1
-    t.integer  "price",         default: 1
-    t.integer  "punctuality",   default: 1
-    t.integer  "courtesy",      default: 1
-    t.integer  "restaurant_id"
+    t.string   "summary",         default: ""
+    t.integer  "rating",          default: 1
+    t.integer  "quality",         default: 1
+    t.integer  "price",           default: 1
+    t.integer  "punctuality",     default: 1
+    t.integer  "courtesy",        default: 1
     t.integer  "reviewer_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.index ["restaurant_id"], name: "index_reviews_on_restaurant_id", using: :btree
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "reviewable_id"
+    t.string   "reviewable_type"
   end
 
   create_table "sections", force: :cascade do |t|

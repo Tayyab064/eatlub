@@ -84,6 +84,7 @@ Rails.application.routes.draw do
 
     get 'index' => 'owner#index' , as: 'owner_index'
     get 'restaurants' => 'owner#restaurants' , as: 'owner_restaurants'
+    get 'deliverables' => 'owner#deliverables' ,as: 'owner_deliverables'
     get 'fooditem_:id' => 'owner#restaurant_menu_add' , as: 'owner_restaurant_food_add'
     get 'restaurant_:id' => 'owner#restaurant_menu' , as: 'owner_restaurant_menu'
     post 'save_food_item' => 'owner#save_fooditem' , as: 'owner_save_fooditem'
@@ -96,6 +97,10 @@ Rails.application.routes.draw do
     put 'fooditem_:id' => 'owner#update_food' , as: 'owner_restaurant_food_edit'
     post 'password' => 'owner#set_password' , as: 'owner_password'
     put 'order_:id' => 'owner#order_status' , as: 'owner_restaurant_order_status'
+    get 'deliverable_:id' => 'owner#deliverable_menu' , as: 'owner_deliverable_menu'
+    put 'deliver_order_:id' => 'owner#order_status_delivera'
+    get 'deliver_item_:id' => 'owner#deliverable_menu_add' , as: 'owner_deliverable_menu_add'
+    post 'save_deliver_item' => 'owner#save_deliver_item' , as: 'owner_save_deliver_item'
   end
 
   scope 'api' do

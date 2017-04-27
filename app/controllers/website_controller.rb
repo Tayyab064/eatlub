@@ -176,7 +176,7 @@ class WebsiteController < ApplicationController
 			ad = Address.find(params[:address_id]).address
 		end
 		
-		ord = Order.create(address: ad , notes: params[:notes] , restaurant_id: params[:restaurant_id] , user_id: params[:user_id])
+		ord = Order.create(address: ad , notes: params[:notes] , ordera_id: params[:restaurant_id] , ordera_type: 'Restaurant' , user_id: params[:user_id])
 		params[:item].each do |cou|		
 			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
 		end
@@ -184,7 +184,7 @@ class WebsiteController < ApplicationController
 	end
 
 	def orders
-		@orders = @end_user.orders
+		@orders = @end_user.orders.order(created_at: 'DESC')
 	end
 
 	def order
@@ -213,7 +213,12 @@ class WebsiteController < ApplicationController
 	end
 
 	def leaveareview
-		Review.create(summary: params[:review_text], quality: params[:food_review], price: params[:price_review], punctuality: params[:punctuality_review], courtesy: params[:courtesy_review], restaurant_id: params[:restaurant], reviewer_id: @end_user.id)
+		if params[:typee].present?
+			re_typ = params[:typee]
+		else
+			re_typ = 'Restaurant'
+		end
+		Review.create(summary: params[:review_text], quality: params[:food_review], price: params[:price_review], punctuality: params[:punctuality_review], courtesy: params[:courtesy_review], reviewable_id: params[:restaurant] , reviewable_type: re_typ , reviewer_id: @end_user.id)
 		redirect_to restaurant_page_path(params[:restaurant]) , notice: 'Successfully reviewed!'
 	end
 

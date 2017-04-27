@@ -14,9 +14,9 @@ class Restaurant < ApplicationRecord
 	after_validation :geocode 
 
 
-	has_one :menu , dependent: :destroy
-	has_many :reviews , dependent: :destroy
-	has_many :orders , dependent: :destroy
+	has_one :menu , :as => :menuable , dependent: :destroy
+	has_many :reviews , :as => :reviewable , dependent: :destroy
+	has_many :orders , :as => :ordera  , dependent: :destroy
 	has_one :deal , dependent: :destroy
 
 	enum status: [:pending , :approved , :block]

@@ -49,7 +49,7 @@ class OwnerController < ApplicationController
 			@restaurant = Restaurant.find(params[:id])
 		end
 		unless @restaurant.menu.present?
-			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
+			Menu.create(title: 'Menu' , menuable_id: @restaurant.id , menuable_type: 'Restaurant')
 			redirect_to :back
 		end
 	end
@@ -103,7 +103,7 @@ class OwnerController < ApplicationController
 	def edit_food
 		if @owner.present?
 			@food = FoodItem.find(params[:id])
-			@restaurant = @food.section.menu.restaurant
+			@restaurant = @food.section.menu.menuable
 			unless @restaurant.owner == @owner
 				redirect_to '/' , notice: 'Error: Unauthorized'
 			end
@@ -143,14 +143,14 @@ class OwnerController < ApplicationController
 			@restaurant = Restaurant.find(params[:id])
 		end
 		unless @restaurant.menu.present?
-			Menu.create(title: 'Menu' , restaurant_id: @restaurant.id)
+			Menu.create(title: 'Menu' , menuable_id: @restaurant.id , menuable_type: 'Restaurant')
 			redirect_to :back
 		end
 	end
 
 	def orders
 		if @owner.present?
-			@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id))
+			@order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id))
 		else
 			@order = Order.all
 		end
@@ -158,7 +158,7 @@ class OwnerController < ApplicationController
 
 	def order
 		if @owner.present?
-			@order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+			@order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id)).find(params[:id])
 		else
 			@order = Order.find(params[:id])
 		end
@@ -166,13 +166,13 @@ class OwnerController < ApplicationController
 
 	def order_accept
 		if @owner.present?
-			order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+			order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id)).find(params[:id])
 		else
 			order = Order.find(params[:id])
 		end
 		order.update(status: 1)
 
-		case order.restaurant.order_status
+		case order.ordera.order_status
 		when 'quiet'
 		  delay_interval = 5.minutes
 		when 'moderate'
@@ -189,7 +189,7 @@ class OwnerController < ApplicationController
 
 	def order_dispatch
 		if @owner.present?
-			order = Order.where(restaurant_id: @owner.restaurants.pluck(:id)).find(params[:id])
+			@order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id))
 		else
 			order = Order.find(params[:id])
 		end
@@ -240,6 +240,87 @@ class OwnerController < ApplicationController
 		render json: {'message' => 'Success'} , status: :ok
 	end
 
+	def deliverables
+		if @owner.present?
+			@restaurant = @owner.deliverables
+		else
+			@restaurant = Deliverable.all
+		end
+	end
+
+	def deliverable_menu
+		if @owner.present?
+			@restaurant = @owner.deliverables.find(params[:id])
+		else
+			@restaurant = Deliverable.find(params[:id])
+		end
+		unless @restaurant.menu.present?
+			Menu.create(title: 'Menu' , menuable_id: @restaurant.id , menuable_type: 'Deliverable')
+			redirect_to :back
+		end
+	end
+
+	def order_status_delivera
+		if @owner.present?
+			res = @owner.deliverables.find(params[:id])
+		else
+			res = Deliverable.find(params[:id])
+		end
+		res.update(order_status: params[:stat])
+		render json: {'message' => 'Success'} , status: :ok
+	end
+
+	def deliverable_menu_add
+		if @owner.present?
+			@restaurant = @owner.deliverables.find(params[:id])
+		else
+			@restaurant = Deliverable.find(params[:id])
+		end
+		unless @restaurant.menu.present?
+			Menu.create(title: 'Menu' , menuable_id: @restaurant.id , menuable_type: 'Deliverable')
+			redirect_to :back
+		end
+	end
+
+	def save_deliver_item
+		if params[:image].present?
+			if params[:section].length > 0
+				if @owner.present?
+					res = @owner.deliverables.find(params[:deliverable_id])
+				else
+					res = Deliverable.find(params[:deliverable_id])
+				end
+				
+				sec = Section.create(title: params[:section], description: params[:section_desc] , menu_id: res.menu.id)
+
+				sec_f = sec.id
+			else
+				sec_f = params[:menu_section].to_i
+			end
+			foo = FoodItem.create(name: params[:name] , description: params[:name_desc] , price: params[:price], section_id: sec_f, image: params[:image])
+			10.times do |ss|
+				if params['option_' + ss.to_s].present?
+					if params['option_' + ss.to_s].length > 0
+						o = Option.create(title: params['option_' + ss.to_s], price: params['option_p_' + ss.to_s], food_item_id: foo.id)
+						3.times do |cotn|
+							if params['option_tit_' + ss.to_s + '_' + (cotn+1).to_s].length > 0
+								Component.create(title: params['option_tit_' + ss.to_s + '_' + (cotn+1).to_s], price: params['option_' + ss.to_s + '_' + (cotn+1).to_s] , option_id: o.id)
+							end
+						end
+					end
+				end
+
+				if params['ingredient_' + ss.to_s].present?
+					if params['ingredient_' + ss.to_s].length > 0
+						Ingredient.create(title: params['ingredient_' + ss.to_s], price: params['ingredient_p_' + ss.to_s], food_item_id: foo.id)
+					end
+				end
+			end
+			redirect_to owner_deliverable_menu_path(params[:deliverable_id]) , notice: 'Successfully Added!'
+		else
+			redirect_to :back , notice: 'Image Missing'
+		end
+	end
 
 	private
 	def fooditem_update_params

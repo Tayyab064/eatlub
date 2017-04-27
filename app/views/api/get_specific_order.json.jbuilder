@@ -4,7 +4,11 @@ if @order.present?
 		json.address @order.address
 		json.status @order.status.capitalize
 		json.notes @order.notes
-		json.restaurant @order.restaurant.name
+		if ord.ordera.present?
+		json.restaurant ord.ordera.name
+		else
+		json.restaurant ''
+		end
 		json.items(@order.items) do |item|
 				json.id item.id
 				json.title item.orderable.name

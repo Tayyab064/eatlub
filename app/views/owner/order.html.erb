@@ -111,6 +111,11 @@
             </tr>
             <% pr = pr + itm_pric %>
             <% end %>
+            <% if @order.ordera.present? %>
+            <% fes = @order.ordera.delivery_fee.round(2) %>
+            <% else %>
+            <% fes = 0.0 %>
+            <% end %>
             <tr>
                 <td></td>
                 <td class="v-align-middle">
@@ -118,7 +123,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= @order.restaurant.delivery_fee.round(2) %></strong>
+                    <strong>£ <%= fes %></strong>
                 </td>
             </tr>
             <tr>
@@ -128,7 +133,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= @order.restaurant.delivery_fee.round(2) + pr.round(2) %></strong>
+                    <strong>£ <%= (fes+pr).round(2) %></strong>
                 </td>
             </tr>
         </tbody>
