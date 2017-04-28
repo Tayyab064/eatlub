@@ -206,7 +206,7 @@ class OwnerController < ApplicationController
 
 		#job for sending request to riders
 		#DispatchRiderJob.delay_for(delay_interval).perform_later(order)
-		DispatchRiderJob.perform_later(order)
+		#DispatchRiderJob.perform_later(order)
 		redirect_to owner_order_path(order)
 	end
 

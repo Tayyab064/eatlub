@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   get 'ajax' => 'website#ajax'
+  get 'notification_test' => 'api#test_noti'
 
   root 'website#index'
   post 'signin' => 'website#signin' , as: 'website_signin'
