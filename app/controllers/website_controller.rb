@@ -87,11 +87,16 @@ class WebsiteController < ApplicationController
 	def restaurants_nearby
 		#@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
 		if params[:address].present?
-			@restaurants = Restaurant.approved.where(post_code: params[:address])
+			@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
 			@address = params[:address]
 		else
 			@restaurants = Restaurant.approved.limit(100)
 			@address = ''
+		end
+
+		@res_count = 0
+		@restaurants.each do |s|
+			@res_count += 1
 		end
 	end
 
@@ -176,7 +181,12 @@ class WebsiteController < ApplicationController
 			ad = Address.find(params[:address_id]).address
 		end
 		
-		ord = Order.create(address: ad , notes: params[:notes] , ordera_id: params[:restaurant_id] , ordera_type: 'Restaurant' , user_id: params[:user_id])
+		if params[:deliverable]
+			ordes_typ = 'Deliverable'
+		else
+			ordes_typ = 'Restaurant'
+		end
+		ord = Order.create(address: ad , notes: params[:notes] , ordera_id: params[:restaurant_id] , ordera_type: ordes_typ , user_id: params[:user_id])
 		params[:item].each do |cou|		
 			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
 		end
@@ -219,7 +229,32 @@ class WebsiteController < ApplicationController
 			re_typ = 'Restaurant'
 		end
 		Review.create(summary: params[:review_text], quality: params[:food_review], price: params[:price_review], punctuality: params[:punctuality_review], courtesy: params[:courtesy_review], reviewable_id: params[:restaurant] , reviewable_type: re_typ , reviewer_id: @end_user.id)
-		redirect_to restaurant_page_path(params[:restaurant]) , notice: 'Successfully reviewed!'
+		redirect_to :back , notice: 'Successfully reviewed!'
+	end
+
+	def nearby_deliverables
+		de = DeliverCategory.find_by_name(params[:name])
+		if params[:address].present? && de.present?
+			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).near(params[:address], 10, :units => :km)
+			@address = params[:address]
+		else
+			@restaurants = Deliverable.approved.limit(0)
+			@address = ''
+		end
+
+		@res_count = 0
+		@restaurants.each do |s|
+			@res_count += 1
+		end
+	end
+
+	def get_deliverable
+		@restaurant = Deliverable.approved.find(params[:id])
+		@reviews = @restaurant.reviews
+	end
+
+	def get_deliverable_item
+		@restaurant = Deliverable.approved.find(params[:id])
 	end
 
 

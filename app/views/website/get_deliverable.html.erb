@@ -1,0 +1,551 @@
+<!-- Radio and check inputs -->
+<link href="website/css/skins/square/grey.css" rel="stylesheet">
+
+<!-- Gallery -->
+<link href="website/css/slider-pro.min.css" rel="stylesheet">
+
+<style type="text/css">
+    .optimania{
+        background-color: #78cfcf;
+    }
+</style>
+
+<!-- SubHeader =============================================== -->
+<section class="parallax-window" data-parallax="scroll" data-image-src="<%= @restaurant.cover_url.present? ? @restaurant.cover_url : 'website/img/sub_header_2.jpg' %>" data-natural-width="1400" data-natural-height="470">
+    <div id="subheader">
+	<div id="sub_content">
+    	<div id="thumb"><img src="<%= @restaurant.image_url.present? ? @restaurant.image_url : 'website/img/thumb_restaurant.jpg' %>" alt=""></div>
+                     <div class="rating">
+                     <% revi_coun = @reviews.count %>
+                        <% if revi_coun > 0 %>
+                            <% t_rat = ( @restaurant.reviews.pluck("SUM(rating)").first.to_f / @restaurant.reviews.count ).round %>
+                            <% t_rat.times do |th| %>
+                            <i class="icon_star voted"></i>
+                            <% end %>
+                            <% (5-t_rat).times do |th| %>
+                            <i class="icon_star"></i>
+                            <% end %>
+                        <% else %>
+                            <i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>
+                        <% end %>
+                     ( <small><a id="#resti_review"><%= revi_coun %> reviews</a></small> )
+                     </div>
+                    <h1><%= @restaurant.name %></h1>
+                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
+                    <h1><%= link_to 'Items' , get_deliverable_item_path , class: 'btn' , style: 'background-color: #78cfcf; width: 15%;text-decoration: none;' %></h1>
+    </div><!-- End sub_content -->
+</div><!-- End subheader -->
+</section><!-- End section -->
+<!-- End SubHeader ============================================ -->
+
+    <div id="position" class="hidden">
+        <div class="container">
+            <ul>
+                <li><a href="<%= root_path %>">Home</a></li>
+                <li><a href="#">Category</a></li>
+                <li>Page active</li>
+            </ul>
+            <a href="detail_page_2.html#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
+        </div>
+    </div><!-- Position -->
+    
+    <div class="collapse" id="collapseMap">
+            <div id="map" class="map"></div>
+    </div><!-- End Map -->
+
+<!-- Content ================================================== -->
+<div class="container margin_60_35">
+		<div class="row">
+        
+			<div class="col-md-4">
+				<p>
+					<a id='view_on_map' class="btn_map" data-toggle="collapse" href="detail_page_2.html#collapseMap" aria-expanded="false" aria-controls="collapseMap">View on map</a>
+				</p>
+				<div class="box_style_2">
+					<h4 class="nomargin_top">Opening time <i class="icon_clock_alt pull-right"></i></h4>
+					<ul class="opening_list">
+						<li>Monday<%= @restaurant.close_day.include?('Monday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Tuesday<%= @restaurant.close_day.include?('Tuesday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Wednesday<%= @restaurant.close_day.include?('Wednesday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Thursday<%= @restaurant.close_day.include?('Thursday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Friday<%= @restaurant.close_day.include?('Friday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Saturday<%= @restaurant.close_day.include?('Saturday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+						<li>Sunday<%= @restaurant.close_day.include?('Sunday') ? '<span class="label label-danger">Closed</span>'.html_safe : "<span>#{@restaurant.opening_time.strftime('%I:%M %p')} -  #{@restaurant.closing_time.strftime('%I:%M %p')} </span>".html_safe %></li>
+					</ul>
+				</div>
+				<div class="box_style_2 hidden-xs" id="help">
+					<i class="icon_lifesaver"></i>
+					<h4>Need <span>Help?</span></h4>
+					<a href="tel://<%= @restaurant.phone_number %>" class="phone"><%= @restaurant.phone_number %></a>
+					<small><%= @restaurant.opening_time.strftime('%I:%M %p') %> - <%= @restaurant.closing_time.strftime('%I:%M %p') %></small>
+				</div>
+			</div>
+            
+			<div class="col-md-8">
+				<div class="box_style_2">
+					<h2 class="inner">Description</h2>
+                    
+                    <div id="Img_carousel" class="slider-pro">
+                        <div class="sp-slides">
+                        
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/1_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/1_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/1_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/1_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/1_medium.jpg">
+                            </div>
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/2_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/2_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/2_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/2_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/2_medium.jpg">
+                                <h3 class="sp-layer sp-black sp-padding" data-horizontal="40" data-vertical="40" data-show-transition="left">
+                                Lorem ipsum dolor sit amet </h3>
+                                <p class="sp-layer sp-white sp-padding" data-horizontal="40" data-vertical="100" data-show-transition="left" data-show-delay="200">
+                                     consectetur adipisicing elit
+                                </p>
+                                <p class="sp-layer sp-black sp-padding" data-horizontal="40" data-vertical="160" data-width="350" data-show-transition="left" data-show-delay="400">
+                                     sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                            
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/3_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/3_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/3_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/3_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/3_medium.jpg">
+                                <p class="sp-layer sp-white sp-padding" data-position="centerCenter" data-vertical="-50" data-show-transition="right" data-show-delay="500">
+                                     Lorem ipsum dolor sit amet
+                                </p>
+                                <p class="sp-layer sp-black sp-padding" data-position="centerCenter" data-vertical="50" data-show-transition="left" data-show-delay="700">
+                                     consectetur adipisicing elit
+                                </p>
+                            </div>
+                            
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/4_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/4_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/4_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/4_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/4_medium.jpg">
+                                <p class="sp-layer sp-black sp-padding" data-position="bottomLeft" data-vertical="0" data-width="100%" data-show-transition="up">
+                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                            
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/5_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/5_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/5_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/5_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/5_medium.jpg">
+                                <p class="sp-layer sp-white sp-padding" data-vertical="5%" data-horizontal="5%" data-width="90%" data-show-transition="down" data-show-delay="400">
+                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                            
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/6_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/6_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/6_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/6_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/6_medium.jpg">
+                                <p class="sp-layer sp-white sp-padding" data-horizontal="10" data-vertical="10" data-width="300">
+                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                            
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/7_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/7_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/7_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/7_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/7_medium.jpg">
+                                <p class="sp-layer sp-black sp-padding" data-position="bottomLeft" data-horizontal="5%" data-vertical="5%" data-width="90%" data-show-transition="up" data-show-delay="400">
+                                     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                </p>
+                            </div>
+                            
+                           <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/8_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/8_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/8_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/8_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/8_medium.jpg">
+                                <p class="sp-layer sp-black sp-padding" data-horizontal="50" data-vertical="50" data-show-transition="down" data-show-delay="500">
+                                     Lorem ipsum dolor sit amet
+                                </p>
+                                <p class="sp-layer sp-white sp-padding" data-horizontal="50" data-vertical="100" data-show-transition="up" data-show-delay="500">
+                                     consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </p>
+                            </div>
+                            
+                            <div class="sp-slide">
+                                <img alt="" class="sp-image" src="http://www.ansonika.com/src/css/images/blank.gif" 
+                                data-src="website/img/slider_single_restaurant/9_medium.jpg" 
+                                data-small="website/img/slider_single_restaurant/9_medium.jpg" 
+                                data-medium="website/img/slider_single_restaurant/9_medium.jpg" 
+                                data-large="website/img/slider_single_restaurant/9_medium.jpg" 
+                                data-retina="website/img/slider_single_restaurant/9_medium.jpg">
+                            </div>
+                        </div>
+                        <div class="sp-thumbnails">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/1_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/2_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/3_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/4_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/5_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/6_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/7_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/8_medium.jpg">
+                            <img alt="" class="sp-thumbnail" src="website/img/slider_single_restaurant/9_medium.jpg">
+                        </div>
+                    </div>
+                    <h3>About us</h3>
+					<p>
+						<%= @restaurant.about_us %>
+					</p>
+					<p class="add_bottom_30">
+						
+					</p>
+					<div id="summary_review">
+						<div id="general_rating">
+							<%= revi_coun %> Reviews
+							<div class="rating">
+                                <% if revi_coun > 0 %>
+    								<% t_rat = ( @reviews.pluck("SUM(rating)").first.to_f / @reviews.count ).round %>
+                                    <% t_rat.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-t_rat).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
+                                <% else %>
+                                    <% 5.times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
+                                <% end %>
+							</div>
+						</div>
+                        
+						<div class="row" id="rating_summary">
+							<div class="col-md-6">
+								<ul>
+									<li>Food Quality
+									<div class="rating">
+                                        <% if revi_coun > 0 %>
+                                            <% t_qua = ( @reviews.pluck("SUM(quality)").first.to_f / @reviews.count ).round %>
+    										<% t_qua.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_qua).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% end %>   
+									</div>
+									</li>
+									<li>Price
+									<div class="rating">
+                                        <% if revi_coun > 0 %>
+    										<% t_pri = ( @reviews.pluck("SUM(price)").first.to_f / @reviews.count ).round %>
+                                            <% t_pri.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_pri).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% end %>
+									</div>
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-6">
+								<ul>
+									<li>Punctuality
+									<div class="rating">
+                                        <% if revi_coun > 0 %>
+    										<% t_pun = ( @reviews.pluck("SUM(punctuality)").first.to_f / @reviews.count ).round %>
+                                            <% t_pun.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_pun).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% end %>
+									</div>
+									</li>
+									<li>Courtesy
+									<div class="rating">
+                                        <% if revi_coun > 0 %>
+    										<% t_cou = ( @reviews.pluck("SUM(courtesy)").first.to_f / @reviews.count ).round %>
+                                            <% t_cou.times do |th| %>
+                                            <i class="icon_star voted"></i>
+                                            <% end %>
+                                            <% (5-t_cou).times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% else %>
+                                            <% 5.times do |th| %>
+                                            <i class="icon_star"></i>
+                                            <% end %>
+                                        <% end %>
+									</div>
+									</li>
+								</ul>
+							</div>
+						</div><!-- End row -->
+						<hr class="styled">
+						<a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Leave a review</a>
+					</div><!-- End summary_review -->
+                    
+                    <% @reviews.each do |review| %>
+					<div class="review_strip_single" id='resti_review'>
+						<img src="website/img/avatar1.jpg" alt="" class="img-circle">
+						<small> - <%= review.created_at.strftime('%d %B %Y') %> -</small>
+						<h4><%= review.reviewer.name %></h4>
+						<p>
+							 "<%= review.summary %>."
+						</p>
+						<div class="row">
+							<div class="col-md-3">
+								<div class="rating">
+                                    <% review.quality.times do |th| %>
+									<i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.quality).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
+								</div>
+								 Food Quality
+							</div>
+							<div class="col-md-3">
+								<div class="rating">
+									<% review.price.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.price).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
+								</div>
+								 Price
+							</div>
+							<div class="col-md-3">
+								<div class="rating">
+									<% review.punctuality.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.punctuality).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
+								</div>
+								 Punctuality
+							</div>
+							<div class="col-md-3">
+								<div class="rating">
+									<% review.courtesy.times do |th| %>
+                                    <i class="icon_star voted"></i>
+                                    <% end %>
+                                    <% (5-review.courtesy).times do |th| %>
+                                    <i class="icon_star"></i>
+                                    <% end %>
+								</div>
+								 Courtesy
+							</div>
+						</div><!-- End row -->
+					</div><!-- End review strip -->
+                    <% end %>
+				</div><!-- End box_style_1 -->
+			</div>
+		</div><!-- End row -->
+</div><!-- End container -->
+<!-- End Content =============================================== -->
+
+
+<!-- Register modal -->   
+<div class="modal fade" id="myReview" tabindex="-1" role="dialog" aria-labelledby="review" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-popup">
+            <a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
+                <%= form_tag(leave_a_review_path , method: :post , class: 'popup-form') do %>
+                <div class="login_icon"><i class="icon_comment_alt"></i></div>
+                	<input name="typee" id="typee" type="hidden" value="Deliverable">   
+                    <input name="restaurant" id="restaurant" type="hidden" value="<%= @restaurant.id %>">                 
+                    <div class="row">
+                        <div class="col-md-6">
+                        <select class="form-control form-white" name="food_review" id="food_review">
+                                <option value="0" class="optimania">Food Quality</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>n>
+                            </select>                            </div>
+                        <div class="col-md-6">
+                            <select class="form-control form-white"  name="price_review" id="price_review">
+                                <option value="0" class="optimania">Price</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>
+                            </select>
+                        </div>
+                    </div><!--End Row -->    
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                                <select class="form-control form-white"  name="punctuality_review" id="punctuality_review">
+                                <option value="0" class="optimania">Punctuality</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>
+                            </select>                       </div>
+                        <div class="col-md-6">
+                            <select class="form-control form-white"  name="courtesy_review" id="courtesy_review">
+                                <option value="0" class="optimania">Courtesy</option>
+                                <option value="1" class="optimania">Low</option>
+                                <option value="2" class="optimania">Sufficient</option>
+                                <option value="3" class="optimania">Good</option>
+                                <option value="4" class="optimania">Excellent</option>
+                                <option value="5" class="optimania">Super</option>
+                            </select>
+                        </div>
+                    </div><!--End Row -->     
+                    <textarea name="review_text" id="review_text" class="form-control form-white" style="height:100px" placeholder="Write your review"></textarea>
+                    
+                <input type="submit"  class="btn btn-submit" id="submit-review" value="Submit">
+            <% end %>
+            <div id="message-review"></div>
+        </div>
+    </div>
+</div><!-- End Register modal -->
+
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc" type="text/javascript"></script>
+
+<script type="text/javascript">
+  /* ============================================================
+ * Google Map
+ * Render maps using Google Maps JS API
+ * For DEMO purposes only. Extract what you need.
+ * ============================================================ */
+(function($) {
+
+    'use strict';
+
+    var initmapre = document.getElementById('view_on_map');
+
+    // When the window has finished loading create our google map below
+    google.maps.event.addDomListener(initmapre, 'click', init);
+
+    var map;
+    var zoomLevel = 13;
+
+    function init() {
+        // Basic options for a simple Google Map
+        // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+
+        // Get the HTML DOM element that will contain your map 
+        // We are using a div with id="map" seen below in the <body>
+        var mapElement = document.getElementById('map');
+
+        // Create the Google Map using out element and options defined above
+        map = new google.maps.Map(mapElement, {
+          center: {lat: <%= @restaurant.latitude %>, lng: <%= @restaurant.longitude %>},
+          scrollwheel: false,
+          zoom: zoomLevel
+        });
+
+        var locations = [];
+        locations.push(['<%= @restaurant.name %>', <%= @restaurant.latitude %>, <%= @restaurant.longitude %>, '<%= @restaurant.location %>']);
+
+        var infowindow = new google.maps.InfoWindow();
+
+        var marker, i;
+
+        for (i = 0; i < locations.length; i++) {  
+          marker = new google.maps.Marker({
+            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+            map: map
+          });
+
+          /*icon: 'http://image.flaticon.com/icons/svg/67/67994.svg',*/
+
+          google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+            return function() {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+
+          google.maps.event.addListener(marker, 'mouseout', (function(marker, i) {
+            return function() {
+              infowindow.close();
+            }
+          })(marker, i));
+        }
+    }
+
+})(window.jQuery);
+
+</script>
+
+<!-- SPECIFIC SCRIPTS -->
+<script src="website/js/map_single.js" type="text/javascript"></script>
+<script src="website/js/infobox.js" type="text/javascript"></script>
+<script src="website/js/jquery.sliderPro.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $( document ).ready(function( $ ) {
+        $( '#Img_carousel' ).sliderPro({
+            width: 960,
+            height: 500,
+            fade: true,
+            arrows: true,
+            buttons: false,
+            fullScreen: false,
+            smallSize: 500,
+            startSlide: 0,
+            mediumSize: 1000,
+            largeSize: 3000,
+            thumbnailArrows: true,
+            autoplay: false
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    function leavareview(){
+        /*onclick="leavareview();"*/
+        console.log(document.getElementById('restaurant').value);
+        console.log(document.getElementById('food_review').value);
+        console.log(document.getElementById('price_review').value);
+        console.log(document.getElementById('punctuality_review').value);
+        console.log(document.getElementById('courtesy_review').value);
+        console.log(document.getElementById('review_text').value);
+    }
+</script>

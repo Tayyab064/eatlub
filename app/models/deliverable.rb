@@ -14,6 +14,8 @@ class Deliverable < ApplicationRecord
 	after_validation :geocode 
 
 	has_one :menu , :as => :menuable , dependent: :destroy
+	has_many :reviews , :as => :reviewable , dependent: :destroy
+	has_many :orders , :as => :ordera  , dependent: :destroy
 
 	enum status: [:pending , :approved , :block]
 	enum order_status: [:quiet , :moderate , :busy]

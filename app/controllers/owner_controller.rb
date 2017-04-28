@@ -152,7 +152,7 @@ class OwnerController < ApplicationController
 		if @owner.present?
 			@order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id))
 		else
-			@order = Order.all
+			@order = Order.where(ordera_type: 'Restaurant')
 		end
 	end
 

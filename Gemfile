@@ -27,6 +27,7 @@ gem 'sidekiq'
 gem 'geocoder'
 
 gem 'gcm'
+gem 'houston'
 
 gem 'pusher'
 # Use Redis adapter to run Action Cable in production

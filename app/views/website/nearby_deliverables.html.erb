@@ -212,7 +212,7 @@
             	<div class="row">
             	<% end %>
 	            	<div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.5s">
-	                	<a class="strip_list grid" href="menu_<%= rest.id %>">
+	                	<a class="strip_list grid" href="<%= deliverable_page_path(rest.id) %>">
 	                	<div class="<%= rest.popular ? 'ribbon_1' : '' %>"></div>
 	                    	<div class="desc">
 								<div class="thumb_strip">
@@ -232,9 +232,6 @@
 		                        <% end %>
 								</div>
 								<h3> <%= rest.name %> </h3>
-								<div class="type">
-									<%= rest.cuisine %>
-								</div>
 								<div class="location">
 									<%= rest.location %> <br><span class="opening">Opens at <%= rest.opening_time.strftime("%R") %>.</span> Minimum order: £15
 								</div>
