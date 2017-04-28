@@ -86,8 +86,8 @@ class WebsiteController < ApplicationController
 
 	def restaurants_nearby
 		#@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
-		if params[:address].present?
-			@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
+		if params[:address].present? && params[:lat].present? && params[:long].present?
+			@restaurants = Restaurant.approved.near([params[:lat],params[:long]], 8, :units => :km)
 			@address = params[:address]
 		else
 			@restaurants = Restaurant.approved.limit(100)
@@ -181,12 +181,13 @@ class WebsiteController < ApplicationController
 			ad = Address.find(params[:address_id]).address
 		end
 		
-		if params[:deliverable]
+		if params[:deliverable] == true
 			ordes_typ = 'Deliverable'
 		else
 			ordes_typ = 'Restaurant'
 		end
 		ord = Order.create(address: ad , notes: params[:notes] , ordera_id: params[:restaurant_id] , ordera_type: ordes_typ , user_id: params[:user_id])
+		p ord.errors
 		params[:item].each do |cou|		
 			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
 		end
@@ -234,8 +235,8 @@ class WebsiteController < ApplicationController
 
 	def nearby_deliverables
 		de = DeliverCategory.find_by_name(params[:name])
-		if params[:address].present? && de.present?
-			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).near(params[:address], 10, :units => :km)
+		if params[:lat].present? && de.present? && params[:long].present?
+			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).near([params[:lat],params[:long]], 8, :units => :km)
 			@address = params[:address]
 		else
 			@restaurants = Deliverable.approved.limit(0)

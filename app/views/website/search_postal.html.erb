@@ -18,7 +18,7 @@
 
         <div class="row">
             <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid" href="/nearby_restaurants?address=<%= @address %>" style="padding: 0px;">
+		      	<a class="strip_list grid mina" value="/nearby_restaurants?address=<%= @address %>" style="padding: 0px;">
 		          <div class="desc">
 		          	<img class="" src="/website/img/1.png" alt="Restaurant" height="200px" width="100%"> 
 		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
@@ -26,7 +26,7 @@
 		        </a><!-- End strip_list-->
 		    </div><!-- End col-md-6-->
             <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid" href="/deliverable_grocery?address=<%= @address %>" style="padding: 0px;">
+		      	<a class="strip_list grid mina" value="/deliverable_grocery?address=<%= @address %>" style="padding: 0px;">
 		          <div class="desc">
 		          	<img class="" src="/website/img/2.png" alt="Grocery" height="200px" width="100%"> 
 		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
@@ -34,7 +34,7 @@
 		        </a><!-- End strip_list-->
 		    </div><!-- End col-md-6-->
 		    <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid" href="/deliverable_petsfood?address=<%= @address %>" style="padding: 0px;">
+		      	<a class="strip_list grid mina" value="/deliverable_petsfood?address=<%= @address %>" style="padding: 0px;">
 		          <div class="desc">
 		          	<img class="" src="/website/img/4.png" alt="Pets Food" height="200px" width="100%"> 
 		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
@@ -44,7 +44,7 @@
         </div><!-- End row -->
         <div class="row">
             <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid" href="/deliverable_coffeeshop?address=<%= @address %>" style="padding: 0px;">
+		      	<a class="strip_list grid mina" value="/deliverable_coffeeshop?address=<%= @address %>" style="padding: 0px;">
 		          <div class="desc">
 		          	<img class="" src="/website/img/3.png" alt="Coffee Shop" height="200px" width="100%"> 
 		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
@@ -52,7 +52,7 @@
 		        </a><!-- End strip_list-->
 		    </div><!-- End col-md-6-->
             <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid" href="/deliverable_healthbeauty?address=<%= @address %>&" style="padding: 0px;">
+		      	<a class="strip_list grid mina" value="/deliverable_healthbeauty?address=<%= @address %>" style="padding: 0px;">
 		          <div class="desc">
 		          	<img class="" src="/website/img/5.png" alt="Health & Beauty" height="200px" width="100%"> 
 		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
@@ -60,7 +60,7 @@
 		        </a><!-- End strip_list-->
 		    </div><!-- End col-md-6-->
 		    <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid" href="/deliverable_gifts?address=<%= @address %>" style="padding: 0px;">
+		      	<a class="strip_list grid mina" value="/deliverable_gifts?address=<%= @address %>" style="padding: 0px;">
 		          <div class="desc">
 		          	<img class="" src="/website/img/6.png" alt="Gifts Shop" height="200px" width="100%"> 
 		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
@@ -71,15 +71,24 @@
     </div><!-- End container -->
 
     <script type="text/javascript">
-    	(function () {
-    		var ur = 'http://maps.googleapis.com/maps/api/geocode/json?address=<%= @address %>&sensor=false&components=country:UK'
+    	$(document).ready(function(){
+		    var ur = 'http://maps.googleapis.com/maps/api/geocode/json?address=<%= @address %>&sensor=false&components=country:UK'
+    		var lat = 0.0;
+	    	var long = 0.0 ;
     		$.ajax({
                url: ur,
                success: function(data) {
                     console.log(data.results[0].geometry.location);
-                    var lat = data.results[0].geometry.location.lat;
-                    var long = data.results[0].geometry.location.lng;
-               }
+                    lat = data.results[0].geometry.location.lat;
+	    		    long = data.results[0].geometry.location.lng;
+	               }
             });
-		})();
+
+            $(".mina").click(function(){
+		       var rli = $(this).attr("value");
+
+		       window.location.href = rli + '&lat=' + lat + '&long=' + long ;
+		    });
+    	});
     </script>
+

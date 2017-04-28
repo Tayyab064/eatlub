@@ -93,6 +93,7 @@ Rails.application.routes.draw do
     get 'restaurant_:id' => 'owner#restaurant_menu' , as: 'owner_restaurant_menu'
     post 'save_food_item' => 'owner#save_fooditem' , as: 'owner_save_fooditem'
     get 'orders' => 'owner#orders' , as: 'owner_orders'
+    get 'deliverable_orders' => 'owner#deliverable_orders' , as: 'owner_deliverable_orders'
     get 'order_:id' => 'owner#order' , as: 'owner_order'
     get 'accept_:id' => 'owner#order_accept' , as: 'owner_order_accept'
     get 'dispatch_:id' => 'owner#order_dispatch' , as: 'owner_order_dispatch'

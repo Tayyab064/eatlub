@@ -322,6 +322,14 @@ class OwnerController < ApplicationController
 		end
 	end
 
+	def deliverable_orders
+		if @owner.present?
+			@order = Order.where(ordera_type: 'Deliverable').where(ordera_id: @owner.deliverables.pluck(:id))
+		else
+			@order = Order.where(ordera_type: 'Deliverable')
+		end
+	end
+
 	private
 	def fooditem_update_params
 		params.require(:food_item).permit(:name , :price , :description)

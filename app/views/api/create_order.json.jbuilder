@@ -5,8 +5,8 @@ else
 		json.id @ord.id
 		json.address @ord.address
 		json.notes @ord.notes
-		if ord.ordera.present?
-		json.restaurant ord.ordera.name
+		if @ord.ordera.present?
+		json.restaurant @ord.ordera.name
 		else
 		json.restaurant ''
 		end

@@ -4,8 +4,8 @@ if @order.present?
 		json.address @order.address
 		json.status @order.status.capitalize
 		json.notes @order.notes
-		if ord.ordera.present?
-		json.restaurant ord.ordera.name
+		if @order.ordera.present?
+		json.restaurant @order.ordera.name
 		else
 		json.restaurant ''
 		end
