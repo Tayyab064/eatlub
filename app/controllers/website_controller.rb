@@ -82,6 +82,7 @@ class WebsiteController < ApplicationController
 		else
 			@address = 'N19 4EE'
 		end
+		@ca = DeliverCategory.all
 	end
 
 	def restaurants_nearby

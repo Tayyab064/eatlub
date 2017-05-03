@@ -115,9 +115,14 @@ Rails.application.routes.draw do
       post 'signin' => 'api#signin_user' , as: 'api_signin_user'
       post 'forget_password' => 'api#forget_password'
       get 'nearby_restaurants' => 'api#nearby_restaurants' , as: 'api_nearby_restaurants'
+      get 'nearby_:deliverable' => 'api#nearby_deliverable' , as: 'api_nearby_deliverable'
 
       scope 'restaurant' do
         get 'menu/:id' => 'api#restaurant_menu' , as: 'api_restaurant_menu'
+      end
+
+      scope 'deliverable' do
+        get 'menu/:id' => 'api#deliverable_menu' , as: 'api_deliverable_menu'
       end
 
       post 'order' => 'api#create_order'

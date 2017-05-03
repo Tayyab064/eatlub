@@ -103,6 +103,30 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def nearby_deliverable
+		if params[:latitude].present? && params[:longitude].present? && params[:deliverable].present?
+			@latlong = [params[:latitude], params[:longitude]]
+			if c = DeliverCategory.find_by_name(params[:deliverable])
+				@restaurants = c.deliverables.near( @latlong, 20)
+			else
+				@message = 'Invalid deliverable name'
+				render status: 403
+			end
+		else
+			@message = 'Lat/Long missing'
+			render status: 403
+		end
+	end
+
+	def deliverable_menu
+		if @restaurant = Deliverable.find_by_id(params[:id])
+			render status: 200
+		else
+			@message = 'Cant find deliverable with id ' + params[:id]
+			render status: 404
+		end
+	end
+
 	def create_order
 		if params[:order].length > 0
 			if params[:order][:orderable_type] == "Restaurant"

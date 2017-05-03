@@ -1,3 +1,19 @@
+<style type="text/css">
+	.image_apni:hover{
+		opacity: 0.6;
+	}
+
+	.textif {
+	    display: none;
+	    border:1px solid #000;
+	    width:100%;
+	    text-align: center;
+	}
+
+	a:hover + div {
+	    display: block;
+	}
+</style>
 <!-- SubHeader =============================================== -->
 <section class="parallax-window" id="short" data-parallax="scroll" data-image-src="website/img/sub_header_short.jpg" data-natural-width="1400" data-natural-height="350">
     <div id="subheader">
@@ -19,54 +35,23 @@
         <div class="row">
             <div class="col-md-4 wow zoomIn">
 		      	<a class="strip_list grid mina" value="/nearby_restaurants?address=<%= @address %>" style="padding: 0px;">
-		          <div class="desc">
-		          	<img class="" src="/website/img/1.png" alt="Restaurant" height="200px" width="100%"> 
-		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
+		          <div class="desc image_apni">
+		          	<img class="" src="http://www.ghmhotels.com/wp-content/uploads/CMU-Dining-The-Beach-Restaurant-Interior.jpg" title="RESTAURANT" alt="Restaurant" height="200px" width="100%"> 
 		          </div>
-		        </a><!-- End strip_list-->
+		        </a>
+		        <div class="textif hidden">RESTAURANT</div>
+		        <!-- End strip_list-->
 		    </div><!-- End col-md-6-->
+		    <% @ca.each do |cat| %>
             <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid mina" value="/deliverable_grocery?address=<%= @address %>" style="padding: 0px;">
-		          <div class="desc">
-		          	<img class="" src="/website/img/2.png" alt="Grocery" height="200px" width="100%"> 
-		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
+		      	<a class="strip_list grid mina" value="/deliverable_<%= cat.name %>?address=<%= @address %>" style="padding: 0px;">
+		          <div class="desc image_apni">
+		          	<img class="" src="<%= cat.image_url.present? ? cat.image_url : '/website/img/2.png' %>" title="<%= cat.name.upcase %>" height="200px" width="100%"> 
 		          </div>
-		        </a><!-- End strip_list-->
+		        </a>
+		        <div class="textif hidden"><%= cat.name.upcase %></div>
 		    </div><!-- End col-md-6-->
-		    <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid mina" value="/deliverable_petsfood?address=<%= @address %>" style="padding: 0px;">
-		          <div class="desc">
-		          	<img class="" src="/website/img/4.png" alt="Pets Food" height="200px" width="100%"> 
-		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
-		          </div>
-		        </a><!-- End strip_list-->
-		    </div><!-- End col-md-6-->
-        </div><!-- End row -->
-        <div class="row">
-            <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid mina" value="/deliverable_coffeeshop?address=<%= @address %>" style="padding: 0px;">
-		          <div class="desc">
-		          	<img class="" src="/website/img/3.png" alt="Coffee Shop" height="200px" width="100%"> 
-		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
-		          </div>
-		        </a><!-- End strip_list-->
-		    </div><!-- End col-md-6-->
-            <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid mina" value="/deliverable_healthbeauty?address=<%= @address %>" style="padding: 0px;">
-		          <div class="desc">
-		          	<img class="" src="/website/img/5.png" alt="Health & Beauty" height="200px" width="100%"> 
-		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
-		          </div>
-		        </a><!-- End strip_list-->
-		    </div><!-- End col-md-6-->
-		    <div class="col-md-4 wow zoomIn">
-		      	<a class="strip_list grid mina" value="/deliverable_gifts?address=<%= @address %>" style="padding: 0px;">
-		          <div class="desc">
-		          	<img class="" src="/website/img/6.png" alt="Gifts Shop" height="200px" width="100%"> 
-		          	<!-- <img class="" src="/website/img/2.png" alt="Restaurant" height="20px" width="20%" style="position: absolute; margin-top: -100px;">  -->
-		          </div>
-		        </a><!-- End strip_list-->
-		    </div><!-- End col-md-6-->
+		    <% end %>
         </div><!-- End row -->
     </div><!-- End container -->
 
