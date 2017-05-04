@@ -131,6 +131,8 @@ Rails.application.routes.draw do
 
       post 'tip/:id' => 'api#tip'
 
+      get 'categories' => 'api#get_categories'
+
     end
 
     scope 'rider' do

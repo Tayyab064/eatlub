@@ -116,7 +116,7 @@
                                             <% else %>
                                                 <a onclick="add_cart(<%= food.id %> , <%= food.options.count %>);" href="#"><i class="icon_plus_alt2"></i></a>
                                             <% end %>
-                                            <div class="dropdown-menu <%= @restaurant.delivery ? '' : 'hidden' %>">
+                                            <div class="dropdown-menu <%= @restaurant.delivery ? '' : '' %>">
                                                 <% food.options.each_with_index do |opt,isn| %>
                                                 <h5><%= opt.title %></h5>
                                                 
@@ -274,7 +274,7 @@
         if(window.localStorage.getItem('deliverable')){
             deliverable = window.localStorage.getItem('deliverable')
         }else{
-            deliverable = true ;
+            deliverable = 'true' ;
             window.localStorage.setItem('deliverable', true );
         }
 
@@ -359,8 +359,7 @@
                     document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
 
                     if(chk_co == 0){
-                        window.localStorage.setItem('count', 0);
-                        localStorage.removeItem('restaurant');
+                        localStorage.clear();
                     }
                }
             });

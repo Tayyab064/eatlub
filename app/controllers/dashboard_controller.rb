@@ -182,7 +182,7 @@ class DashboardController < ApplicationController
 	end
 
 	def save_deliverable
-		DeliverCategory.create(image: params[:image] , name: params[:category])
+		DeliverCategory.create(image: params[:image] , name: params[:category] , description: params[:description])
 		redirect_to :back
 	end
 

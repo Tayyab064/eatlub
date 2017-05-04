@@ -276,8 +276,7 @@
                     document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
 
                     if(chk_co == 0){
-                        window.localStorage.setItem('count', 0);
-                        localStorage.removeItem('restaurant');
+                        localStorage.clear();;
                     }
                }
             });

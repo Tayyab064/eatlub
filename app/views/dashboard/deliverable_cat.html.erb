@@ -20,7 +20,7 @@
               <tr>
                 <th></th>
                 <th>Title</th>
-                <!-- <th>Edit</th> -->
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
@@ -32,9 +32,9 @@
                 <td class="v-align-middle semi-bold">
                   <p><%= cati.name  %></p>
                 </td>
-                <!-- <td class="v-align-middle bold">
-                  <p></p>
-                </td> -->
+                <td class="v-align-middle bold">
+                  <p><%= cati.description  %></p>
+                </td>
               </tr>
 
               <% end %>
@@ -63,6 +63,12 @@
                 <div class="form-group form-group-default required">
                   <label>Category</label>
                   <%= text_field_tag :category , "", class: 'form-control' , placeholder: ''%>
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group form-group-default required">
+                  <label>Description</label>
+                  <%= text_field_tag :description , "", class: 'form-control' , placeholder: ''%>
                 </div>
               </div>
               <div class="col-sm-12">

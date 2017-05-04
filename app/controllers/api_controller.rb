@@ -279,6 +279,11 @@ class ApiController < ApplicationController
 		render json: {'message' => 'Sending Notifications'} , status: 200
 	end
 
+	def get_categories
+		@cat = DeliverCategory.all
+		render status: 200
+	end
+
 	private
 	def signup_user_params
 		params.require(:user).permit(:name, :username , :email , :gender , :password , :mobile_number)

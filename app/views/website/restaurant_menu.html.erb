@@ -117,7 +117,7 @@
                                             <% else %>
                                                 <a onclick="add_cart(<%= food.id %> , <%= food.options.count %>);" href="#"><i class="icon_plus_alt2"></i></a>
                                             <% end %>
-                                            <div class="dropdown-menu <%= @restaurant.delivery ? '' : 'hidden' %>">
+                                            <div class="dropdown-menu <%= @restaurant.delivery ? '' : '' %>">
                                                 <% food.options.each_with_index do |opt,isn| %>
                                                 <h5><%= opt.title %></h5>
                                                 
@@ -230,6 +230,8 @@
 
 
 	function add_cart(i , z) {
+        console.log(i);
+        console.log('Maza');
 		coun = 0;
         deli = <%= @restaurant.delivery_fee %> ;
 
@@ -275,50 +277,54 @@
         if(window.localStorage.getItem('deliverable')){
             deliverable = window.localStorage.getItem('deliverable')
         }else{
-            deliverable = false ;
+            deliverable = 'false' ;
             window.localStorage.setItem('deliverable', false );
         }
 		
-        if((restaurant == <%= @restaurant.id %>) && (deliverable == false)){
-    	    var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
-    	    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(£ )/, ""));
-            
-            red = red + pric;
-            for (var k = 0; k < ingre_id.length; k++) {
-                red = red + parseFloat(ingre_id[k].value.split("_")[1]);
-            }
-    	    console.log(titl + " " + pric);
+        if(deliverable == 'false'){
+            if(restaurant == <%= @restaurant.id %>){
+                var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
+                var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(£ )/, ""));
+                
+                red = red + pric;
+                for (var k = 0; k < ingre_id.length; k++) {
+                    red = red + parseFloat(ingre_id[k].value.split("_")[1]);
+                }
+                console.log(titl + " " + pric);
 
-    	    window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: red , options: optcom , ingredients: ingre }));
-    		
-    		coun = coun + 1;
-    		window.localStorage.setItem('count', coun);
+                window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: red , options: optcom , ingredients: ingre }));
+                
+                coun = coun + 1;
+                window.localStorage.setItem('count', coun);
 
-            $.ajax({
-               url: 'http://138.197.117.248/ajax',
-               success: function(data) {
-                    coun = parseInt(window.localStorage.getItem('count'));
-                    var tot_pri = 0.0 ;
-                    console.log('Fetching');
+                $.ajax({
+                   url: 'http://138.197.117.248/ajax',
+                   success: function(data) {
+                        coun = parseInt(window.localStorage.getItem('count'));
+                        var tot_pri = 0.0 ;
+                        console.log('Fetching');
 
-                    da = '';
-                    for(i = 0; i < coun; i++){
-                       if(window.localStorage.getItem('carti[' + i + ']')){
-                           t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
-                           tot_pri = tot_pri + t.price ;
+                        da = '';
+                        for(i = 0; i < coun; i++){
+                           if(window.localStorage.getItem('carti[' + i + ']')){
+                               t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+                               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
+                               tot_pri = tot_pri + t.price ;
+                            }
                         }
-                    }
 
-                    document.getElementById("mycarti").innerHTML = da ;
-                    document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '£' + deli;
-                    cvs = tot_pri + deli ;
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
-               }
-            });
+                        document.getElementById("mycarti").innerHTML = da ;
+                        document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
+                        document.getElementById("deli_fee").innerHTML = '£' + deli;
+                        cvs = tot_pri + deli ;
+                        document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
+                   }
+                });
+            }else{
+                alertify.error('Order must be from same deliverable');
+            }
         }else{
-            alertify.error('Order must be from same deliverable');
+            alertify.error('Order must be from deliverable');
         }
 	}
 
@@ -352,8 +358,7 @@
                     document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
 
                     if(chk_co == 0){
-                        window.localStorage.setItem('count', 0);
-                        localStorage.removeItem('restaurant');
+                        localStorage.clear();
                     }
                }
             });

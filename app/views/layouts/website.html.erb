@@ -44,6 +44,27 @@
         .modal-backdrop{
             z-index: 100 !important;
         }
+        .btnss{
+            font-family: inherit;
+            color: #fff;
+            background: 0 0;
+            border: 2px solid #fff;
+            padding: 15px 30px;
+            transition: all .3s;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+        .btnss:hover{
+            background: transparent;
+        }
+        header{
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
     </style>
 
 </head>
@@ -68,11 +89,11 @@
     
     <!-- Header ================================================== -->
     <header>
-    <div class="container-fluid">
+    <div class="container-fluid" style="width: 100%;">
         <div class="row">
             <div class="col--md-4 col-sm-4 col-xs-4">
                 <a href="/" id="logo">
-                <img src="website/img/logo.png" width="247" height="52 !important" alt="" data-retina="true" class="hidden-xs" style="width: inherit; margin-top: -10px;margin-bottom: 5px;">
+                <img src="website/img/logo.png" width="247" height="52 !important" alt="" data-retina="true" class="hidden-xs" style="width: inherit; margin-top: -5px;margin-bottom: 5px;">
                 <img src="website/img/logo.png" width="108" height="42 !important" alt="" data-retina="true" class="hidden-lg hidden-md hidden-sm" style="width: inherit;">
                 </a>
             </div>
@@ -80,69 +101,22 @@
             <a class="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="javascript:void(0);"><span>Menu mobile</span></a>
             <div class="main-menu">
                 <div id="header_menu">
-                    <img src="website/img/logo.png" width="190" height="30" alt="" data-retina="true" style="width: inherit;">
+                    <img src="website/img/logo.png" width="190" height="30" alt="" data-retina="true" style="width: inherit; ">
                 </div>
                 <a href="#" class="open_close" id="close_in"><i class="icon_close"></i></a>
                 <ul>
-                    <li class="submenu">
-                    <a href="<%= root_path %>" class="show-submenu" style="font-size: 20px !important;">Home</a>
-                    <!-- <ul>
-                        <li><a href="index.html">Home Video background</a></li>
-                        <li><a href="index_2.html">Home Static image</a></li>
-                        <li><a href="index_3.html">Home Text rotator</a></li>
-                        <li><a href="index_8.html">Home Layer slider</a></li>
-                        <li><a href="index_4.html">Home Cookie bar</a></li>
-                        <li><a href="index_5.html">Home Popup</a></li>
-                        <li><a href="index_6.html">Home Mobile synthetic</a></li>
-                        <li><a href="index_7.html">Top Menu version 2</a></li>
-                    </ul> -->
-                    </li>
-                    <li class="submenu">
-                    <a href="javascript:void(0);" class="show-submenu" style="font-size: 20px !important;">Restaurants<i class="icon-down-open-mini"></i></a>
-                    <ul>
-                        <!-- <li><a href="list_page.html">Row listing</a></li>
-                        <li><a href="grid_list.html">Grid listing</a></li>
-                        <li><a href="map_listing.html">Map listing</a></li>
-                        <li><a href="detail_page.html">Restaurant Menu</a></li> -->
-                        <li><a href="<%= submit_restaurant_path %>">Submit Restaurant</a></li>
-                        <!-- <li><a href="cart.html">Order step 1</a></li>
-                        <li><a href="cart_2.html">Order step 2</a></li>
-                        <li><a href="cart_3.html">Order step 3</a></li>
-                        <li><a href="cart_datepicker.html">Order Date/Time picker</a></li> -->
-                    </ul>
-                    </li>
-                    <li><a href="#" style="font-size: 20px !important;">About us</a></li>
-                    <!-- <li><a href="faq.html">Faq</a></li> -->
-                    <li class="submenu">
-                    <a href="javascript:void(0);" class="show-submenu" style="font-size: 20px !important;">Pages<i class="icon-down-open-mini"></i></a>
-                    <ul>
-                        <% if @end_user.present? %>
-                        <li><a href="<%= web_user_orders_path %>">My Orders</a></li>
-                        <% else %>
-                        <li><a href="#" data-toggle="modal" data-target="#forget">Forget Password</a></li>
-                        <% end %>
-                        <li><a href="<%= dashboard_index_path %>">Admin section</a></li>
-                        <li><a href="<%= owner_index_path %>">Owner section</a></li>
-                        <li><a href="<%= submit_rider_path %>">Submit Rider</a></li>
-                        <% unless @end_user.present? %>
-                        <li><a href="#0" data-toggle="modal" data-target="#login_2">User Login</a></li>
-                        <% end %>
-                        <li><a href="#0" data-toggle="modal" data-target="#register">User Register</a></li>
-                        <!-- <li><a href="detail_page_2.html">Restaurant detail page</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contacts.html">Contacts</a></li>
-                        <li><a href="coming_soon/index.html">Coming soon page</a></li>
-                        <li><a href="shortcodes.html">Shortcodes</a></li>
-                        <li><a href="icon_pack_1.html">Icon pack 1</a></li>
-                        <li><a href="icon_pack_2.html">Icon pack 2</a></li> -->
-                    </ul>
-                    </li>
                     <% if @end_user.present? %>
+                    <li><a href="<%= web_user_orders_path %>" style="font-size: 20px !important;">My Orders</a></li>
                     <li><a style="font-size: 20px !important;"><%= @end_user.name %></a></li>
                     <% else %>
-                    <li><a href="#" data-toggle="modal" data-target="#login_2" style="font-size: 20px !important;">Login</a></li>
+                    <li class="submenu">
+                    <a href="<%= submit_restaurant_path %>" style="font-size: 16px !important;margin-bottom: 10px !important; padding: 10px !important;" class="btnss">Become A Partner</a>
+                    </li>
+                    <li class="submenu">
+                    <a href="<%= submit_rider_path %>" style="font-size: 16px !important;margin-bottom: 10px !important; padding: 10px !important;" class="">Become A Rider</a>
+                    </li>
+                    <li><a href="#" data-toggle="modal" data-target="#login_2" style="font-size: 16px !important;margin-bottom: 10px !important; padding: 10px !important;">Login</a></li>
                     <% end %>
-                    <!-- <li><a href="http://themeforest.net/item/quickfood-delivery-or-takeaway-food-template/13958100?ref=ansonika">Purchase this template</a></li> -->
                 </ul>
             </div><!-- End main-menu -->
             </nav>
@@ -166,13 +140,11 @@
             <div class="col-md-3 col-sm-3">
                 <h3>About</h3>
                 <ul>
-                    <li><a href="about.html">About us</a></li>
-                    <li><a href="faq.html">Faq</a></li>
-                    <li><a href="contacts.html">Contacts</a></li>
                     <% unless @end_user.present? %>
                     <li><a href="#" data-toggle="modal" data-target="#login_2">Login</a></li>
-                    <% end %>
                     <li><a href="#" data-toggle="modal" data-target="#register">Register</a></li>
+                    <% end %>
+                    
                     <li><a href="#">Terms and conditions</a></li>
                 </ul>
             </div>
@@ -202,10 +174,7 @@
                 </div>
                 <div class="styled-select">
                     <select class="form-control" name="currency" id="currency">
-                        <option value="USD" selected>USD</option>
-                        <option value="EUR">EUR</option>
-                        <option value="GBP">GBP</option>
-                        <option value="RUB">RUB</option>
+                        <option value="USD" selected>GBP</option>
                     </select>
                 </div>
             </div>
@@ -245,10 +214,10 @@
 					<%= password_field_tag :password , '' , class: 'form-control form-white' , placeholder: 'Password' %>
 					<div class="row">
                         <div class="col-md-6 text-left">
-    						<a onclick="forget_pass();">Forgot Password?</a>
+    						<a onclick="forget_pass();" style="cursor: pointer;">Forgot Password?</a>
     					</div>
                         <div class="col-md-6 text-left">
-                            <a onclick="register();">Register</a>
+                            <a onclick="register();" style="cursor: pointer;">Register</a>
                         </div>
                     </div>
 					<!-- <button type="submit" class="btn btn-submit">Submit</button> -->
@@ -267,7 +236,7 @@
                 <div class="login_icon"><i class="icon_lock_alt"></i></div>
                 <%= text_field_tag :email, '' , class: 'form-control form-white' , placeholder: 'johndoe@example.com' %>
                 <div class="text-left">
-                    <a onclick="signin();">SignIn</a>
+                    <a onclick="signin();" style="cursor: pointer;">SignIn</a>
                 </div>
                 <!-- <button type="submit" class="btn btn-submit">Submit</button> -->
                 <%= submit_tag "Forget Password", class: "btn btn-submit" %>

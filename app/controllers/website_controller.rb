@@ -102,8 +102,18 @@ class WebsiteController < ApplicationController
 	end
 
 	def restaurant
+		@images = []
 		@restaurant = Restaurant.approved.find(params[:id])
 		@reviews = @restaurant.reviews
+		if @restaurant.menu.present?
+			image = FoodItem.where(section_id: @restaurant.menu.sections.pluck(:id))
+			image.each do |im|
+				if im.image_url.present?
+					@images.push(im)
+				end
+			end
+		end
+		p @images
 	end
 
 	def submit_restaurant
