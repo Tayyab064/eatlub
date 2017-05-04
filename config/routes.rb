@@ -132,6 +132,7 @@ Rails.application.routes.draw do
       post 'tip/:id' => 'api#tip'
 
       get 'categories' => 'api#get_categories'
+      get 'popular/categories' => 'api#popular_categories'
 
     end
 

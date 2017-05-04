@@ -88,12 +88,12 @@
     </div><!-- End Preload -->
     
     <!-- Header ================================================== -->
-    <header>
+    <header style="padding-top: 2px !important; padding-bottom: 0px !important;">
     <div class="container-fluid" style="width: 100%;">
         <div class="row">
             <div class="col--md-4 col-sm-4 col-xs-4">
                 <a href="/" id="logo">
-                <img src="website/img/logo.png" width="247" height="52 !important" alt="" data-retina="true" class="hidden-xs" style="width: inherit; margin-top: -5px;margin-bottom: 5px;">
+                <img src="website/img/logo.png" width="247" height="52 !important" alt="" data-retina="true" class="hidden-xs" style="width: inherit;">
                 <img src="website/img/logo.png" width="108" height="42 !important" alt="" data-retina="true" class="hidden-lg hidden-md hidden-sm" style="width: inherit;">
                 </a>
             </div>
@@ -106,16 +106,16 @@
                 <a href="#" class="open_close" id="close_in"><i class="icon_close"></i></a>
                 <ul>
                     <% if @end_user.present? %>
-                    <li><a href="<%= web_user_orders_path %>" style="font-size: 20px !important;">My Orders</a></li>
+                    <li><a href="<%= web_user_orders_path %>" style="font-size: 16px !important;">My Orders</a></li>
                     <li><a style="font-size: 20px !important;"><%= @end_user.name %></a></li>
                     <% else %>
                     <li class="submenu">
-                    <a href="<%= submit_restaurant_path %>" style="font-size: 16px !important;margin-bottom: 10px !important; padding: 10px !important;" class="btnss">Become A Partner</a>
+                    <a href="<%= submit_restaurant_path %>" style="font-size: 16px !important; padding: 10px !important;" class="btnss">Become A Partner</a>
                     </li>
                     <li class="submenu">
-                    <a href="<%= submit_rider_path %>" style="font-size: 16px !important;margin-bottom: 10px !important; padding: 10px !important;" class="">Become A Rider</a>
+                    <a href="<%= submit_rider_path %>" style="font-size: 16px !important; padding: 10px !important;" class="">Become A Rider</a>
                     </li>
-                    <li><a href="#" data-toggle="modal" data-target="#login_2" style="font-size: 16px !important;margin-bottom: 10px !important; padding: 10px !important;">Login</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#login_2" style="font-size: 16px !important; padding: 10px !important;">Login</a></li>
                     <% end %>
                 </ul>
             </div><!-- End main-menu -->

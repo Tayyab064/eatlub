@@ -24,4 +24,14 @@ else
 		end
 		json.popular restaurant.popular
 	end
+
+	json.popular(@popular) do |res|
+		json.id res.id
+		json.name res.name
+		if res.cover.present?
+			json.image res.cover_url.gsub(res.cover_url.split('/')[6], 'q_50')
+		else
+			json.image ''
+		end
+	end
 end

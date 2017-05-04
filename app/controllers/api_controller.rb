@@ -88,6 +88,7 @@ class ApiController < ApplicationController
 		if params[:latitude].present? && params[:longitude].present?
 			@latlong = [params[:latitude], params[:longitude]]
 			@restaurants = Restaurant.near( @latlong, 20)
+			@popular = @restaurants.where(popular: true).limit(5)
 		else
 			@message = 'Lat/Long missing'
 			render status: 403
@@ -116,6 +117,7 @@ class ApiController < ApplicationController
 			@message = 'Lat/Long missing'
 			render status: 403
 		end
+		@popular = c.deliverables.where(popular: true).limit(5)
 	end
 
 	def deliverable_menu
@@ -282,6 +284,21 @@ class ApiController < ApplicationController
 	def get_categories
 		@cat = DeliverCategory.all
 		render status: 200
+	end
+
+	def popular_categories
+		li = []
+		res_id = Restaurant.where(popular: true).pluck(:id).sample
+		DeliverCategory.all.each do |cat|
+			dk = cat.deliverables.where(popular: true).pluck(:id).sample
+			if dk.present?
+				li.push(dk)
+			end
+		end
+		if res_id.present?
+			@restaurant = Restaurant.where(id: res_id)
+		end
+		@deliverable = Deliverable.find(li)
 	end
 
 	private
