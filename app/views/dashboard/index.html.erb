@@ -142,194 +142,15 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6 col-xlg-4">
-                <div class="row">
-                  <div class="col-sm-6 m-b-10">
-                    <div class="ar-1-1">
-                      <!-- START WIDGET widget_imageWidgetBasic-->
-                      <div class="widget-2 panel no-border bg-primary widget widget-loader-circle-lg no-margin">
-                        <div class="panel-heading">
-                          <div class="panel-controls">
-                            <ul>
-                              <li><a href="#" class="portlet-refresh" data-toggle="refresh"><i
-              class="portlet-icon portlet-icon-refresh-lg-white"></i></a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="panel-body">
-                          <div class="pull-bottom bottom-left bottom-right padding-25">
-                            <span class="label font-montserrat fs-11">Deals</span>
-                            <br>
-                            <h3 class="text-white">So much more to eat.</h3>
-                            <p class="text-white hint-text hidden-md"></p>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END WIDGET -->
-                    </div>
-                  </div>
-                  <div class="col-sm-6 m-b-10">
-                    <div class="ar-1-1">
-                      <!-- START WIDGET widget_plainLiveWidget-->
-                      <div class="widget-3 panel no-border bg-complete no-margin widget-loader-bar">
-                        <div class="panel-body no-padding">
-                          <div class="metro live-tile" data-mode="carousel" data-start-now="true" data-delay="3000">
-                            <div class="slide-front tiles slide active">
-                              <div class="padding-30">
-                                <div class="pull-top">
-                                  <div class="pull-left visible-lg visible-xlg">
-                                    <i class="pg-map"></i>
-                                  </div>
-                                  <div class="pull-right">
-                                    <ul class="list-inline ">
-                                      <li>
-                                        <a href="#" class="no-decoration"><i class="pg-comment"></i>
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#" class="widget-3-fav no-decoration"><i class="pg-like"></i>
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div class="clearfix"></div>
-                                </div>
-                                <div class="pull-bottom p-b-30">
-                                  <p class="p-t-10 fs-12 p-b-5 hint-text"><%= Time.now.strftime("%d, %^b") %></p>
-                                  <h3 class="no-margin text-white p-b-10">Carefully
-                                <br>designed for a
-                                <br>great
-                                <span class="semi-bold">experience</span>
-                            </h3>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="slide-back tiles">
-                              <div class="padding-30">
-                                <div class="pull-top">
-                                  <div class="pull-left visible-lg visible-xlg">
-                                    <i class="pg-map"></i>
-                                  </div>
-                                  <div class="pull-right">
-                                    <ul class="list-inline ">
-                                      <li>
-                                        <a href="#" class="no-decoration"><i class="pg-comment"></i>
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#" class="widget-3-fav no-decoration"><i class="pg-like"></i>
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                  <div class="clearfix"></div>
-                                </div>
-                                <div class="pull-bottom p-b-30">
-                                  <p class="p-t-10 fs-12 p-b-5 hint-text"><%= Time.now.strftime("%d, %^b") %></p>
-                                  <h3 class="no-margin text-white p-b-10">A whole new
-                                <br>
-                                <span class="semi-bold">page</span>
-                            </h3>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END WIDGET -->
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-sm-6 m-b-10">
-                    <div class="ar-1-1">
-                      <!-- START WIDGET widget_plainWidget-->
-                      <div class="panel no-border bg-master widget widget-6 widget-loader-circle-lg no-margin">
-                        <div class="panel-heading">
-                          <div class="panel-controls">
-                            <ul>
-                              <li><a data-toggle="refresh" class="portlet-refresh" href="#"><i class="portlet-icon portlet-icon-refresh-lg-white"></i></a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="panel-body">
-                          <div class="pull-bottom bottom-left bottom-right padding-25">
-                            <h1 class="text-white semi-bold">30&#176;</h1>
-                            <span class="label font-montserrat fs-11">TODAY</span>
-                            <p class="text-white m-t-20">Feels like rainy</p>
-                            <p class="text-white hint-text m-t-30"><%= Time.now.strftime("%B %Y, %d %A") %></p>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END WIDGET -->
-                    </div>
-                  </div>
-                  <div class="col-sm-6 m-b-10">
-                    <div class="ar-1-1">
-                      <!-- START WIDGET D3 widget_graphLiveWidget-->
-                      <div class="widget-7 panel no-border bg-success no-margin">
-                        <div class="panel-body no-padding">
-                          <div class="metro live-tile " data-delay="3500" data-mode="carousel">
-                            <div class="slide-front tiles slide active">
-                              <div class="padding-30">
-                                <div class="pull-bottom p-b-30 bottom-right bottom-left p-l-30 p-r-30">
-                                  <h5 class="no-margin semi-bold p-b-5">Restaurants</h5>
-                                  <p class="no-margin text-black hint-text"></p>
-                                  <h3 class="semi-bold text-white"><i
-                  class="fa fa-sort-up small text-white"></i> <%= @restaurant.count %>
-              </h3>
-                                  <p><span class="text-black">Deliveries</span> <span class="m-l-20 hint-text"><%= @order.count %></span>
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="slide-back tiles">
-                              <div class="container-sm-height full-height">
-                                <div class="row-sm-height">
-                                  <div class="col-sm-height padding-25">
-                                    <p class="hint-text text-black">Pre-market:
-                                    </p>
-                                    <p class="p-t-10 text-black">Gift's Shop</p>
-                                    <div class="p-t-10">
-                                      <p class="hint-text inline">+0.42% <span class="m-l-20">217.51</span>
-                                      </p>
-                                      <div class="inline"><i class="fa fa-sort-up small text-white fs-16 col-bottom"></i>
-                                      </div>
-                                    </div>
-                                    <p class="p-t-10 text-black">Coffee Shop</p>
-                                    <div class="p-t-10">
-                                      <p class="hint-text inline">+0.22% <span class="m-l-20">-2.28</span>
-                                      </p>
-                                      <div class="inline"><i class="fa fa-sort-down small text-white fs-16 col-top"></i>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="row-sm-height">
-                                  <div class="col-sm-height relative">
-                                    <div class='widget-7-chart line-chart' data-line-color="white" data-points="true" data-point-color="white" data-stroke-width="3">
-                                      <svg></svg>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- END WIDGET -->
-                    </div>
-                  </div>
-                </div>
+              <div class="col-md-6 col-xlg-4 ">
+                <div id="chart-container"></div>
               </div>
               <!-- Filler -->
               
             </div>
             <!-- END ROW -->
             <div class="row">
-  <div class="col-md-4 col-lg-3 col-xlg-2 ">
+  <div class="col-md-5">
     <div class="row">
       <div class="col-md-12 m-b-10">
         <!-- START WIDGET D3 widget_graphTileFlat-->
@@ -454,57 +275,9 @@ class="portlet-icon portlet-icon-refresh"></i></a>
 </div>
 </div>
 </div>
-<div class="col-md-8 col-lg-5 col-xlg-6 m-b-10">
+<div class="col-md-7 m-b-10">
   <!-- START WIDGET widget_realtimeWidget-->
-  <div class="widget-14 panel no-border  no-margin widget-loader-circle">
-    <div class="container-xs-height full-height">
-      <div class="row-xs-height">
-        <div class="col-xs-height">
-          <div class="panel-heading">
-            <div class="panel-title">Server load
-            </div>
-            <div class="panel-controls">
-              <ul>
-                <li><a href="#" class="portlet-refresh text-black" data-toggle="refresh"><i class="portlet-icon portlet-icon-refresh"></i></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row-xs-height">
-        <div class="col-xs-height">
-          <div class="p-l-20 p-r-20">
-            <p>Server: 138.197.117.248</p>
-              <div class="row">
-                <div class="col-lg-3 col-md-12">
-                  <h4 class="bold no-margin">5.2GB</h4>
-                  <p class="small no-margin">Total usage</p>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <h5 class=" no-margin p-t-5">227.34KB</h5>
-                  <p class="small no-margin">Currently</p>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <h5 class=" no-margin p-t-5">117.65MB</h5>
-                  <p class="small no-margin">Average</p>
-                </div>
-                <div class="col-lg-3 visible-xlg">
-                  <div class="widget-14-chart-legend bg-transparent text-black no-padding pull-right"></div>
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-          </div>
-        </div>
-      </div>
-<div class="row-xs-height">
-<div class="col-xs-height relative bg-master-lightest">
-<div class="widget-14-chart_y_axis"></div>
-<div class="widget-14-chart rickshaw-chart top-left top-right bottom-left bottom-right"></div>
-</div>
-</div>
-</div>
-</div>
+  <div id="orders"></div>
 <!-- END WIDGET -->
 </div>
 <div class="col-md-6 col-lg-4 hidden-xlg m-b-10 hidden">
@@ -1263,3 +1036,129 @@ class="portlet-icon portlet-icon-refresh"></i></a>
 <!-- END WIDGET -->
 </div>
 </div>
+
+<script type="text/javascript" src="../fusionchart/fusioncharts.js" ></script>
+<script type="text/javascript" src="../fusionchart/fusioncharts.charts.js" ></script>
+
+<script type="text/javascript">
+  FusionCharts.ready(function () {
+    var revenueChart = new FusionCharts({
+        type: 'doughnut2d',
+        renderAt: 'chart-container',
+        width: '100%',
+        height: '590',
+        dataFormat: 'json',
+        dataSource: {
+            "chart": {
+                "caption": "Pickup Points",
+                "subCaption": "",
+                "numberPrefix": "",
+                "paletteColors": "#0075c2,#1aaf5d,#f2c500,#f45b00,#8e0000,#1a8f5d,#f8fh00,#f48f00",
+                "bgColor": "#ffffff",
+                "showBorder": "0",
+                "use3DLighting": "0",
+                "showShadow": "0",
+                "enableSmartLabels": "0",
+                "startingAngle": "310",
+                "showLabels": "0",
+                "showPercentValues": "1",
+                "showLegend": "1",
+                "legendShadow": "0",
+                "legendBorderAlpha": "0",
+                "defaultCenterLabel": "Pickup Points",
+                "centerLabel": "$label: $value",
+                "centerLabelBold": "1",
+                "showTooltip": "0",
+                "decimals": "0",
+                "captionFontSize": "14",
+                "subcaptionFontSize": "14",
+                "subcaptionFontBold": "0"
+            },
+            "data": [ 
+              <% @categories.each_with_index do |cat,ind| %>
+                <% if cat.name == 'restaurant' %>
+                  <% coures = @restaurant.count %>
+                <% end %>
+                <% if ind == 0 %>
+                {
+                    "label": "<%= cat.name.capitalize %>",
+                    "value": "<%= coures.present? ? coures : cat.deliverables.count %>"
+                }
+                <% else %>
+                ,{
+                    "label": "<%= cat.name.capitalize %>",
+                    "value": "<%= coures.present? ? coures : cat.deliverables.count %>"
+                }
+
+                <% end %>
+              <% end %>
+            ]
+        }
+    }).render();
+});
+</script>
+
+<script type="text/javascript">
+  FusionCharts.ready(function () {
+    var revenueChart = new FusionCharts({
+        type: 'doughnut2d',
+        renderAt: 'orders',
+        width: '100%',
+        height: '460',
+        dataFormat: 'json',
+        dataSource: {
+            "chart": {
+                "caption": "Order",
+                "subCaption": "",
+                "numberPrefix": "",
+                "paletteColors": "#0075c2,#1aaf5d,#f2c500,#f45b00,#8e0000,#1a8f5d,#f8fh00,#f48f00",
+                "bgColor": "#ffffff",
+                "showBorder": "0",
+                "use3DLighting": "0",
+                "showShadow": "0",
+                "enableSmartLabels": "0",
+                "startingAngle": "310",
+                "showLabels": "0",
+                "showPercentValues": "1",
+                "showLegend": "1",
+                "legendShadow": "0",
+                "legendBorderAlpha": "0",
+                "defaultCenterLabel": "Orders",
+                "centerLabel": "$label: $value",
+                "centerLabelBold": "1",
+                "showTooltip": "0",
+                "decimals": "0",
+                "captionFontSize": "14",
+                "subcaptionFontSize": "14",
+                "subcaptionFontBold": "0"
+            },
+            "data": [
+                {
+                    "label": "Cancel",
+                    "value": "<%= @order.where(status: 'cancel').count %>"
+                }
+                ,{
+                    "label": "Pending",
+                    "value": "<%= @order.where(status: 'pending').count %>"
+                },
+                {
+                    "label": "Approved",
+                    "value": "<%= @order.where(status: 'approved').count %>"
+                },
+                {
+                    "label": "Arrived at restaurant",
+                    "value": "<%= @order.where(status: 'arrived_restaurant').count %>"
+                },
+                {
+                    "label": "Arrived at user",
+                    "value": "<%= @order.where(status: 'arrived_user').count %>"
+                },
+                {
+                    "label": "Completed",
+                    "value": "<%= @order.where(status: 'completed').count %>"
+                }
+            ]
+        }
+    }).render();
+});
+</script>

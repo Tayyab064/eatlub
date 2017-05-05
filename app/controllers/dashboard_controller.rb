@@ -36,6 +36,7 @@ class DashboardController < ApplicationController
 		@rider = User.where(role: 'rider')
 		@user = User.where(role: 'end_user')
 		@restaurant = Restaurant.all
+		@categories = DeliverCategory.all
 	end
 
 	def restaurants
