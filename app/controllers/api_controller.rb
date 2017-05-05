@@ -88,7 +88,7 @@ class ApiController < ApplicationController
 		if params[:latitude].present? && params[:longitude].present?
 			@latlong = [params[:latitude], params[:longitude]]
 			@restaurants = Restaurant.approved.near( @latlong, 20)
-			@popular = @restaurants.where(popular: true).limit(5)
+			@popular = Restaurant.approved.where(popular: true).limit(5)
 		else
 			@message = 'Lat/Long missing'
 			render status: 403

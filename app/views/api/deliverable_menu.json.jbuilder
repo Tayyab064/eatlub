@@ -1,7 +1,7 @@
 if @message.present?
 	json.message @message
 else
-	json.deliverable do
+	json.restaurant do
 		json.id @restaurant.id
 		json.name @restaurant.name
 		json.opening_time @restaurant.opening_time.strftime('%r')
