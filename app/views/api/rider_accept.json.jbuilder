@@ -5,6 +5,7 @@ else
 	json.address @ord.address
 	json.status @ord.status.capitalize
 	json.notes @ord.notes
+	json.user @ord.user.username
 	if @ord.ordera.present?
 	json.restaurant @ord.ordera.name
 	json.restaurant_location @ord.ordera.location
