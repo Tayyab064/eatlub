@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   root 'website#index'
   post 'signin' => 'website#signin' , as: 'website_signin'
   post 'signup' => 'website#signup' , as: 'website_signup'
+  get 'signout' => 'website#signout' , as: 'website_signout'
   get 'postalcode' => 'website#search_postal' , as: 'postalcode_search_web'
   get 'nearby_restaurants' => 'website#restaurants_nearby' , as: 'restaurants_nearby'
   get 'deliverable_:name' => 'website#nearby_deliverables' , as: 'nearby_deliverables'
@@ -79,6 +80,8 @@ Rails.application.routes.draw do
     get 'unblock_deliverable_:id' => 'dashboard#unblock_deliverable' , as: 'unblock_deliverable'
     get 'block_deliverable_:id' => 'dashboard#block_deliverable' , as: 'block_deliverable'
     put 'set_commission_deliverable_:id' => 'dashboard#set_commission_deliverable' , as: 'set_commission_deliverable'
+
+    get 'category_destroy_:id' => 'dashboard#destroy_del_cat' , as: 'delete_category'
   end
 
   scope 'owner' do

@@ -87,7 +87,7 @@ class ApiController < ApplicationController
 	def nearby_restaurants
 		if params[:latitude].present? && params[:longitude].present?
 			@latlong = [params[:latitude], params[:longitude]]
-			@restaurants = Restaurant.near( @latlong, 20)
+			@restaurants = Restaurant.approved.near( @latlong, 20)
 			@popular = @restaurants.where(popular: true).limit(5)
 		else
 			@message = 'Lat/Long missing'
@@ -96,7 +96,7 @@ class ApiController < ApplicationController
 	end
 
 	def restaurant_menu
-		if @restaurant = Restaurant.find_by_id(params[:id])
+		if @restaurant = Restaurant.approved.find_by_id(params[:id])
 			render status: 200
 		else
 			@message = 'Cant find restaurant with id ' + params[:id]
@@ -108,7 +108,7 @@ class ApiController < ApplicationController
 		if params[:latitude].present? && params[:longitude].present? && params[:deliverable].present?
 			@latlong = [params[:latitude], params[:longitude]]
 			if c = DeliverCategory.find_by_name(params[:deliverable])
-				@restaurants = c.deliverables.near( @latlong, 20)
+				@restaurants = c.deliverables.approved.near( @latlong, 20)
 			else
 				@message = 'Invalid deliverable name'
 				render status: 403
@@ -117,11 +117,11 @@ class ApiController < ApplicationController
 			@message = 'Lat/Long missing'
 			render status: 403
 		end
-		@popular = c.deliverables.where(popular: true).limit(5)
+		@popular = c.deliverables.approved.where(popular: true).limit(5)
 	end
 
 	def deliverable_menu
-		if @restaurant = Deliverable.find_by_id(params[:id])
+		if @restaurant = Deliverable.approved.find_by_id(params[:id])
 			render status: 200
 		else
 			@message = 'Cant find deliverable with id ' + params[:id]
@@ -132,9 +132,9 @@ class ApiController < ApplicationController
 	def create_order
 		if params[:order].length > 0
 			if params[:order][:orderable_type] == "Restaurant"
-				res = Restaurant.find_by_id(params[:order][:orderable_id])
+				res = Restaurant.approved.find_by_id(params[:order][:orderable_id])
 			else
-				res = Deliverable.find_by_id(params[:order][:orderable_id])
+				res = Deliverable.approved.find_by_id(params[:order][:orderable_id])
 				unless res.deliver_category.name == params[:order][:orderable_type]
 					res = nil
 				end
@@ -288,17 +288,17 @@ class ApiController < ApplicationController
 
 	def popular_categories
 		li = []
-		res_id = Restaurant.where(popular: true).pluck(:id).sample
+		res_id = Restaurant.approved.where(popular: true).pluck(:id).sample
 		DeliverCategory.all.each do |cat|
-			dk = cat.deliverables.where(popular: true).pluck(:id).sample
+			dk = cat.deliverables.approved.where(popular: true).pluck(:id).sample
 			if dk.present?
 				li.push(dk)
 			end
 		end
 		if res_id.present?
-			@restaurant = Restaurant.where(id: res_id)
+			@restaurant = Restaurant.approved.where(id: res_id)
 		end
-		@deliverable = Deliverable.find(li)
+		@deliverable = Deliverable.approved.find(li)
 	end
 
 	private

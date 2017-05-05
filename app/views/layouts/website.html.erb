@@ -107,6 +107,7 @@
                 <ul>
                     <% if @end_user.present? %>
                     <li><a href="<%= web_user_orders_path %>" style="font-size: 16px !important;">My Orders</a></li>
+                    <li><a href="<%= website_signout_path %>" style="font-size: 16px !important;">SignOut</a></li>
                     <li><a style="font-size: 20px !important;"><%= @end_user.name %></a></li>
                     <% else %>
                     <li class="submenu">

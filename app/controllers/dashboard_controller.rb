@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
 	before_action :is_admin , except: [:signin , :approve_signin]
-	skip_before_action :verify_authenticity_token, :only => [:approve_signin , :signout]
+	skip_before_action :verify_authenticity_token, :only => [:approve_signin , :signout ]
 	layout "dashboard_admin" , except: [:signin]
 
 	def signin
@@ -218,5 +218,12 @@ class DashboardController < ApplicationController
 		deliverable = Deliverable.find(params[:id])
 		deliverable.update(status: 1)
 		redirect_to dashboard_deliverables_path , notice: 'Successfully Unblocked'
+	end
+
+	def destroy_del_cat
+		if c = DeliverCategory.find_by_id(params[:id])
+			c.destroy
+		end
+		redirect_to dashboard_deliverable_cat_path , notice: 'Successfully Deleted'
 	end
 end

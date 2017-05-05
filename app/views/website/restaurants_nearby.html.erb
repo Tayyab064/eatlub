@@ -88,16 +88,11 @@
         	<div id="tools">
 				<div class="row">
 					<div class="col-md-3 col-sm-3 col-xs-6">
-						<div class="styled-select">
-							<select name="sort_rating" id="sort_rating">
-								<option value="" selected>Sort by ranking</option>
-								<option value="lower">Lowest ranking</option>
-								<option value="higher">Highest ranking</option>
-							</select>
+						<div class="">
+							<h5 style="margin-left: 10px;"><%= @name_te.capitalize %></h5>
 						</div>
 					</div>
 					<div class="col-md-9 col-sm-9 hidden-xs">
-						<a href="#" class="bt_filters"><i class="icon-list"></i></a>
 					</div>
 				</div>
 			</div><!--End tools -->
@@ -207,6 +202,11 @@
 		</div><!-- End col-md-9-->      
 	</div><!-- End row -->
 	<div class="row">
+		<% if @restaurants.count == 0 %>
+		<div class="row">
+			<h4 style="text-align: center;">No result found</h4>
+		</div>
+		<% end %>
 		<% @restaurants.each_with_index do |rest,index| %>
             	<% if (index % 2) == 0  %>
             	<div class="row">

@@ -37,6 +37,15 @@ class WebsiteController < ApplicationController
 		end
 	end
 
+	def signout
+		if session[:user].present?
+			session[:user] = nil
+			redirect_to '/' , notice: "Successfully Signedout"
+		else
+			redirect_to :back , notice: 'Error: Signin first'
+		end
+	end
+
 	def forget_password
 		if u = User.find_by_email(params[:email])
 			u.regenerate_password_reset_token
@@ -92,13 +101,14 @@ class WebsiteController < ApplicationController
 			@address = params[:address]
 		else
 			@restaurants = Restaurant.approved.limit(100)
-			@address = ''
+			@address = 'Locating'
 		end
 
 		@res_count = 0
 		@restaurants.each do |s|
 			@res_count += 1
 		end
+		@name_te = 'Restaurant'
 	end
 
 	def restaurant
@@ -251,13 +261,14 @@ class WebsiteController < ApplicationController
 			@address = params[:address]
 		else
 			@restaurants = Deliverable.approved.limit(0)
-			@address = ''
+			@address = params[:address]
 		end
 
 		@res_count = 0
 		@restaurants.each do |s|
 			@res_count += 1
 		end
+		@name_te = params[:name]
 	end
 
 	def get_deliverable

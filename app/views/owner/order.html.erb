@@ -89,7 +89,7 @@
                     <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : '../website/img/menu-thumb-1.jpg' %>" alt="thumb" style='width: 60px; height: auto;'></figure>
                 </td>
                 <td class="v-align-middle">
-                    <h5><%= food.name %></h5>
+                    <h5><%= food.name %> (Quantity: <%= foodi.quantity %>)</h5>
                     <% Component.where(id: foodi.option).each do |opt| %>
                       <strong><%= opt.option.title %></strong>
                       <br>
@@ -106,10 +106,10 @@
                     
                 </td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= itm_pric %></strong>
+                    <strong>£ <%= (itm_pric*foodi.quantity).round(2) %></strong>
                 </td>
             </tr>
-            <% pr = pr + itm_pric %>
+            <% pr = pr + (itm_pric*foodi.quantity).round(2) %>
             <% end %>
             <% if @order.ordera.present? %>
             <% fes = @order.ordera.delivery_fee.round(2) %>

@@ -77,8 +77,8 @@
     for(i = 0; i < coun; i++){
       if(window.localStorage.getItem('carti[' + i + ']')){
         t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-        da = da + "<tr><td> <strong>1x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ t.price +"</strong></td></tr>";
-        tot_pri = tot_pri + t.price ;
+        da = da + "<tr><td> <strong>" + t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ (t.price*t.quantity)+"</strong></td></tr>";
+        tot_pri = tot_pri + (t.price*t.quantity) ;
       }
     }
 
