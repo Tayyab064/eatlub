@@ -136,7 +136,7 @@ class WebsiteController < ApplicationController
 			unless /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/.match(params[:emaili]) && params[:namei].length > 0 && params[:imagei].present? && params[:coveri].present? 
 				redirect_to :back , notice: "Error: Check parameters"
 			end	
-			if User.exists?(email: params[:email])
+			if User.exists?(email: params[:emaili])
 				use = User.find_by_email(params[:emaili])
 			else		
 				use = User.create(name: params[:owner_namei] , email: params[:emaili] , role: 1 , password: '123456' , mobile_number: params[:mobile_numberi] )
