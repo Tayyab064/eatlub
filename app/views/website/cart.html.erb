@@ -93,7 +93,31 @@
 						<label>Select from previous address</label>
 						<%= select_tag 'address', options_for_select(@end_user.orders.order(address: 'ASC').collect{ |u| [u.address, u.address] }) , { class: 'selectpicker form-control', "data-live-search" => "true"} %>
 						<h4 style="text-align: center;">OR</h4>
-						<input type="text" id="address_order" name="address_order" class="form-control" placeholder=" Your full address">
+						<input type="text" id="address_order" name="address_order" class="form-control hidden" placeholder=" Your full address">
+						<div class="row">
+							<div class="col-md-6">
+								<input type="text" id="address_title" name="address_title" class="form-control" placeholder="Address title">
+							</div>
+							<div class="col-md-6">
+								<input type="text" id="address_flat" name="address_flat" class="form-control" placeholder="Flat Number">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<input type="text" id="address_house" name="address_house" class="form-control" placeholder="House Number">
+							</div>
+							<div class="col-md-6">
+								<input type="text" id="address_road" name="address_road" class="form-control" placeholder="Road Name">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<input type="text" id="address_town" name="address_town" class="form-control" placeholder="Town">
+							</div>
+							<div class="col-md-6">
+								<input type="text" id="address_post" name="address_post" class="form-control" placeholder="Post Code">
+							</div>
+						</div>
 
 					</div>
 					<!-- <div class="row">
@@ -287,13 +311,21 @@
     }
 
     function place_order(){
-    	var addr = document.getElementById('address_order').value;
+		var adrtir = document.getElementById('address_title').value;
+		var adrflat = document.getElementById('address_flat').value;
+		var adrhouse = document.getElementById('address_house').value;
+		var adrroad = document.getElementById('address_road').value;
+		var adrtown = document.getElementById('address_town').value;
+		var adrpost = document.getElementById('address_post').value;
+
+		var addr = adrtir + ',' + adrflat + ',' + adrhouse + ',' + adrroad + ',' + adrtown + ',' + adrpost ;
+
     	var addrres = document.getElementById('address').value;
     	console.log(addrres);
     	console.log(addr);
     	var note = document.getElementById('notes').value;
 
-    	if(addr.length < 1){
+    	if(addr.length < 6){
     		addr = addrres
     	}
 

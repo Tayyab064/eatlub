@@ -27,6 +27,7 @@ class OwnerController < ApplicationController
 
 	def signout
 		session[:owner] = nil
+		session[:admin] = nil
 		redirect_to '/owner/signin' , notice: 'Successfully SignedOut!'
 	end
 
@@ -79,7 +80,7 @@ class OwnerController < ApplicationController
 			10.times do |ss|
 				if params['option_' + ss.to_s].present?
 					if params['option_' + ss.to_s].length > 0
-						o = Option.create(title: params['option_' + ss.to_s], price: params['option_p_' + ss.to_s], food_item_id: foo.id)
+						o = Option.create(title: params['option_' + ss.to_s], price: 0.0 , food_item_id: foo.id)
 						3.times do |cotn|
 							if params['option_tit_' + ss.to_s + '_' + (cotn+1).to_s].length > 0
 								Component.create(title: params['option_tit_' + ss.to_s + '_' + (cotn+1).to_s], price: params['option_' + ss.to_s + '_' + (cotn+1).to_s] , option_id: o.id)

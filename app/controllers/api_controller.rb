@@ -1,7 +1,7 @@
 class ApiController < ApplicationController
 	skip_before_action :verify_authenticity_token
 	before_action :restrict_user , only: [:create_order , :get_orders , :get_specific_order , :tip]
-	before_action :restrict_rider , only: [:rider_accept , :arrived_rest_order , :arrived_user_order , :finish_order , :pay_bill , :online]
+	before_action :restrict_rider , only: [:rider_accept , :arrived_rest_order , :arrived_user_order , :finish_order , :rider_earn , :pay_bill , :online ]
 
 	def signup_user
 		em = params[:user][:email].downcase
@@ -13,6 +13,7 @@ class ApiController < ApplicationController
 			c.role = 'end_user'
 			if c.save
 				Wallet.create(user_id: User.find_by_email(em).id)
+				UserMailer.usersignup(c).deliver_now
 				render json: {'message' => 'Successfully signedup. Signin now'} , status: 201
 			else
 				render json: {'message' => 'Something went wrong. Check params'} , status: 422
@@ -53,6 +54,7 @@ class ApiController < ApplicationController
 			c.email = em
 			c.role = 'rider'
 			if c.save
+				UserMailer.usersignup(c).deliver_now
 				render json: {'message' => 'Successfully signedup. Signin now'} , status: 201
 			else
 				render json: {'message' => 'Something went wrong. Check params'} , status: 422
@@ -157,6 +159,7 @@ class ApiController < ApplicationController
 					it.save
 				end
 				PlaceOrderJob.perform_later(@ord)
+				UserMailer.ordercheckout(@ord).deliver_now
 				render status: 201
     		else
     			@message = 'Invalid orderable id'
@@ -182,6 +185,7 @@ class ApiController < ApplicationController
 		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
 			if ord.status == 'finish'
 				ord.update(status: 'completed')
+				UserMailer.orderdelivery(ord).deliver_now
 				render json: {'message' => 'Order completed'} , status: 200
 			else
 				render json: {'message' => 'Order expired'} , status: 409
@@ -194,7 +198,7 @@ class ApiController < ApplicationController
 	def rider_accept
 		if @ord = Order.find_by_id(params[:id])
 			if @ord.status == 'approved' && @ord.rider_id.nil?
-				@ord.update(rider_id: @current_rider.id)
+				@ord.update(rider_id: @current_rider.id , assigned_at: Time.now)
 				RiderAcceptOrderJob.perform_later(@ord)
 				render status: 200
 			else
@@ -299,6 +303,22 @@ class ApiController < ApplicationController
 			@restaurant = Restaurant.approved.where(id: res_id)
 		end
 		@deliverable = Deliverable.approved.find(li)
+	end
+
+	def rider_earn
+		case params[:month]
+		when 'month'
+			@order_mon = Order.where(rider_id: @current_rider.id).for_year.order(created_at: 'ASC').group_by(&:month)
+		when 'week'
+			@order_wee = Order.where(rider_id: @current_rider.id).for_year.order(created_at: 'ASC').group_by(&:week)
+		else
+			yea = Date.today.year
+			mont = Date.today.month
+			tim = Time.local(yea,mont,1,12,00,0) 
+			last_dat = Time.days_in_month(tim.month, yea)
+			rid = Order.where(rider_id: @current_rider.id).where("created_at >= ? and created_at <= ?", "#{yea}-#{mont}-01", "#{yea}-#{mont}-#{last_dat}")
+			@order_dai = rid.for_year.order(created_at: 'ASC').group_by(&:daily)
+		end
 	end
 
 	private

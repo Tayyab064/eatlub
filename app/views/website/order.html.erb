@@ -189,13 +189,13 @@
         <% cds = Geocoder.coordinates(@order.address) %>
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= cds.first %> , lng: <%= cds.last %>},
+          center: {lat: <%= cds.present? ? cds.first : '51.5074' %> , lng: <%= cds.present? ? cds.last : '0.1278' %>},
           scrollwheel: false,
           zoom: zoomLevel
         });
 
         var locations = [];
-        locations.push(['Order ID: O<%= @order.id%>', <%= cds.first %> , <%= cds.last %> , '<%= @order.address %>']);
+        locations.push(['Order ID: O<%= @order.id%>', <%= cds.present? ? cds.first : '51.5074' %>  , <%= cds.present? ? cds.last : '0.1278' %> , '<%= @order.address %>']);
 
         <% if @rider.present? && @order.status=='arrived_restaurant' %>
             <% if @rider.location.present? %>

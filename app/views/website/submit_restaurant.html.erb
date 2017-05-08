@@ -573,7 +573,8 @@
 		var location = $('#location').val();
 		var image = $('#image').val();
 		var cover = $('#cover').val();
-		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0)){
+		var postc = $('#post_code').val();
+		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (postc.length > 0) && (cover.length > 0)){
 			return true;
 		}else{
 			alertify.errorAlert("Check Parameters");
@@ -587,7 +588,8 @@
 		var location = $('#locationi').val();
 		var image = $('#imagei').val();
 		var cover = $('#coveri').val();
-		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0)){
+		var postc = $('#post_codei').val();
+		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0) && (postc.length > 0)){
 			return true;
 		}else{
 			alertify.errorAlert("Check Parameters");

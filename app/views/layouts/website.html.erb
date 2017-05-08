@@ -156,12 +156,12 @@
                 </p>
                 <div id="message-newsletter_2">
                 </div>
-                <form method="post" action="http://www.ansonika.com/quickfood/assets/newsletter.php" name="newsletter_2" id="newsletter_2">
+                <%= form_tag(subscribe_newsletter_path , method: :post ) do %>
                     <div class="form-group">
-                        <input name="email_newsletter_2" id="email_newsletter_2" type="email" value="" placeholder="Your mail" class="form-control">
+                        <%= text_field_tag :email , '' , placeholder: 'Your mail' , class: 'form-control' %>
                     </div>
-                    <input type="submit" value="Subscribe" class="btn_1" id="submit-newsletter_2">
-                </form>
+                    <%= submit_tag "Subscribe", class: "btn_1" %>
+                <% end %>
             </div>
             <div class="col-md-2 col-sm-3">
                 <h3>Settings</h3>

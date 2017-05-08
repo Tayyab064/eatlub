@@ -7,7 +7,6 @@ class Deliverable < ApplicationRecord
 	geocoded_by :location do |obj,results|
 	  if geo = results.first
 	    obj.latitude    = geo.latitude
-	    obj.post_code = geo.postal_code
 	    obj.longitude    = geo.longitude
 	  end
 	end
@@ -24,5 +23,7 @@ class Deliverable < ApplicationRecord
 
 	scope :approved, lambda {where(:status => 'approved')}
 	scope :popular, lambda {where(:popular => true)}
+
+	scope :highest_rated, lambda {where("deliverables.id in (select id from deliverables)").group('deliverables.id').joins(:reviews).order('AVG(reviews.rating) DESC')}
 
 end

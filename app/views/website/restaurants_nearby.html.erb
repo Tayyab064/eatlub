@@ -204,7 +204,7 @@
 	<div class="row">
 		<% if @restaurants.count == 0 %>
 		<div class="row">
-			<h4 style="text-align: center;">No result found</h4>
+			<h4 style="text-align: center;">We dont deliver in this area.</h4>
 		</div>
 		<% end %>
 		<% @restaurants.each_with_index do |rest,index| %>
@@ -238,6 +238,9 @@
 								<div class="location">
 									<%= rest.location %> <br><span class="opening">Opens at <%= rest.opening_time.strftime("%R") %>.</span> Minimum order: £15
 								</div>
+								<h5>
+									<%= rest.distance_from([@lat,@long]).round(2) %> miles away
+								</h5>
 								<ul>
 									<li>Take away<i class="icon_check_alt2 ok"></i></li>
 									<li>Delivery<i class="icon_check_alt2 ok"></i></li>

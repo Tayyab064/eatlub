@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'password_:token' => 'website#set_password' , as: 'set_password'
   put 'forgot_password' => 'website#save_password' , as: 'save_password_web'
   post 'review' => 'website#leaveareview' , as: 'leave_a_review'
+  post 'subscribe' => 'website#sub_news' , as: 'subscribe_newsletter'
 
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
@@ -144,6 +145,7 @@ Rails.application.routes.draw do
       post 'signin' => 'api#signin_rider' , as: 'api_signin_rider'
       post 'forget_password' => 'api#forget_password'
       get 'online' => 'api#online'
+      get 'earning/:month' => 'api#rider_earn'
 
       scope 'order' do
         get 'accept/:id' => 'api#rider_accept'

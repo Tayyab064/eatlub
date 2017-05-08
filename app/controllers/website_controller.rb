@@ -30,6 +30,8 @@ class WebsiteController < ApplicationController
 			if params[:password] == params[:c_password]
 				c = User.create(name: params[:name] , username: params[:username] , email: params[:email] , password: params[:password] , role: 0)
 				Wallet.create(user_id: c.id)
+				UserMailer.usersignup(c).deliver_now
+				session[:user] = params[:email]
 				redirect_to '/' , notice: 'Successfully SignedUp!'
 			else
 				redirect_to :back , notice: 'Error: Password doesnot match'
@@ -96,12 +98,14 @@ class WebsiteController < ApplicationController
 
 	def restaurants_nearby
 		#@restaurants = Restaurant.approved.near(params[:address], 10, :units => :km)
-		if params[:address].present? && params[:lat].present? && params[:long].present?
-			@restaurants = Restaurant.approved.near([params[:lat],params[:long]], 8, :units => :km)
+		@lat = params[:lat]
+		@long = params[:long]
+		if params[:address].present?
+			@restaurants = Restaurant.approved.where(post_code: params[:address])
 			@address = params[:address]
 		else
-			@restaurants = Restaurant.approved.limit(100)
-			@address = 'Locating'
+			@restaurants = Restaurant.approved.limit(0)
+			@address = params[:address]
 		end
 
 		@res_count = 0
@@ -142,7 +146,8 @@ class WebsiteController < ApplicationController
 				use = User.create(name: params[:owner_namei] , email: params[:emaili] , role: 1 , password: '123456' , mobile_number: params[:mobile_numberi] )
 			end
 			if use.role == 'restaurant_owner'
-				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei] , location: params[:locationi]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi])
+				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei] , location: params[:locationi]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi] , post_code: params[:post_codei])
+				UserMailer.restaurant_registered(use).deliver_now
 				redirect_to thankyou_path , notice: "Successfully Submitted"
 			else
 				redirect_to root_path , notice: "Error: Dont have accesss to submit restaurant"
@@ -157,7 +162,7 @@ class WebsiteController < ApplicationController
 				use = User.create(name: params[:owner_name] , email: params[:email] , role: 1 , password: '123456' , mobile_number: params[:mobile_number] )
 			end
 			if use.role == 'restaurant_owner'
-				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number])
+				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number] , post_code: params[:post_code])
 				if params[:max_order].to_i > 0
 					Deal.create(total_order: params[:max_order] , discount: params[:discount] , restaurant_id: res.id)
 				end
@@ -180,6 +185,7 @@ class WebsiteController < ApplicationController
 	def save_driver
 		c = User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
 		Detail.create(city: params[:mycity] , vehicle: params[:myvehi] , rider_id: c.id)
+		UserMailer.usersignup(c).deliver_now
 		redirect_to thankyou_path , notice: "Successfully Submitted"
 	end
 
@@ -212,6 +218,7 @@ class WebsiteController < ApplicationController
 		params[:item].each do |cou|		
 			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
 		end
+		UserMailer.ordercheckout(ord).deliver_now
 		render json: {'message' => 'Saved' , 'id' => ord.id } , status: :ok
 	end
 
@@ -255,9 +262,11 @@ class WebsiteController < ApplicationController
 	end
 
 	def nearby_deliverables
+		@lat = params[:lat]
+		@long = params[:long]
 		de = DeliverCategory.find_by_name(params[:name])
-		if params[:lat].present? && de.present? && params[:long].present?
-			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).near([params[:lat],params[:long]], 8, :units => :km)
+		if de.present?
+			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).where(post_code: params[:address])
 			@address = params[:address]
 		else
 			@restaurants = Deliverable.approved.limit(0)
@@ -288,6 +297,18 @@ class WebsiteController < ApplicationController
 
 	def get_deliverable_item
 		@restaurant = Deliverable.approved.find(params[:id])
+	end
+
+	def sub_news
+		if User.exists?(email: params[:email])
+			use = User.find_by_email(params[:email])
+			noti =  'Error: User already subscribed'
+		else
+			use = User.create(email: params[:email] , role: 1 , password: '123456')
+			noti = 'Successfully subscribed'
+			UserMailer.userreg(use).deliver_now
+		end
+		redirect_to '/' , notice: noti
 	end
 
 

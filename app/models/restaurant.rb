@@ -7,7 +7,6 @@ class Restaurant < ApplicationRecord
 	geocoded_by :location do |obj,results|
 	  if geo = results.first
 	    obj.latitude    = geo.latitude
-	    obj.post_code = geo.postal_code
 	    obj.longitude    = geo.longitude
 	  end
 	end
@@ -24,6 +23,8 @@ class Restaurant < ApplicationRecord
 
 	scope :approved, lambda {where(:status => 'approved')}
 	scope :popular, lambda {where(:popular => true)}
+
+	scope :highest_rated, lambda {where("restaurants.id in (select id from restaurants)").group('restaurants.id').joins(:reviews).order('AVG(reviews.rating) DESC')}
 
 	def self.to_csv(options = {})
 	  CSV.generate(options) do |csv|

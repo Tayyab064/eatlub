@@ -101,6 +101,7 @@ class DashboardController < ApplicationController
 	def rest_mark_approved
 		restaurant = Restaurant.find(params[:id])
 		restaurant.update(status: 1)
+		UserMailer.restapprove(restaurant).deliver_now
 		unless restaurant.owner.password.present?
 			#ow = restaurant.owner
 			#ow.update(password: SecureRandom.urlsafe_base64(6))
@@ -194,6 +195,7 @@ class DashboardController < ApplicationController
 	def approve_deliverables
 		deliverable = Deliverable.find(params[:id])
 		deliverable.update(status: 1)
+		UserMailer.restapprove(deliverable).deliver_now
 		redirect_to dashboard_deliverables_path , notice: 'Successfully Approved'
 	end
 
