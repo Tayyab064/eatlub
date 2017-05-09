@@ -110,7 +110,7 @@ class ApiController < ApplicationController
 		if params[:latitude].present? && params[:longitude].present? && params[:deliverable].present?
 			@latlong = [params[:latitude], params[:longitude]]
 			if c = DeliverCategory.find_by_name(params[:deliverable])
-				bra = Branch.near( @latlong, 20).map(&:deliverable_id).uniq
+				bra = Branch.near( @latlong, 20).map(&:deliverable_id)
 				@restaurants = Deliverable.approved.where(id: bra).where(deliver_category_id: c.id)
 				#@restaurants = c.deliverables.approved.near( @latlong, 20)
 			else

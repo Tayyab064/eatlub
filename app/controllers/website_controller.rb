@@ -269,7 +269,7 @@ class WebsiteController < ApplicationController
 		@long = params[:long]
 		de = DeliverCategory.find_by_name(params[:name])
 		if de.present?
-			bra = Branch.where(post_code: params[:address]).map(&:deliverable_id).uniq
+			bra = Branch.where(post_code: params[:address]).map(&:deliverable_id)
 			@restaurants = Deliverable.approved.where(id: bra).where(deliver_category_id: de.id)
 			@address = params[:address]
 		else
