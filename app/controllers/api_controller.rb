@@ -110,7 +110,9 @@ class ApiController < ApplicationController
 		if params[:latitude].present? && params[:longitude].present? && params[:deliverable].present?
 			@latlong = [params[:latitude], params[:longitude]]
 			if c = DeliverCategory.find_by_name(params[:deliverable])
-				@restaurants = c.deliverables.approved.near( @latlong, 20)
+				bra = Branch.near( @latlong, 20).map(&:deliverable_id).uniq
+				@restaurants = Deliverable.approved.where(id: bra).where(deliver_category_id: c.id)
+				#@restaurants = c.deliverables.approved.near( @latlong, 20)
 			else
 				@message = 'Invalid deliverable name'
 				render status: 403

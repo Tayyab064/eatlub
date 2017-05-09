@@ -3,18 +3,11 @@ class Deliverable < ApplicationRecord
 
 	mount_uploader :image, ImageUploader
 	mount_uploader :cover, ImageUploader
-	
-	geocoded_by :location do |obj,results|
-	  if geo = results.first
-	    obj.latitude    = geo.latitude
-	    obj.longitude    = geo.longitude
-	  end
-	end
-	after_validation :geocode 
 
 	has_one :menu , :as => :menuable , dependent: :destroy
 	has_many :reviews , :as => :reviewable , dependent: :destroy
 	has_many :orders , :as => :ordera  , dependent: :destroy
+	has_many :branches  , dependent: :destroy
 
 	enum status: [:pending , :approved , :block]
 	enum order_status: [:quiet , :moderate , :busy]

@@ -2,7 +2,7 @@
 <section class="parallax-window" id="short" data-parallax="scroll" data-image-src="website/img/sub_header_short.jpg" data-natural-width="1400" data-natural-height="350">
     <div id="subheader">
 	<div id="sub_content">
-    	<h1>Restaurants</h1>
+    	<h1>Pickup Points</h1>
     </div><!-- End sub_content -->
 </div><!-- End subheader -->
 </section><!-- End section -->
@@ -38,13 +38,7 @@
       <div id="tools">
 				<div class="row">
 					<div class="col-md-3 col-sm-3 col-xs-6">
-						<div class="styled-select">
-							<select name="sort_rating" id="sort_rating">
-								<option value="" selected>Sort by ranking</option>
-								<option value="lower">Lowest ranking</option>
-								<option value="higher">Highest ranking</option>
-							</select>
-						</div>
+						<h5 style="margin-left: 10px;">Pickup Points</h5>
 					</div>
 					<div class="col-md-9 col-sm-9 hidden-xs">
 						<a href="/restaurants" class="bt_filters"><i class="icon-list"></i></a>
@@ -60,7 +54,7 @@
 	<% @restaurants.each do |rest| %>
 
     <div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="<%= de %>s">
-      <a class="strip_list grid" href="menu_<%= rest.id %>">
+      <a class="strip_list grid" href="items_<%= rest.id %>">
           <% if rest.popular %>
           <div class="ribbon_1">Popular</div>
           <% end %>
@@ -84,9 +78,6 @@
             <% end %>
             </div>
             <h3><%= rest.name %></h3>
-            <div class="type">
-              <%= rest.cuisine %>
-            </div>
             <div class="location">
               <%= rest.location %>. <span class="opening">Opens at <%= rest.opening_time.strftime("%R") %></span> Minimum order: £15
             </div>

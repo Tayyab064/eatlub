@@ -247,25 +247,9 @@
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">
-							<label>Cuisines</label>
-							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
-							<%= text_field_tag :cuisine  , '' , class: 'form-control' , placeholder: 'British / Chinese', autofocus: true %>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
 							<label>Location</label>
                            <!-- <input type="text" id="restaurant" name="restaurant" class="form-control" placeholder="Pizza King"> -->
                            <%= text_field_tag :location  , '' , class: 'form-control' , placeholder: '1-3 Tooley Street, London', autofocus: true %>
-						</div>
-					</div>
-                    <div class="col-md-6">
-						<div class="form-group">
-							<label>Type</label>
-                           <!-- <input type="text" id="restaurant_web" name="restaurant_web" class="form-control" placeholder="http://"> -->
-                           <%= text_field_tag :typee  , '' , class: 'form-control' , placeholder: 'Fast Food', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -336,8 +320,8 @@
 					</div>
 				</div><!-- End row  -->
 				<div id="pass-info" class="clearfix"></div>
-                <hr style="border-color:#ddd;">
-				<div class="text-center"><button class="btn_full_outline" type="button" onclick="removdeal();">Want to add any deal?</button></div>
+                <hr style="border-color:#ddd;" class="hidden">
+				<div class="text-center hidden"><button class="btn_full_outline" type="button" onclick="removdeal();">Want to add any deal?</button></div>
 				<div class="row hidden" id="tes">
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">

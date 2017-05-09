@@ -7,8 +7,12 @@ else
 		json.opening_time restaurant.opening_time.strftime('%r')
 		json.closing_time restaurant.closing_time.strftime('%r')
 		json.about_us restaurant.about_us
-		json.location restaurant.location
-		json.distance restaurant.distance_from(@latlong).round(2)
+
+		bran = restaurant.branches.near( @latlong, 20).first
+
+		json.location bran.address
+		json.distance bran.distance_from(@latlong).round(2)
+
 		json.status restaurant.status
 		if restaurant.image_url.present?
 			json.image restaurant.image_url.gsub(restaurant.image_url.split('/')[6], 'q_50')

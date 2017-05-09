@@ -52,7 +52,7 @@
 	    <img src="website/img/video_fix.png" alt="" class="header-video--media" data-video-src="website/video/intro" data-teaser-source="website/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
 	    <div id="count" class="hidden-xs hidden">
 	        <ul>
-	            <li><span class="number"><%= @res_count %></span> Restaurant</li>
+	            <li><span class="number"><%= @res_count %></span> Pickup Points</li>
 	            <li><span class="number"><%= @ord_count %></span> People Served</li>
 	            <li><span class="number"><%= @end_user_count %></span> Registered Users</li>
 	        </ul>
@@ -125,8 +125,9 @@
 	        </div>
 	        
 	        <div class="row">
+	        	<% if @restaurants.count >= 3 %>
 	            <div class="col-md-6">
-	                <a href="restaurant_<%= @restaurants.first.id%>" class="strip_list">
+	                <a href="deliver_<%= @restaurants.first.id%>" class="strip_list">
 	                <div class="<%= @restaurants.first.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
@@ -148,9 +149,6 @@
 		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.first.name %></h3>
-	                        <div class="type">
-	                            <%= @restaurants.first.cuisine %>
-	                        </div>
 	                        <div class="location">
 	                            <%= @restaurants.first.location %>. <span class="opening">Opens at <%= @restaurants.first.opening_time.strftime("%R") %></span>
 	                        </div>
@@ -160,7 +158,7 @@
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
-	               <a href="restaurant_<%= @restaurants.second.id %>" class="strip_list">
+	               <a href="deliver_<%= @restaurants.second.id %>" class="strip_list">
 	               <div class="<%= @restaurants.second.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
@@ -182,9 +180,6 @@
 		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.second.name %></h3>
-	                        <div class="type">
-	                            <%= @restaurants.second.cuisine %>a
-	                        </div>
 	                        <div class="location">
 	                            <%= @restaurants.second.location %>. <span class="opening">Opens at <%= @restaurants.second.opening_time.strftime("%R") %></span>
 	                        </div>
@@ -194,7 +189,7 @@
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
-	                <a href="restaurant_<%= @restaurants.third.id %>" class="strip_list">
+	                <a href="deliver_<%= @restaurants.third.id %>" class="strip_list">
 	                <div class="<%= @restaurants.third.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
@@ -216,9 +211,6 @@
 		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.third.name %></h3>
-	                        <div class="type">
-	                            <%= @restaurants.third.cuisine %>
-	                        </div>
 	                        <div class="location">
 	                            <%= @restaurants.third.location %>. <span class="opening">Opens at <%= @restaurants.third.opening_time.strftime("%R") %></span>
 	                        </div>
@@ -229,8 +221,10 @@
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
 	            </div><!-- End col-md-6-->
+	            <% end %>
+	            <% if @restaurants.count >= 6 %>
 	            <div class="col-md-6">
-	                <a href="restaurant_<%= @restaurants.fourth.id %>" class="strip_list">
+	                <a href="deliver_<%= @restaurants.fourth.id %>" class="strip_list">
 	                <div class="<%= @restaurants.fourth.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
@@ -252,9 +246,6 @@
 		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.fourth.name %></h3>
-	                        <div class="type">
-	                            <%= @restaurants.fourth.cuisine %>
-	                        </div>
 	                        <div class="location">
 	                            <%= @restaurants.fourth.location %>. <span class="opening">Opens at <%= @restaurants.fourth.opening_time.strftime("%R") %></span>
 	                        </div>
@@ -264,7 +255,7 @@
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
-	                <a href="restaurant_<%= @restaurants.fifth.id %>" class="strip_list">
+	                <a href="deliver_<%= @restaurants.fifth.id %>" class="strip_list">
 	                <div class="<%= @restaurants.fifth.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
@@ -286,9 +277,6 @@
 		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.fifth.name %></h3>
-	                        <div class="type">
-	                            <%= @restaurants.fifth.cuisine %>
-	                        </div>
 	                        <div class="location">
 	                            <%= @restaurants.fifth.location %>. <span class="opening">Opens at <%= @restaurants.fifth.opening_time.strftime("%R") %></span>
 	                        </div>
@@ -298,7 +286,7 @@
 	                        </ul>
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
-	                <a href="restaurant_<%= @restaurants.last.id %>" class="strip_list">
+	                <a href="deliver_<%= @restaurants.last.id %>" class="strip_list">
 	                <div class="<%= @restaurants.last.popular ? 'ribbon_1' : '' %>"></div>
 	                    <div class="desc">
 	                        <div class="thumb_strip">
@@ -320,9 +308,6 @@
 		                        <% end %>
 	                        </div>
 	                        <h3><%= @restaurants.last.name %></h3>
-	                        <div class="type">
-	                            <%= @restaurants.last.cuisine %>
-	                        </div>
 	                        <div class="location">
 	                            <%= @restaurants.last.location %>. <span class="opening">Opens at <%= @restaurants.last.opening_time.strftime("%R") %></span>
 	                        </div>
@@ -333,6 +318,7 @@
 	                    </div><!-- End desc-->
 	                </a><!-- End strip_list-->
 	            </div>
+	            <% end %>
 	        </div><!-- End row -->   
 	        
 	    </div><!-- End container -->
@@ -340,9 +326,9 @@
         
     <div class="high_light">
       	<div class="container">
-      		<h3>Choose from over <%= @res_count %> Restaurants</h3>
+      		<h3>Choose from over <%= @res_count %> Pickup points</h3>
             <p class="hidden">Ridiculus sociosqu cursus neque cursus curae ante scelerisque vehicula.</p>
-            <a href="<%= web_restaurant_listing_path %>" style="margin-top: 0px;">View all Restaurants</a>
+            <a href="<%= web_restaurant_listing_path %>" style="margin-top: 0px;">View all Pickup points</a>
         </div><!-- End container -->
     </div><!-- End hight_light -->
                   

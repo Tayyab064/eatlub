@@ -73,18 +73,18 @@ class WebsiteController < ApplicationController
 	end
 
 	def index
-		@restaurants = Restaurant.approved.order(created_at: 'DESC').limit(6)
+		@restaurants = Deliverable.approved.order(created_at: 'DESC').limit(6)
 		#@res_count = Restaurant.approved.count
 		#@ord_count = Order.where(status: 'completed').count
 		#@end_user_count = User.where(role: 'end_user').count
 	end
 
 	def restaurant_listing
-		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(100)
+		@restaurants = Deliverable.approved.order(created_at: 'desc').limit(100)
 	end
 
 	def restaurant_grid
-		@restaurants = Restaurant.approved.order(created_at: 'desc').limit(100)
+		@restaurants = Deliverable.approved.order(created_at: 'desc').limit(100)
 	end
 
 	def search_postal
@@ -146,7 +146,8 @@ class WebsiteController < ApplicationController
 				use = User.create(name: params[:owner_namei] , email: params[:emaili] , role: 1 , password: '123456' , mobile_number: params[:mobile_numberi] )
 			end
 			if use.role == 'restaurant_owner'
-				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei] , location: params[:locationi]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi] , post_code: params[:post_codei])
+				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi])
+				Branch.create( address: params[:locationi] , post_code: params[:post_codei] , deliverable_id: res.id)
 				UserMailer.restaurant_registered(use).deliver_now
 				redirect_to thankyou_path , notice: "Successfully Submitted"
 			else
@@ -162,7 +163,9 @@ class WebsiteController < ApplicationController
 				use = User.create(name: params[:owner_name] , email: params[:email] , role: 1 , password: '123456' , mobile_number: params[:mobile_number] )
 			end
 			if use.role == 'restaurant_owner'
-				res = Restaurant.create(name: params[:name] , cuisine: params[:cuisine] , location: params[:location] , typee: params[:typee] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number] , post_code: params[:post_code])
+				cast_rest = DeliverCategory.find_by_name('restaurant')
+				res = Deliverable.create(deliver_category_id: cast_rest.id ,name: params[:name] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number])
+				Branch.create( address: params[:location] , post_code: params[:post_code] , deliverable_id: res.id)
 				if params[:max_order].to_i > 0
 					Deal.create(total_order: params[:max_order] , discount: params[:discount] , restaurant_id: res.id)
 				end
@@ -266,7 +269,8 @@ class WebsiteController < ApplicationController
 		@long = params[:long]
 		de = DeliverCategory.find_by_name(params[:name])
 		if de.present?
-			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).where(post_code: params[:address])
+			bra = Branch.where(post_code: params[:address]).map(&:deliverable_id).uniq
+			@restaurants = Deliverable.approved.where(id: bra).where(deliver_category_id: de.id)
 			@address = params[:address]
 		else
 			@restaurants = Deliverable.approved.limit(0)
