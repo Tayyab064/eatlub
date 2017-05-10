@@ -35,12 +35,13 @@ class DashboardController < ApplicationController
 		@order = Order.all
 		@rider = User.where(role: 'rider')
 		@user = User.where(role: 'end_user')
-		@restaurant = Restaurant.all
 		@categories = DeliverCategory.all
+		@deliver = Deliverable.approved
 	end
 
 	def restaurants
-		@restaurant = Restaurant.all
+		c = DeliverCategory.find_by_name('restaurant')
+		@restaurant = c.deliverables
 		respond_to do |format|
 			format.html
 			format.csv { send_data @restaurant.to_csv }
@@ -189,38 +190,39 @@ class DashboardController < ApplicationController
 	end
 
 	def deliverable
-		@deliverable = Deliverable.all
+		c = DeliverCategory.find_by_name('restaurant')
+		@deliverable = Deliverable.where.not(deliver_category_id: c.id)
 	end
 
 	def approve_deliverables
 		deliverable = Deliverable.find(params[:id])
 		deliverable.update(status: 1)
 		UserMailer.restapprove(deliverable).deliver_now
-		redirect_to dashboard_deliverables_path , notice: 'Successfully Approved'
+		redirect_to :back , notice: 'Successfully Approved'
 	end
 
 	def deliverable_mark_popular
 		deliverable = Deliverable.find(params[:id])
 		deliverable.update(popular: !deliverable.popular)
-		redirect_to dashboard_deliverables_path , notice: 'Successfully Done'
+		redirect_to :back , notice: 'Successfully Done'
 	end
 
 	def set_commission_deliverable
 		deliverable = Deliverable.find(params[:id])
 		deliverable.update(commission: params[:commission])
-		redirect_to dashboard_deliverables_path , notice: 'Successfully Done'
+		redirect_to :back , notice: 'Successfully Done'
 	end
 
 	def block_deliverable
 		deliverable = Deliverable.find(params[:id])
 		deliverable.update(status: 2)
-		redirect_to dashboard_deliverables_path , notice: 'Successfully Blocked'
+		redirect_to :back , notice: 'Successfully Blocked'
 	end
 
 	def unblock_deliverable
 		deliverable = Deliverable.find(params[:id])
 		deliverable.update(status: 1)
-		redirect_to dashboard_deliverables_path , notice: 'Successfully Unblocked'
+		redirect_to :back , notice: 'Successfully Unblocked'
 	end
 
 	def destroy_del_cat

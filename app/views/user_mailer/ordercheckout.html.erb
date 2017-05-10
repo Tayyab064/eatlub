@@ -112,8 +112,9 @@
                                 <%= @order.address %>
                             </td>
                             
+                            <% brac =  @order.ordera.branches.near(@order.address , 20).first %>
                             <td>
-                                <%= @order.ordera.location %>
+                                <%= brac.present? ? brac.address : @order.ordera.name %>
                             </td>
                         </tr>
                     </table>

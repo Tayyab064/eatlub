@@ -31,7 +31,7 @@
                      ( <small><a id="#resti_review"><%= revi_coun %> reviews</a></small> )
                      </div>
                     <h1><%= @restaurant.name %></h1>
-                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
+                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.delivery ? "<strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
                     <h1><%= link_to 'Items' , get_deliverable_item_path , class: 'btn' , style: 'background-color: #78cfcf; width: 15%;text-decoration: none;' %></h1>
     </div><!-- End sub_content -->
 </div><!-- End subheader -->
@@ -374,13 +374,15 @@
 
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= @restaurant.latitude %>, lng: <%= @restaurant.longitude %>},
+          center: {lat: <%= @restaurant.branches.count>0 ? @restaurant.branches.first.latitude : '51.5074' %>, lng: <%= @restaurant.branches.count>0 ? @restaurant.branches.first.longitude : '0.1278' %>},
           scrollwheel: false,
           zoom: zoomLevel
         });
 
         var locations = [];
-        locations.push(['<%= @restaurant.name %>', <%= @restaurant.latitude %>, <%= @restaurant.longitude %>, '<%= @restaurant.location %>']);
+        <% @restaurant.branches.each do |brac| %>
+        locations.push(['<%= brac.address %>', <%= brac.latitude %>, <%= brac.longitude %>, '<%= brac.address %>']);
+        <% end %>
 
         var infowindow = new google.maps.InfoWindow();
 

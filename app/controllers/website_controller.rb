@@ -74,9 +74,6 @@ class WebsiteController < ApplicationController
 
 	def index
 		@restaurants = Deliverable.approved.order(created_at: 'DESC').limit(6)
-		#@res_count = Restaurant.approved.count
-		#@ord_count = Order.where(status: 'completed').count
-		#@end_user_count = User.where(role: 'end_user').count
 	end
 
 	def restaurant_listing
@@ -210,18 +207,15 @@ class WebsiteController < ApplicationController
 		else
 			ad = Address.find(params[:address_id]).address
 		end
-		
-		if params[:deliverable] == true
-			ordes_typ = 'Deliverable'
-		else
-			ordes_typ = 'Restaurant'
-		end
-		ord = Order.create(address: ad , notes: params[:notes] , ordera_id: params[:restaurant_id] , ordera_type: ordes_typ , user_id: params[:user_id])
+
+		ord = Order.create(address: ad , notes: params[:notes] , ordera_id: params[:restaurant_id] , ordera_type: 'Deliverable' , user_id: params[:user_id])
 		p ord.errors
-		params[:item].each do |cou|		
-			Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
+		if ord.present?
+			params[:item].each do |cou|		
+				Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
+			end
+			UserMailer.ordercheckout(ord).deliver_now
 		end
-		UserMailer.ordercheckout(ord).deliver_now
 		render json: {'message' => 'Saved' , 'id' => ord.id } , status: :ok
 	end
 

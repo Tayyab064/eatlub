@@ -285,14 +285,16 @@
 
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= @res_count>0 ? @restaurants.first.latitude : '51.5074' %>, lng: <%= @res_count>0 ? @restaurants.first.longitude : '0.1278' %>},
+          center: {lat: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.latitude : '51.5074' %> lng: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.longitude : '0.1278' %>},
           scrollwheel: false,
           zoom: zoomLevel
         });
 
         var locations = [];
         <% @restaurants.each do |res| %>
-        locations.push(['<%= res.name %>', <%= res.latitude %>, <%= res.longitude %>, '<%= res.location %>']);
+        <% res.branches.each do |brac| %>
+        locations.push(['<%= res.name %>', <%= brac.latitude %>, <%= brac.longitude %>, '<%= brac.address %>']);
+        <% end %>
         <% end %>
         var infowindow = new google.maps.InfoWindow();
 

@@ -58,7 +58,7 @@
 					          <p><%= restaurant.name %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <p><%= restaurant.location %></p>
+					          <p><%= restaurant.branches.count>0 ? restaurant.branches.first.address : '' %></p>
 					        </td>
 					        <td class="v-align-middle">
 					          <p><%= restaurant.owner.email %></p>
@@ -117,7 +117,7 @@
 					          <p><%= restaurant.name %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <p><%= restaurant.location %></p>
+					          <p><%= restaurant.branches.count>0 ? restaurant.branches.first.address : '' %></p>
 					        </td>
 					        <td class="v-align-middle">
 	                        	<p><%= restaurant.deliver_category.name.capitalize %></p>
@@ -220,7 +220,7 @@
 					          <p><%= restaurant.name %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <p><%= restaurant.location %></p>
+					          <p><%= restaurant.branches.count>0 ? restaurant.branches.first.address : '' %></p>
 					        </td>
 					        <td class="v-align-middle">
 					          <p><%= restaurant.owner.email %></p>

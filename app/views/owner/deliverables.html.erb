@@ -34,7 +34,7 @@
                   <p><%= restaurant.name %></p>
                 </td>
                 <td class="v-align-middle">
-                  <p><%= restaurant.location %></p>
+                  <p><%= restaurant.branches.count>0 ? restaurant.branches.first.address : '' %></p>
                 </td>
                 <td class="v-align-middle">
                   <p><%= restaurant.deliver_category.name %></p>

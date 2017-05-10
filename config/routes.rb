@@ -18,11 +18,11 @@ Rails.application.routes.draw do
   post 'signup' => 'website#signup' , as: 'website_signup'
   get 'signout' => 'website#signout' , as: 'website_signout'
   get 'postalcode' => 'website#search_postal' , as: 'postalcode_search_web'
-  get 'nearby_restaurants' => 'website#restaurants_nearby' , as: 'restaurants_nearby'
+  #get 'nearby_restaurants' => 'website#restaurants_nearby' , as: 'restaurants_nearby'
   get 'deliverable_:name' => 'website#nearby_deliverables' , as: 'nearby_deliverables'
-  get 'restaurant_:id' => 'website#restaurant' , as: 'restaurant_page'
+  #get 'restaurant_:id' => 'website#restaurant' , as: 'restaurant_page'
   get 'deliver_:id' => 'website#get_deliverable' , as: 'deliverable_page'
-  get 'menu_:id' => 'website#restaurant_menu' , as: 'restaurant_menu_page'
+  #get 'menu_:id' => 'website#restaurant_menu' , as: 'restaurant_menu_page'
   get 'items_:id' => 'website#get_deliverable_item' , as: 'get_deliverable_item'
   get 'submit_restaurant' => 'website#submit_restaurant'
   post 'submit_restaurant' => 'website#save_restaurant' , as: 'save_restaurant'
@@ -57,12 +57,12 @@ Rails.application.routes.draw do
   	put 'set_password' => 'dashboard#set_password_user' , as: 'dashboard_set_password'
   	get 'unblock_user' => 'dashboard#unblock_user' , as: 'dashboard_unblock_user'
     get 'block_user' => 'dashboard#block_user' , as: 'dashboard_block_user'
-    get 'restaurant_approve_:id' => 'dashboard#rest_mark_approved' , as: 'restaurant_mark_approve'
-    get 'restaurant_popular_:id' => 'dashboard#rest_mark_popular' , as: 'restaurant_mark_popular'
-    put 'commission_:id' => 'dashboard#set_commission' , as: 'dashboard_commission'
+    #get 'restaurant_approve_:id' => 'dashboard#rest_mark_approved' , as: 'restaurant_mark_approve'
+    #get 'restaurant_popular_:id' => 'dashboard#rest_mark_popular' , as: 'restaurant_mark_popular'
+    #put 'commission_:id' => 'dashboard#set_commission' , as: 'dashboard_commission'
 
-    get 'unblock_restaurant_:id' => 'dashboard#unblock_restaurant' , as: 'dashboard_unblock_restaurant'
-    get 'block_restaurant_:id' => 'dashboard#block_restaurant' , as: 'dashboard_block_restaurant'
+    #get 'unblock_restaurant_:id' => 'dashboard#unblock_restaurant' , as: 'dashboard_unblock_restaurant'
+    #get 'block_restaurant_:id' => 'dashboard#block_restaurant' , as: 'dashboard_block_restaurant'
 
     get 'rider_order_:id' => 'dashboard#rider_orders' , as: 'dashboard_rider_orders'
 
@@ -110,6 +110,8 @@ Rails.application.routes.draw do
     put 'deliver_order_:id' => 'owner#order_status_delivera'
     get 'deliver_item_:id' => 'owner#deliverable_menu_add' , as: 'owner_deliverable_menu_add'
     post 'save_deliver_item' => 'owner#save_deliver_item' , as: 'owner_save_deliver_item'
+
+    post 'save_branch' => 'owner#deliverable_add_branch' , as: 'owner_add_branch'
   end
 
   scope 'api' do
@@ -118,11 +120,11 @@ Rails.application.routes.draw do
       post 'signup' => 'api#signup_user' , as: 'api_signup_user'
       post 'signin' => 'api#signin_user' , as: 'api_signin_user'
       post 'forget_password' => 'api#forget_password'
-      get 'nearby_restaurants' => 'api#nearby_restaurants' , as: 'api_nearby_restaurants'
+      #get 'nearby_restaurants' => 'api#nearby_restaurants' , as: 'api_nearby_restaurants'
       get 'nearby_:deliverable' => 'api#nearby_deliverable' , as: 'api_nearby_deliverable'
 
       scope 'restaurant' do
-        get 'menu/:id' => 'api#restaurant_menu' , as: 'api_restaurant_menu'
+        #get 'menu/:id' => 'api#restaurant_menu' , as: 'api_restaurant_menu'
       end
 
       scope 'deliverable' do

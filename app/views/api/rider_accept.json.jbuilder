@@ -7,11 +7,17 @@ else
 	json.notes @ord.notes
 	json.user @ord.user.username
 	if @ord.ordera.present?
-	json.restaurant @ord.ordera.name
-	json.restaurant_location @ord.ordera.location
+		json.restaurant @ord.ordera.name
+
+		bran = @ord.ordera.branches.near( @ord.address, 20).first
+		if bran.present?
+			json.restaurant_location bran.address
+		else
+			json.restaurant_location ''
+		end
 	else
-	json.restaurant ''
-	json.restaurant_location ''
+		json.restaurant ''
+		json.restaurant_location ''
 	end
 	json.items(@ord.items) do |item|
 		json.id item.id

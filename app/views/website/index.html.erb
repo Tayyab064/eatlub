@@ -150,7 +150,7 @@
 	                        </div>
 	                        <h3><%= @restaurants.first.name %></h3>
 	                        <div class="location">
-	                            <%= @restaurants.first.location %>. <span class="opening">Opens at <%= @restaurants.first.opening_time.strftime("%R") %></span>
+	                            <%= @restaurants.first.branches.count > 0 ? @restaurants.first.branches.first.address : '' %>. <span class="opening">Opens at <%= @restaurants.first.opening_time.strftime("%R") %></span>
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
@@ -181,7 +181,7 @@
 	                        </div>
 	                        <h3><%= @restaurants.second.name %></h3>
 	                        <div class="location">
-	                            <%= @restaurants.second.location %>. <span class="opening">Opens at <%= @restaurants.second.opening_time.strftime("%R") %></span>
+	                            <%= @restaurants.second.branches.count > 0 ? @restaurants.second.branches.first.address : '' %>. <span class="opening">Opens at <%= @restaurants.second.opening_time.strftime("%R") %></span>
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
@@ -212,7 +212,7 @@
 	                        </div>
 	                        <h3><%= @restaurants.third.name %></h3>
 	                        <div class="location">
-	                            <%= @restaurants.third.location %>. <span class="opening">Opens at <%= @restaurants.third.opening_time.strftime("%R") %></span>
+	                            <%= @restaurants.third.branches.count > 0 ? @restaurants.third.branches.first.address : '' %>. <span class="opening">Opens at <%= @restaurants.third.opening_time.strftime("%R") %></span>
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
@@ -247,7 +247,7 @@
 	                        </div>
 	                        <h3><%= @restaurants.fourth.name %></h3>
 	                        <div class="location">
-	                            <%= @restaurants.fourth.location %>. <span class="opening">Opens at <%= @restaurants.fourth.opening_time.strftime("%R") %></span>
+	                            <%= @restaurants.fourth.branches.count > 0 ? @restaurants.fourth.branches.first.address : '' %>. <span class="opening">Opens at <%= @restaurants.fourth.opening_time.strftime("%R") %></span>
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
@@ -278,7 +278,7 @@
 	                        </div>
 	                        <h3><%= @restaurants.fifth.name %></h3>
 	                        <div class="location">
-	                            <%= @restaurants.fifth.location %>. <span class="opening">Opens at <%= @restaurants.fifth.opening_time.strftime("%R") %></span>
+	                            <%= @restaurants.fifth.branches.count > 0 ? @restaurants.fifth.branches.first.address : '' %>. <span class="opening">Opens at <%= @restaurants.fifth.opening_time.strftime("%R") %></span>
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>
@@ -309,7 +309,7 @@
 	                        </div>
 	                        <h3><%= @restaurants.last.name %></h3>
 	                        <div class="location">
-	                            <%= @restaurants.last.location %>. <span class="opening">Opens at <%= @restaurants.last.opening_time.strftime("%R") %></span>
+	                            <%= @restaurants.last.branches.count > 0 ? @restaurants.last.branches.first.address : '' %>. <span class="opening">Opens at <%= @restaurants.last.opening_time.strftime("%R") %></span>
 	                        </div>
 	                        <ul>
 	                            <li>Take away<i class="icon_check_alt2 ok"></i></li>

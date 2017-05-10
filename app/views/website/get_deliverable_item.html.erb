@@ -20,7 +20,7 @@
                          (<small><a href="#">Read <%= @restaurant.reviews.count %> reviews</a></small>)
                          </div>
 	                    <h1><%= @restaurant.name %></h1>
-	                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
+	                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.delivery ? "<strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
 	    </div><!-- End sub_content -->
 	</div><!-- End subheader -->
 </section><!-- End section -->

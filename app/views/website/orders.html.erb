@@ -40,7 +40,8 @@
                   <p><%= order.ordera.present? ? order.ordera.name : '' %></p>
                 </td>
                 <td class="v-align-middle semi-bold">
-                  <p><%= order.ordera.present? ? order.ordera.location : '' %></p>
+                  <% bra = order.ordera.branches.near(order.address, 20).first %>
+                  <p><%= bra.present? ? bra.address : '' %></p>
                 </td>
                 <td class="v-align-middle">
                   <p><%= order.address %></p>

@@ -32,7 +32,15 @@ class OwnerController < ApplicationController
 	end
 
 	def index
-
+		if @owner.present?
+			@deliver = Deliverable.where(owner_id: @owner.id).approved
+			@order = Order.where(deliverable_id: @deliver.pluck(:id))
+			@categories = DeliverCategory.all	
+		else
+			@order = Order.all
+			@categories = DeliverCategory.all
+			@deliver = Deliverable.approved
+		end
 	end
 
 	def restaurants
@@ -214,7 +222,7 @@ class OwnerController < ApplicationController
 	def food_mark_visible
 		food = FoodItem.find(params[:id])
 		food.update(publish: !food.publish)
-		redirect_to owner_restaurant_menu_path(food.section.menu.restaurant.id) , notice: 'Successfully Done'
+		redirect_to :back , notice: 'Successfully Done'
 	end
 
 	def set_password
@@ -329,6 +337,16 @@ class OwnerController < ApplicationController
 		else
 			@order = Order.where(ordera_type: 'Deliverable')
 		end
+	end
+
+	def deliverable_add_branch
+		if @owner.present?
+			c = @ownerdDeliverables.find(params[:id])
+		else
+			c = Deliverable.find(params[:id])
+		end
+		Branch.create(address: params[:address] , post_code: params[:post_code] , deliverable_id: c.id)
+		redirect_to :back , notice: 'Successfully added'
 	end
 
 	private

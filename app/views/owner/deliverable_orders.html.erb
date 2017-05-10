@@ -42,7 +42,7 @@
                       <tr>
                         <th>ID</th>
                         <th>Deliverable Name</th>
-                        <!-- <th>Branch</th> -->
+                        
                         <th>Delivery Address</th>
                         <th>Category</th>
                         <th>User</th>
@@ -59,9 +59,6 @@
                          <td class="v-align-middle semi-bold">
                           <p><%= order.ordera.present? ? order.ordera.name : '' %></p>
                         </td>
-                        <!-- <td class="v-align-middle semi-bold">
-                          <p><%= order.ordera.present? ? order.ordera.location : '' %></p>
-                        </td> -->
                         <td class="v-align-middle">
                           <p><%= order.address %></p>
                         </td>
@@ -115,7 +112,7 @@
                       <tr>
                         <th>ID</th>
                         <th>Deliverable Name</th>
-                        <!-- <th>Branch</th> -->
+                        <th>Branch</th>
                         <th>Delivery Address</th>
                         <th>Category</th>
                         <th>User</th>
@@ -131,9 +128,10 @@
                         <td class="v-align-middle semi-bold">
                           <p><%= order.ordera.present? ? order.ordera.name : '' %></p>
                         </td>
-                        <!-- <td class="v-align-middle semi-bold">
-                          <p><%= order.ordera.present? ? order.ordera.location : '' %></p>
-                        </td> -->
+                        <td class="v-align-middle semi-bold">
+                          <% bra = order.ordera.branches.near(order.address , 20).first %>
+                          <p><%= bra.present? ? bra.address : '' %></p>
+                        </td>
                         <td class="v-align-middle">
                           <p><%= order.address %></p>
                         </td>
@@ -176,7 +174,7 @@
                       <tr>
                         <th>ID</th>
                         <th>Deliverable Name</th>
-                        <!-- <th>Branch</th> -->
+                        <th>Branch</th>
                         <th>Delivery Address</th>
                         <th>Category</th>
                         <th>User</th>
@@ -192,9 +190,10 @@
                         <td class="v-align-middle semi-bold">
                           <p><%= order.ordera.present? ? order.ordera.name : '' %></p>
                         </td>
-                        <!-- <td class="v-align-middle semi-bold">
-                          <p><%= order.ordera.present? ? order.ordera.location : '' %></p>
-                        </td> -->
+                        <td class="v-align-middle semi-bold">
+                          <% bra = order.ordera.branches.near(order.address , 20).first %>
+                          <p><%= bra.present? ? bra.address : '' %></p>
+                        </td>
                         <td class="v-align-middle">
                           <p><%= order.address %></p>
                         </td>
@@ -237,7 +236,7 @@
                       <tr>
                         <th>ID</th>
                         <th>Deliverable Name</th>
-                        <!-- <th>Branch</th> -->
+                        <th>Branch</th>
                         <th>Delivery Address</th>
                         <th>Category</th>
                         <th>User</th>
@@ -253,9 +252,10 @@
                         <td class="v-align-middle semi-bold">
                           <p><%= order.ordera.present? ? order.ordera.name : '' %></p>
                         </td>
-                        <!-- <td class="v-align-middle semi-bold">
-                          <p><%= order.ordera.present? ? order.ordera.location : '' %></p>
-                        </td> -->
+                        <td class="v-align-middle semi-bold">
+                          <% bra = order.ordera.branches.near(order.address , 20).first %>
+                          <p><%= bra.present? ? bra.address : '' %></p>
+                        </td>
                         <td class="v-align-middle">
                           <p><%= order.address %></p>
                         </td>

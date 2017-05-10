@@ -43,7 +43,6 @@
 					        <th>ID</th>
 					        <th>Restaurant Name</th>
 					        <th>Location</th>
-					        <th>Cuisine</th>
 					        <th>Owner</th>
 					        <th>Approve</th>
 					      </tr>
@@ -58,16 +57,13 @@
 					          <p><%= restaurant.name %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <p><%= restaurant.location %></p>
-					        </td>
-					        <td class="v-align-middle">
-					          <p><%= restaurant.cuisine %></p>
-					        </td>
+					          <p><%= restaurant.branches.count>0 ? restaurant.branches.first.address : '' %></p>
+					        </td>>
 					        <td class="v-align-middle">
 					          <p><%= restaurant.owner.email %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <button class="btn btn-success btn-cons" onclick="location.href='<%= restaurant_mark_approve_path(restaurant.id) %>'">Approve</button>
+					          <button class="btn btn-success btn-cons" onclick="location.href='<%= approve_deliverable_path(restaurant.id) %>'">Approve</button>
 					        </td>
 					      </tr>
 
@@ -99,9 +95,7 @@
 					      <tr>
 					        <th>ID</th>
 					        <th>Restaurant Name</th>
-					        <th>Type</th>
 					        <th>Location</th>
-					        
 					        <th>Popular</th>
 					        <th>Set Commission</th>
 					        <th>Block</th>
@@ -116,15 +110,12 @@
 					        <td class="v-align-middle semi-bold">
 					          <p><%= restaurant.name %></p>
 					        </td>
-					        <td class="v-align-middle bold">
-					          <p><%= restaurant.typee %></p>
-					        </td>
 					        <td class="v-align-middle">
-					          <p><%= restaurant.location %></p>
+					          <p><%= restaurant.branches.count>0 ? restaurant.branches.first.address : '' %></p>/p>
 					        </td>
 					        
 					        <td class="v-align-middle">
-					          <button class="btn btn-success btn-cons" onclick="location.href='<%= restaurant_mark_popular_path(restaurant.id) %>'"><%= restaurant.popular ? 'Unmark Popular' : 'Mark Popular' %></button>
+					          <button class="btn btn-success btn-cons" onclick="location.href='<%= deliverable_mark_popular_path(restaurant.id) %>'"><%= restaurant.popular ? 'Unmark Popular' : 'Mark Popular' %></button>
 					        </td>
 					        <td class="v-align-middle">
 					        <% if restaurant.commission > 0.0 %>
@@ -135,7 +126,7 @@
 	                        </td>
 	                        <td class="v-align-middle">
 	                        	
-	                        <button class="btn btn-success btn-cons" onclick="location.href='<%= dashboard_block_restaurant_path(restaurant.id) %>'">Block</button>
+	                        <button class="btn btn-success btn-cons" onclick="location.href='<%= block_deliverable_path(restaurant.id) %>'">Block</button>
 	                        </td>
 					      </tr>
 
@@ -149,7 +140,7 @@
 	                                <h5>Set <span class="semi-bold">Commission</span></h5>
 	                              </div>
 	                              <div class="modal-body">
-	                                <%= form_tag( dashboard_commission_path(restaurant.id) , {:method => :put} ) do  %>
+	                                <%= form_tag( set_commission_deliverable_path(restaurant.id) , {:method => :put} ) do  %>
 	                                <div class="form-group-attached">
 	                                    <div class="row">
 	                                      <div class="col-sm-12">
@@ -204,7 +195,6 @@
 					        <th>ID</th>
 					        <th>Restaurant Name</th>
 					        <th>Location</th>
-					        <th>Cuisine</th>
 					        <th>Owner</th>
 					        <th>Unblock</th>
 					      </tr>
@@ -219,16 +209,13 @@
 					          <p><%= restaurant.name %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <p><%= restaurant.location %></p>
-					        </td>
-					        <td class="v-align-middle">
-					          <p><%= restaurant.cuisine %></p>
+					          <p><%= restaurant.branches.count>0 ? restaurant.branches.first.address : '' %></p>
 					        </td>
 					        <td class="v-align-middle">
 					          <p><%= restaurant.owner.email %></p>
 					        </td>
 					        <td class="v-align-middle">
-					          <button class="btn btn-success btn-cons" onclick="location.href='<%= dashboard_unblock_restaurant_path(restaurant.id) %>'">Unblock</button>
+					          <button class="btn btn-success btn-cons" onclick="location.href='<%= unblock_deliverable_path(restaurant.id) %>'">Unblock</button>
 					        </td>
 					      </tr>
 
