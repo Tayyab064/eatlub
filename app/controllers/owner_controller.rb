@@ -34,7 +34,7 @@ class OwnerController < ApplicationController
 	def index
 		if @owner.present?
 			@deliver = Deliverable.where(owner_id: @owner.id).approved
-			@order = Order.where(deliverable_id: @deliver.pluck(:id))
+			@order = Order.where(ordera_id: @deliver.pluck(:id))
 			@categories = DeliverCategory.all	
 		else
 			@order = Order.all
@@ -341,7 +341,7 @@ class OwnerController < ApplicationController
 
 	def deliverable_add_branch
 		if @owner.present?
-			c = @ownerdDeliverables.find(params[:id])
+			c = @owner.deliverables.find(params[:id])
 		else
 			c = Deliverable.find(params[:id])
 		end

@@ -285,7 +285,11 @@
 
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.latitude : '51.5074' %> lng: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.longitude : '0.1278' %>},
+          <% if @restaurants.count > 0 %>
+          center: {lat: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.latitude : '51.5074' %>, lng: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.longitude : '0.1278' %>},
+          <% else %>
+          center: {lat: 51.5074 , lng: 0.1278 },
+          <% end %>
           scrollwheel: false,
           zoom: zoomLevel
         });
