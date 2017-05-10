@@ -4,6 +4,7 @@ else
 	json.restaurant do
 		json.id @restaurant.id
 		json.name @restaurant.name
+		json.category @restaurant.deliver_category.name
 		json.opening_time @restaurant.opening_time.strftime('%r')
 		json.closing_time @restaurant.closing_time.strftime('%r')
 		json.about_us @restaurant.about_us
