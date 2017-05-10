@@ -139,12 +139,9 @@ class ApiController < ApplicationController
 				res = Restaurant.approved.find_by_id(params[:order][:orderable_id])
 			else
 				res = Deliverable.approved.find_by_id(params[:order][:orderable_id])
-				unless res.deliver_category.name == params[:order][:orderable_type]
-					res = nil
-				end
 			end
 			if res.present?
-				@ord = Order.create(address: params[:order][:address], notes:  params[:order][:notes], ordera_id: params[:order][:orderable_id] , ordera_type: params[:order][:orderable_type] , user_id: @current_user.id)
+				@ord = Order.create(address: params[:order][:address], notes:  params[:order][:notes], ordera_id: params[:order][:orderable_id] , ordera_type: 'Deliverable' , user_id: @current_user.id)
 				params[:order][:item].each do |itm|
 					it = Item.create(order_id: @ord.id , orderable_id: params[:order][:item][itm][:id].to_i, orderable_type: 'FoodItem', quantity: params[:order][:item][itm][:quantity].to_i)
 					if params[:order][:item][itm][:ingredients].present?
