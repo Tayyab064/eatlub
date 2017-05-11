@@ -337,7 +337,7 @@
            }
         }
 
-        res = JSON.parse(window.localStorage.getItem('restaurant'));
+        res = window.localStorage.getItem('restaurant');
         deliv = JSON.parse(window.localStorage.getItem('deliverable'));
 
         if((addr.length > 1 || addrres.length > 0) && items.length > 0){

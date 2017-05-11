@@ -208,15 +208,22 @@ class WebsiteController < ApplicationController
 			ad = Address.find(params[:address_id]).address
 		end
 
-		ord = Order.create(address: ad , notes: params[:notes] , ordera_id: params[:restaurant_id] , ordera_type: 'Deliverable' , user_id: params[:user_id])
-		p ord.errors
-		if ord.present?
-			params[:item].each do |cou|		
-				Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
+		d = 0;
+		params[:restaurant_id].split(',').each do |sdd|
+			ord = Order.create(address: ad , notes: params[:notes] , ordera_id: sdd.to_i , ordera_type: 'Deliverable' , user_id: params[:user_id])
+			p ord.errors
+			if ord.present?
+				params[:item].each do |cou|
+					fss = FoodItem.find(params[:item][cou]["id"].to_i)
+					if fss.section.menu.menuable.id == sdd.to_i
+						Item.create(order_id: ord.id , orderable_type: 'FoodItem', orderable_id: params[:item][cou]["id"].to_i , quantity: params[:item][cou]["quantity"].to_i , option: params[:item][cou]["option"].tr('[]', '').split(',').map(&:to_i) , ingredients: params[:item][cou]["ingredients"].tr('[]', '').split(',').map(&:to_i) )
+					end
+				end
+				UserMailer.ordercheckout(ord).deliver_now
 			end
-			UserMailer.ordercheckout(ord).deliver_now
+			d = ord.id
 		end
-		render json: {'message' => 'Saved' , 'id' => ord.id } , status: :ok
+		render json: {'message' => 'Saved' , 'id' => d } , status: :ok
 	end
 
 	def orders

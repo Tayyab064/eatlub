@@ -306,67 +306,71 @@
                 window.localStorage.setItem('count', 0);
             }
 
-            window.localStorage.setItem('delivery_fee', <%= @restaurant.delivery_fee %>);
-
+            
             if(window.localStorage.getItem('restaurant')){
-                restaurant = parseInt(window.localStorage.getItem('restaurant'));
+                restaurant = window.localStorage.getItem('restaurant');
+                var resde = restaurant.split(',');
+                var testdeliv = false;
+                for(lk=0;lk<resde.length;lk++){
+                    if(<%= @restaurant.id.to_s %> == resde[lk]){
+                        testdeliv = true ;
+                    }
+                }
+                if(testdeliv == false){
+                    if(window.localStorage.getItem('delivery_fee')){
+                        preddeli = parseFloat(window.localStorage.getItem('delivery_fee'));
+                        deli = deli + preddeli ;
+                    }
+                    newrest = restaurant + ',' +  <%= @restaurant.id.to_s %> ;
+                    window.localStorage.setItem('restaurant', newrest );
+                }else{
+                    preddeli = parseFloat(window.localStorage.getItem('delivery_fee'));
+                    deli = preddeli ;
+                }
             }else{
                 restaurant = <%= @restaurant.id %> ;
                 window.localStorage.setItem('restaurant', restaurant );
             }
 
-            if(window.localStorage.getItem('deliverable')){
-                deliverable = window.localStorage.getItem('deliverable')
-            }else{
-                deliverable = 'true' ;
-                window.localStorage.setItem('deliverable', true );
-            }
+            window.localStorage.setItem('delivery_fee', deli);            
+                      
+            var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");            
+            var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(£ )/, ""));
             
-            if(deliverable == 'true'){
-                if(restaurant == <%= @restaurant.id %>){
-                    var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
-                    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(£ )/, ""));
-                    
-                    red = red + pric;
-                    for (var k = 0; k < ingre_id.length; k++) {
-                        red = red + parseFloat(ingre_id[k].value.split("_")[1]);
-                    }
-                    console.log(titl + " " + pric);
-
-                    window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: red , quantity: quantify , options: optcom , ingredients: ingre }));
-                    
-                    coun = coun + 1;
-                    window.localStorage.setItem('count', coun);
-
-                    $.ajax({
-                       url: 'http://138.197.117.248/ajax',
-                       success: function(data) {
-                            coun = parseInt(window.localStorage.getItem('count'));
-                            var tot_pri = 0.0 ;
-                            console.log('Fetching');
-
-                            da = '';
-                            for(i = 0; i < coun; i++){
-                               if(window.localStorage.getItem('carti[' + i + ']')){
-                                   t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                                   da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>" + t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ (t.price*t.quantity) +"</strong></td></tr>";
-                                   tot_pri = tot_pri + (t.price*t.quantity) ;
-                                }
-                            }
-
-                            document.getElementById("mycarti").innerHTML = da ;
-                            document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-                            document.getElementById("deli_fee").innerHTML = '£' + deli;
-                            cvs = tot_pri + deli ;
-                            document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
-                       }
-                    });
-                }else{
-                    alertify.error('Order must be from same deliverable');
-                }
-            }else{
-                alertify.error('Order must be from deliverable');
+            red = red + pric;
+            for (var k = 0; k < ingre_id.length; k++) {
+                red = red + parseFloat(ingre_id[k].value.split("_")[1]);
             }
+            console.log(titl + " " + pric);
+
+            window.localStorage.setItem('carti['+ coun +']', JSON.stringify({id:i, title: titl, price: red , quantity: quantify , options: optcom , ingredients: ingre }));
+            
+            coun = coun + 1;
+            window.localStorage.setItem('count', coun);
+
+            $.ajax({
+               url: 'http://138.197.117.248/ajax',
+               success: function(data) {
+                    coun = parseInt(window.localStorage.getItem('count'));
+                    var tot_pri = 0.0 ;
+                    console.log('Fetching');
+
+                    da = '';
+                    for(i = 0; i < coun; i++){
+                       if(window.localStorage.getItem('carti[' + i + ']')){
+                           t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
+                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>" + t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ (t.price*t.quantity) +"</strong></td></tr>";
+                           tot_pri = tot_pri + (t.price*t.quantity) ;
+                        }
+                    }
+
+                    document.getElementById("mycarti").innerHTML = da ;
+                    document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = '£' + deli;
+                    cvs = tot_pri + deli ;
+                    document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
+               }
+            });
         }else{
             alertify.error('Quantity must be greater than zero');
         }
