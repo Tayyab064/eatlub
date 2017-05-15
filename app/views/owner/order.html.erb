@@ -111,7 +111,7 @@
             </tr>
             <% pr = pr + (itm_pric*foodi.quantity).round(2) %>
             <% end %>
-            <% if @order.ordera.present? %>
+            <% if @order.ordera.present? && @order.ordera.partner %>
             <% fes = @order.ordera.delivery_fee.round(2) %>
             <% else %>
             <% fes = 0.0 %>
@@ -123,7 +123,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= fes %></strong>
+                    <strong><%= @order.ordera.partner ? '£ #{(fes).round(2)}' : 'Calculated on distance basis' %></strong>
                 </td>
             </tr>
             <tr>

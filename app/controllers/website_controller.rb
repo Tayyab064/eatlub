@@ -143,7 +143,7 @@ class WebsiteController < ApplicationController
 				use = User.create(name: params[:owner_namei] , email: params[:emaili] , role: 1 , password: '123456' , mobile_number: params[:mobile_numberi] )
 			end
 			if use.role == 'restaurant_owner'
-				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi])
+				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi] , partner: true )
 				Branch.create( address: params[:locationi] , post_code: params[:post_codei] , deliverable_id: res.id)
 				UserMailer.restaurant_registered(use).deliver_now
 				redirect_to thankyou_path , notice: "Successfully Submitted"
@@ -161,7 +161,7 @@ class WebsiteController < ApplicationController
 			end
 			if use.role == 'restaurant_owner'
 				cast_rest = DeliverCategory.find_by_name('restaurant')
-				res = Deliverable.create(deliver_category_id: cast_rest.id ,name: params[:name] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number])
+				res = Deliverable.create(deliver_category_id: cast_rest.id ,name: params[:name] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number] , partner: true )
 				Branch.create( address: params[:location] , post_code: params[:post_code] , deliverable_id: res.id)
 				if params[:max_order].to_i > 0
 					Deal.create(total_order: params[:max_order] , discount: params[:discount] , restaurant_id: res.id)

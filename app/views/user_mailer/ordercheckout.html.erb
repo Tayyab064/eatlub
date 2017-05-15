@@ -162,13 +162,18 @@
 	            </tr>
 	            <% tot_pric = tot_pric + (itm_pric*foodi.quantity) %>
             <% end %>
+            <% if @order.ordera.present? && @order.ordera.partner %>
+            <% fes = @order.ordera.delivery_fee.round(2) %>
+            <% else %>
+            <% fes = 0.0 %>
+            <% end %>
             <tr class="item">
                 <td>
                     Delivery Fee
                 </td>
                 
                 <td>
-                    $<%= @order.ordera.delivery_fee %>
+                    <%= @order.ordera.partner ? '£ #{(fes).round(2)}' : 'Calculated on distance basis' %>
                 </td>
             </tr>
             
@@ -176,7 +181,7 @@
                 <td></td>
                 
                 <td>
-                   Total: $<%= ( tot_pric + @order.ordera.delivery_fee ).round(2) %>
+                   Total: $<%= ( tot_pric + fes ).round(2) %>
                 </td>
             </tr>
         </table>

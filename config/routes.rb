@@ -83,6 +83,8 @@ Rails.application.routes.draw do
     put 'set_commission_deliverable_:id' => 'dashboard#set_commission_deliverable' , as: 'set_commission_deliverable'
 
     get 'category_destroy_:id' => 'dashboard#destroy_del_cat' , as: 'delete_category'
+    get 'price' => 'dashboard#prices_delivery' , as: 'prices_delivery'
+    post 'price' => 'dashboard#price_save' , as: 'prices_delivery_save'
   end
 
   scope 'owner' do

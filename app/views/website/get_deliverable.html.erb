@@ -31,7 +31,7 @@
                      ( <small><a id="#resti_review"><%= revi_coun %> reviews</a></small> )
                      </div>
                     <h1><%= @restaurant.name %></h1>
-                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.delivery ? "<strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
+                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.partner ? "<strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)}".html_safe : '' %></div>
                     <h1><%= link_to 'Items' , get_deliverable_item_path , class: 'btn' , style: 'background-color: #78cfcf; width: 15%;text-decoration: none;' %></h1>
     </div><!-- End sub_content -->
 </div><!-- End subheader -->

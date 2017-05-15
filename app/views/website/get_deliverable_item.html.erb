@@ -20,7 +20,7 @@
                          (<small><a href="#">Read <%= @restaurant.reviews.count %> reviews</a></small>)
                          </div>
 	                    <h1><%= @restaurant.name %></h1>
-	                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.delivery ? "<strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
+	                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.partner ? "<strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)}".html_safe : '' %></div>
 	    </div><!-- End sub_content -->
 	</div><!-- End subheader -->
 </section><!-- End section -->
@@ -175,7 +175,7 @@
 								 Subtotal <span class="pull-right tot_price">£0</span>
 							</td>
 						</tr>
-						<tr>
+						<tr class="hidden">
 							<td>
 								 Delivery fee <span id="deli_fee" class="pull-right" >£0</span>
 							</td>
@@ -218,8 +218,9 @@
 
         document.getElementById("mycarti").innerHTML = da ;
         document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-        document.getElementById("deli_fee").innerHTML = '£' + deli;
-        cvs = tot_pri + deli ;
+        /*document.getElementById("deli_fee").innerHTML = '£' + deli;
+        cvs = tot_pri + deli ;*/
+        cvs = tot_pri;
         document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
         
     }
@@ -249,8 +250,9 @@
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '£' + deli;
-                    cvs = tot_pri + deli ;
+                    /*document.getElementById("deli_fee").innerHTML = '£' + deli;
+                    cvs = tot_pri + deli ;*/
+                    cvs = tot_pri;
                     document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
 
                     if(chk_co == 0){
@@ -366,8 +368,9 @@
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '£' + deli;
-                    cvs = tot_pri + deli ;
+                    /*document.getElementById("deli_fee").innerHTML = '£' + deli;
+                    cvs = tot_pri + deli ;*/
+                    cvs = tot_pri;
                     document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
                }
             });

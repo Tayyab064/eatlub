@@ -211,7 +211,7 @@
 							 Subtotal <span class="pull-right tot_price">£0</span>
 						</td>
 					</tr>
-					<tr>
+					<tr class="hidden">
 						<td>
 							 Delivery fee <span class="pull-right" id="deli_fee">£0</span>
 						</td>
@@ -264,8 +264,9 @@
 
         document.getElementById("mycarti").innerHTML = da ;
         document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-        document.getElementById("deli_fee").innerHTML = '£' + deli;
-        cvs = tot_pri + deli ;
+        /*document.getElementById("deli_fee").innerHTML = '£' + deli;
+        cvs = tot_pri + deli ;*/
+        cvs = tot_pri;
         document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
         
 	}
@@ -295,8 +296,9 @@
 
                     document.getElementById("mycarti").innerHTML = da ;
                     document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '£' + deli;
-                    cvs = tot_pri + deli ;
+                    /*document.getElementById("deli_fee").innerHTML = '£' + deli;
+			        cvs = tot_pri + deli ;*/
+			        cvs = tot_pri;
                     document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
 
                     if(chk_co == 0){

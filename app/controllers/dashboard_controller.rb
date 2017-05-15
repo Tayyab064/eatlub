@@ -231,4 +231,13 @@ class DashboardController < ApplicationController
 		end
 		redirect_to dashboard_deliverable_cat_path , notice: 'Successfully Deleted'
 	end
+
+	def prices_delivery
+		@price = Price.all
+	end
+
+	def price_save
+		Price.create(start_km: params[:start] , end_km: params[:end] , price: params[:price])
+		redirect_to :prices_delivery , notice: 'Successfully Added'
+	end
 end
