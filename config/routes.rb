@@ -85,6 +85,9 @@ Rails.application.routes.draw do
     get 'category_destroy_:id' => 'dashboard#destroy_del_cat' , as: 'delete_category'
     get 'price' => 'dashboard#prices_delivery' , as: 'prices_delivery'
     post 'price' => 'dashboard#price_save' , as: 'prices_delivery_save'
+
+    get 'add_deliverable' => 'dashboard#add_deliverable' , as: 'add_deliverable'
+    post 'add_deliverable' => 'dashboard#add_deliverable_save' , as: 'add_deliverable_save'
   end
 
   scope 'owner' do

@@ -240,4 +240,16 @@ class DashboardController < ApplicationController
 		Price.create(start_km: params[:start] , end_km: params[:end] , price: params[:price])
 		redirect_to :prices_delivery , notice: 'Successfully Added'
 	end
+
+	def add_deliverable
+
+	end
+
+	def add_deliverable_save
+		use = User.find_by_email(session[:admin])
+		res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:name]  , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number] , partner: false , status: 1 )
+		p res.errors
+		Branch.create( address: params[:location] , post_code: params[:post_code] , deliverable_id: res.id)
+		redirect_to add_deliverable_path , notice: 'Successfully Added'
+	end
 end
