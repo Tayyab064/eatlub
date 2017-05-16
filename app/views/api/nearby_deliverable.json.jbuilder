@@ -7,11 +7,12 @@ else
 		json.opening_time restaurant.opening_time.strftime('%r')
 		json.closing_time restaurant.closing_time.strftime('%r')
 		json.about_us restaurant.about_us
+		json.delivery_time "#{restaurant.delivery_time.to_s} mins to #{(restaurant.delivery_time + 15).to_s} mins"
 
 		bran = restaurant.branches.near( @latlong, 20).first
 
 		json.location bran.address
-		json.distance bran.distance_from(@latlong).round(2)
+		json.distance (bran.distance_from(@latlong)*1.60934).round(2)
 
 		json.status restaurant.status
 		if restaurant.image_url.present?

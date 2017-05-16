@@ -79,12 +79,25 @@ input:checked + .slider:before {
     <h2 class="inner"> Orders Status </h2>
   </div>
   <div class="col-md-9">
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified" style="margin-top: 10px; margin-bottom: 10px;">
       <a onclick="order_status('quiet');" class="btn <%= @restaurant.order_status=='quiet' ? 'order_stat' : '' %> ">Quiet</a>
       <a onclick="order_status('moderate');" class="btn <%= @restaurant.order_status=='moderate' ? 'order_stat' : '' %>">Moderate</a>
       <a onclick="order_status('busy');" class="btn <%= @restaurant.order_status=='busy' ? 'order_stat' : '' %>">Busy</a>
     </div>
   </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <h2 class="inner"> Delivery Time </h2>
+  </div>
+  <%= form_for @restaurant do |f| %>
+  <div class="col-md-6">
+    <%= f.number_field :delivery_time , class: 'form-control' , style: 'margin-top: 10px; margin-bottom: 10px; text-align: center;' %>
+  </div>
+  <div class="col-md-3">
+    <%= f.submit 'Update Delivery Time', :class => "btn btn-success"  , style: 'margin-top: 10px; margin-bottom: 10px;' %>
+  </div>
+  <% end %>
 </div>
 
   <h2 class="inner">Branches <button type="button" class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myBranch">Add Branch</button>      

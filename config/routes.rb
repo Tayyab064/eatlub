@@ -117,6 +117,7 @@ Rails.application.routes.draw do
     post 'save_deliver_item' => 'owner#save_deliver_item' , as: 'owner_save_deliver_item'
 
     post 'save_branch' => 'owner#deliverable_add_branch' , as: 'owner_add_branch'
+    patch 'update_delivery_:id' => 'owner#update_delivery_time' , as: 'deliverable'
   end
 
   scope 'api' do

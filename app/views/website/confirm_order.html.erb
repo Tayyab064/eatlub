@@ -82,9 +82,10 @@
       }
     }
 
-    cvs = tot_pri + deli ;
+    /*cvs = tot_pri + deli ;*/
+    cvs = tot_pri;
  
-    da = da + '<tr><td>Delivery Fee</td><td><strong class="pull-right">£ ' + deli.toFixed(2) +  '</strong></td></tr><tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">£' + cvs.toFixed(2) +'</span></td></tr>' ;
+    da = da + '<tr><td>Delivery Fee</td><td><strong class="pull-right">Calculating</strong></td></tr><tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">£' + cvs.toFixed(2) +'</span></td></tr>' ;
  
     document.getElementById("mycarti").innerHTML = da ;
  

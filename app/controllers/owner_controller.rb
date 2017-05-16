@@ -349,6 +349,16 @@ class OwnerController < ApplicationController
 		redirect_to :back , notice: 'Successfully added'
 	end
 
+	def update_delivery_time
+		if @owner.present?
+			c = @owner.deliverables.find(params[:id])
+		else
+			c = Deliverable.find(params[:id])
+		end
+		c.update(delivery_time: params[:deliverable][:delivery_time])
+		redirect_to :back , notice: 'Successfully Updated'
+	end
+
 	private
 	def fooditem_update_params
 		params.require(:food_item).permit(:name , :price , :description)
