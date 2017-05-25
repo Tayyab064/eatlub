@@ -270,7 +270,7 @@ class WebsiteController < ApplicationController
 		@long = params[:long]
 		de = DeliverCategory.find_by_name(params[:name])
 		if de.present?
-			bra = Branch.where(post_code: params[:address]).map(&:deliverable_id)
+			bra = Branch.near([@lat,@long],5).map(&:deliverable_id)
 			@restaurants = Deliverable.approved.where(id: bra).where(deliver_category_id: de.id)
 			@address = params[:address]
 		else
@@ -314,6 +314,11 @@ class WebsiteController < ApplicationController
 			UserMailer.userreg(use).deliver_now
 		end
 		redirect_to '/' , notice: noti
+	end
+
+	def getlatlong
+		sd = Geocoder.coordinates(params[:address])
+		render json: {lat: sd.first , long: sd.last} , status: 200
 	end
 
 

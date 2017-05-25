@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   post 'review' => 'website#leaveareview' , as: 'leave_a_review'
   post 'subscribe' => 'website#sub_news' , as: 'subscribe_newsletter'
 
+  get 'getlatlong/:address' => 'website#getlatlong'
+
   scope 'dashboard' do
     get 'signin' => 'dashboard#signin' , as: 'dashboard_signin'
     post 'signin_admin' => 'dashboard#approve_signin' , as: 'signin_admin'

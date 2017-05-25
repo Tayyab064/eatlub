@@ -1,9 +1,9 @@
 <style type="text/css">
   .modal{
-      z-index: 20;   
+      z-index: 9999999 !important;  
   }
   .modal-backdrop{
-      z-index: 10;        
+      z-index: 99 !important;        
   }​
   .inner{
     top: 40px;
@@ -35,18 +35,16 @@
 	            <p>
 	                Get up to 20% off and free delivery for the entire month!
 	            </p>
-	            <%= form_tag( postalcode_search_web_path , {:method => :get} ) do  %>
+	            <form name="search" onsubmit="return openmap()" >
 	                <div id="custom-search-input">
 	                    <div class="input-group">
-	                        <!-- <input type="text" class=" search-query" placeholder="Your Address"> -->
-	                        <%= text_field_tag :address  , '' , class: 'search-query' , placeholder: 'Post Code', autofocus: true , required: true %>
+	                        <input type="text" id="address" class="search-query" placeholder="Postcode" required>
 	                        <span class="input-group-btn">
-	                        <!-- <input type="submit" class="btn_search" value="submit"> -->
-	                        <%= submit_tag "Search", class: 'btn_search' %>
+	                        <input type="submit" class="btn_search" value="Search">
 	                        </span>
 	                    </div>
 	                </div>
-	            <% end %>
+	            </form>
 	        </div><!-- End sub_content -->
 	    </div>
 	    <img src="website/img/video_fix.png" alt="" class="header-video--media" data-video-src="website/video/intro" data-teaser-source="website/video/intro" data-provider="Vimeo" data-video-width="1920" data-video-height="960">
@@ -372,6 +370,27 @@
         </div><!-- End row -->
     </div><!-- End container -->
 
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" style="text-align: center;">Confirm Location</h4>
+        </div>
+        <div class="modal-body">
+          <div id="map"></div>
+        </div>
+        <div class="modal-footer">
+          <button id="cnfrmloac" type="button" style="width: 100%;" class="btn btn-info">Confirm</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
     <script type="text/javascript">
 		$(document).ready(function() {
 			'use strict';
@@ -385,7 +404,7 @@
 	</script>
 
 <script>
-  function initMap() {
+  function initMapOld() {
     /*var input = document.getElementById('pickup_location');*/
     var options = {
       componentRestrictions: {country: 'UK'}
@@ -397,5 +416,36 @@
     /*var input_dest = document.getElementById('address');
     var autocomplete_dest = new google.maps.places.Autocomplete(input_dest,options);*/
   }
+
+  function initMap() {
+  	var adrexs = document.getElementById('address').value
+  	$.ajax({url: 'getlatlong/'+adrexs, success: function(result){
+        console.log(result);
+        var uluru = {lat: result.lat, lng: result.long};
+	    var map = new google.maps.Map(document.getElementById('map'), {
+	      zoom: 12,
+	      center: uluru
+	    });
+	    var marker = new google.maps.Marker({
+	      position: uluru,
+	      map: map
+	    });
+    }});
+  }
+
+	function openmap(){
+		initMap();
+	    $("#myModal").modal();
+	    google.maps.event.trigger(map, "resize");
+	    return false;
+	}
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc&libraries=places&callback=initMap" async defer></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#cnfrmloac').click(function(){
+			var posd = document.getElementById('address').value;
+		    window.location.assign("http://138.197.117.248/postalcode?address="+posd);
+		});
+	});
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc&libraries=places" async defer></script>
