@@ -70,17 +70,15 @@
 
     <script type="text/javascript">
     	$(document).ready(function(){
-		    var ur = 'http://maps.googleapis.com/maps/api/geocode/json?address=<%= @address %>&sensor=false&components=country:UK'
     		var lat = 0.0;
 	    	var long = 0.0 ;
-    		$.ajax({
-               url: ur,
-               success: function(data) {
-                    console.log(data.results[0].geometry.location);
-                    lat = data.results[0].geometry.location.lat;
-	    		    long = data.results[0].geometry.location.lng;
-	               }
-            });
+
+            $.ajax({url: "getlatlong/<%= @address %>", success: function(result){
+                console.log(result);
+                var uluru = {lat: result.lat, lng: result.long};
+                lat = result.lat;
+                long = result.long;
+            }});
 
             $(".mina").click(function(){
 		       var rli = $(this).attr("value");
