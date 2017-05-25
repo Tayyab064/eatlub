@@ -1,65 +1,54 @@
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 0 , verified: true)
-end
+require 'open-uri'
+require 'nokogiri'
 
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 0 , verified: false)
-end
+getrestautas = Nokogiri::HTML(open("https://deliveroo.co.uk/breakfast-takeaway"))
+getrestautas.css('.link-list__links ul li').each do |cit|
+  getcitie = Nokogiri::HTML(open("https://deliveroo.co.uk/breakfast-takeaway/#{cit.text.downcase.gsub(' ', '-')}"))
+  getcitie.css('.link-list__links  ul li').each do |pcit|
+    restmenu = Nokogiri::HTML(open("https://deliveroo.co.uk/restaurants/#{cit.text.downcase.gsub(' ', '-')}/#{pcit.text.downcase.gsub(' ', '-')}"))
+    restmenu.css('.restaurant-index-page-tile').each do |restlink|
+      doc = Nokogiri::HTML(open("https://deliveroo.co.uk/#{restlink.css('a')[0]['href'].split('?')[0]}"))
+      p "https://deliveroo.co.uk/#{restlink.css('a')[0]['href'].split('?')[0]}"
+      dat = doc.css('.menu-index-page')
+      rest_dest = dat.css('.restaurant__details')
+      restaurant_name = rest_dest.css('.restaurant__name').text
+      restaurant_description = ''
+      if rest_dest.css('.restaurant__description .truncate-text span')[0].present?
+        restaurant_description = rest_dest.css('.restaurant__description .truncate-text span')[0].text
+      end
+      deta = rest_dest.css('.restaurant__metadata .metadata__details')
+      #p deta.css('.food').text
+      restaurant_address = deta.css('.address').text
+      restaurant_phone = deta.css('.phone').text
+      restaurant_time = deta.css('.opening-hours').text.split(' ').last
 
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 0 , verified: true , block: true )
-end
-
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 1 , verified: true)
-  r = Restaurant.create(name: Faker::Name.title , opening_time: Faker::Time.between(DateTime.now - 1, DateTime.now), closing_time: Faker::Time.between(DateTime.now - 1, DateTime.now), location: Faker::Address.country, cuisine: Faker::Company.name, typee: Faker::Company.name, owner_id: c.id)
-end
-
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 1 , verified: false)
-  r = Restaurant.create(name: Faker::Name.title , opening_time: Faker::Time.between(DateTime.now - 1, DateTime.now), closing_time: Faker::Time.between(DateTime.now - 1, DateTime.now), location: Faker::Address.country, cuisine: Faker::Company.name, typee: Faker::Company.name, owner_id: c.id)
-end
-
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 1 , verified: true , block: true )
-  r = Restaurant.create(name: Faker::Name.title , opening_time: Faker::Time.between(DateTime.now - 1, DateTime.now), closing_time: Faker::Time.between(DateTime.now - 1, DateTime.now), location: Faker::Address.country, cuisine: Faker::Company.name, typee: Faker::Company.name, owner_id: c.id)
-end
-
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 2 , verified: true)
-end
-
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 2 , verified: false)
-end
-
-0.times do |_c|
-  c = User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 2 , verified: true , block: true )
-end
-
-Restaurant.all.each do |rws|
-  rws.update(post_code: nil)
-end
-
-Restaurant.all.each do |res|
-  if res.post_code.nil?
-    post_code = Geocoder.search([res.latitude, res.longitude]).first.postal_code
-    res.update(post_code: post_code)
-  end
-  unless res.menu.present?
-    c = Menu.create(title: Faker::Name.title, restaurant_id: res.id)
-    0.times do |_sd|
-      d = Section.create(title: Faker::Name.title, menu_id: c.id)
-      5.times do |_sdf|
-        FoodItem.create(name: Faker::Name.title, price: Faker::Number.decimal(2), section_id: d.id)
+      if c = Deliverable.find_by_name(restaurant_name)
+        p c
+        p restaurant_address
+        if c.branches.find_by_address(restaurant_address)
+          p 'find'
+        else
+          Branch.create(address: restaurant_address,post_code: restaurant_address.split(' ').last,deliverable_id: c.id)
+        end
+      else
+        if sde = DeliverCategory.find_by_name('restaurant')
+          deliceer = Deliverable.create(name: restaurant_name,opening_time: restaurant_time,closing_time: '12:00 am',owner_id: 542,status: 1,about_us: restaurant_description ,delivery_fee: 2.5,phone_number: restaurant_phone ,deliver_category_id:  sde.id)
+          p deliceer
+          Branch.create(address: restaurant_address,post_code: restaurant_address.split(' ').last,deliverable_id: deliceer.id)
+          deliverable_menu = Menu.create(title: 'Menu' ,menuable_id: deliceer.id,menuable_type: 'Deliverable')
+          p deliverable_menu
+        end
+        dat.css('.menu-index-page__menu-category').each do |ls|
+          restaurant_section = Section.create(title: ls.css('h3')[0].text ,menu_id: deliverable_menu.id )
+          p restaurant_section
+          ls.css('.menu-index-page__item .menu-index-page__item-content').each do |sd|
+            foodtitle =  sd.css('.menu-index-page__item-title').text
+            fooddesc = sd.css('.menu-index-page__item-desc').text
+            foodprice = sd.css('.menu-index-page__item-price').text.split('£')[1].to_f
+            FoodItem.create(name: foodtitle,price: foodprice,section_id: restaurant_section.id,description: fooddesc)
+          end
+        end
       end
     end
-  end
-
-  0.times do |_df|
-    User.create(name: Faker::Name.name , username: Faker::Name.name , email: Faker::Internet.email, gender: 'male' , role: 0 , verified: false)
-    rev = Review.create(summary: Faker::Lorem.sentence , quality: Faker::Number.between(1, 5) , price: Faker::Number.between(1, 5) , punctuality: Faker::Number.between(1, 5) , courtesy: Faker::Number.between(1, 5) , restaurant_id: res.id , reviewer_id: User.where(role: 0).last.id)
-    rating_tot =  ((rev.quality + rev.price + rev.punctuality + rev.courtesy ).to_f / 4).round
-    rev.update(rating: rating_tot)
   end
 end

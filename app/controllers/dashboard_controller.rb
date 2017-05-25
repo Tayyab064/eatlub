@@ -252,4 +252,10 @@ class DashboardController < ApplicationController
 		Branch.create( address: params[:location] , post_code: params[:post_code] , deliverable_id: res.id)
 		redirect_to add_deliverable_path , notice: 'Successfully Added'
 	end
+
+	def rest_mark_partner
+		restaurant = Restaurant.find(params[:id])
+		restaurant.update(partner: !restaurant.popular)
+		redirect_to dashboard_restaurants_path , notice: 'Successfully Done'
+	end
 end

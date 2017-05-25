@@ -88,6 +88,9 @@ Rails.application.routes.draw do
 
     get 'add_deliverable' => 'dashboard#add_deliverable' , as: 'add_deliverable'
     post 'add_deliverable' => 'dashboard#add_deliverable_save' , as: 'add_deliverable_save'
+
+    
+    get 'deliverable_mark_partner_:id' => 'dashboard#rest_mark_partner' , as: 'deliverable_mark_partner'
   end
 
   scope 'owner' do
