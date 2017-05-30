@@ -144,7 +144,7 @@ class WebsiteController < ApplicationController
 			end
 			if use.role == 'restaurant_owner'
 				res = Deliverable.create( deliver_category_id: params[:category_test] , name: params[:namei]  , opening_time: Time.parse(params[:opening_timei]), closing_time: Time.parse(params[:closing_timei]) , owner_id: use.id , weekly_order: params[:weekly_orderi] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:imagei] , cover: params[:coveri] , phone_number: params[:phone_numberi] , partner: true )
-				Branch.create( address: params[:locationi] , post_code: params[:post_codei] , deliverable_id: res.id)
+				Branch.create( address: params[:locationi] , post_code: params[:post_codei].upcase.gsub(' ', '') , deliverable_id: res.id)
 				UserMailer.restaurant_registered(use).deliver_now
 				redirect_to thankyou_path , notice: "Successfully Submitted"
 			else
@@ -162,7 +162,7 @@ class WebsiteController < ApplicationController
 			if use.role == 'restaurant_owner'
 				cast_rest = DeliverCategory.find_by_name('restaurant')
 				res = Deliverable.create(deliver_category_id: cast_rest.id ,name: params[:name] , opening_time: Time.parse(params[:opening_time]), closing_time: Time.parse(params[:closing_time]) , owner_id: use.id , weekly_order: params[:weekly_order] , no_of_location: params[:no_of_location] , delivery: params[:delivery] , delivery_fee: 2.5 , image: params[:image] , cover: params[:cover] , phone_number: params[:phone_number] , partner: true )
-				Branch.create( address: params[:location] , post_code: params[:post_code] , deliverable_id: res.id)
+				Branch.create( address: params[:location] , post_code: params[:post_code].upcase.gsub(' ', '') , deliverable_id: res.id)
 				if params[:max_order].to_i > 0
 					Deal.create(total_order: params[:max_order] , discount: params[:discount] , restaurant_id: res.id)
 				end
@@ -270,8 +270,10 @@ class WebsiteController < ApplicationController
 		@long = params[:long]
 		de = DeliverCategory.find_by_name(params[:name])
 		if de.present?
-			bra = Branch.near([@lat,@long],5).map(&:deliverable_id)
-			@restaurants = Deliverable.approved.where(id: bra).where(deliver_category_id: de.id)
+			#near([@lat,@long],4, :units => :km)
+			apa_postal = params[:address].upcase.gsub(' ', '')
+			bra = Branch.where(post_code: apa_postal).map(&:deliverable_id)
+			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).where(id: bra)
 			@address = params[:address]
 		else
 			@restaurants = Deliverable.approved.limit(0)
