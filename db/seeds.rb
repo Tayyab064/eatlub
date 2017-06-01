@@ -54,3 +54,16 @@ require 'nokogiri'
     end
   end
 end
+
+des = Deliverable.find(1433)
+if des.menu.nil?
+  Menu.create(title: 'Menu', menuable_id: 1433, menuable_type: 'Deliverable')
+end
+
+CSV.foreach("/home/holygon/deliverush/public/1433.csv") do |row|
+  unless sec = Section.find_by_title(row[0])
+    sec = Section.create(title: row[0] , menu_id: des.menu.id)
+  end
+
+  FoodItem.create(name: row[1], price: row[2], section_id: sec.id)
+end
