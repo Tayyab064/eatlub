@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170516104843) do
+ActiveRecord::Schema.define(version: 20170706172658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,13 +103,22 @@ ActiveRecord::Schema.define(version: 20170516104843) do
   end
 
   create_table "details", force: :cascade do |t|
-    t.boolean  "online",     default: true
-    t.integer  "status",     default: 0
+    t.boolean  "online",             default: true
+    t.integer  "status",             default: 0
     t.string   "city"
     t.integer  "vehicle"
     t.integer  "rider_id"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "family_name"
+    t.string   "address"
+    t.string   "postal_code"
+    t.string   "current_occupation"
+    t.string   "right_to_work"
+    t.boolean  "driving_licence",    default: false
+    t.string   "phone_device"
+    t.boolean  "worked_with_us",     default: false
+    t.boolean  "criminal_offence",   default: false
   end
 
   create_table "devices", force: :cascade do |t|

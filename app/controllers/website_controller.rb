@@ -184,11 +184,11 @@ class WebsiteController < ApplicationController
 
 	def save_driver
 		c = User.create(name: params[:name], username: params[:username] , email: params[:email] , gender: params[:gender] , role: 2 , password: '123456')
-		Detail.create(city: params[:mycity] , vehicle: params[:myvehi] , rider_id: c.id)
-		UserMailer.usersignup(c).deliver_now
+		Detail.new(city: params[:mycity] , vehicle: params[:myvehi] , rider_id: c.id , family_name: params[:family_name] , current_occupation: params[:current_occupation] , address: params[:address] , postal_code: params[:postal_code] , right_to_work: params[:right_to_work] , driving_licence: params[:diving_licence] , worked_with_us: params[:work_with_us] , criminal_offence: params[:criminal_offence] , phone_device: params[:phone_dev])
+		#UserMailer.usersignup(c).deliver_now
 		redirect_to thankyou_path , notice: "Successfully Submitted"
 	end
-
+ 
 	def cart
 
 	end

@@ -103,7 +103,7 @@
 			<div class="features-content" style="padding: 8% 100px 10% !important;">
 				<h3>"Ride with us"</h3>
 				<ul class="list_ok">
-                	<li>Earn up to 15 £ per hour and create your own routes and flexible shifts that suits to you</li>
+                	<li>Earn up to £15 per hour and create your own routes and flexible shifts that suits to you</li>
                 </ul>
 				<h3>"What you'll need"</h3>
 				<ul class="list_ok">
@@ -182,6 +182,84 @@
 								<%=  radio_button_tag("gender", "male") %>
 								<label>  Female</label>
 								<%= radio_button_tag("gender", "female") %>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Family Name:</label>
+								<%= text_field_tag :family_name  , '' , class: 'form-control' , placeholder: '', autofocus: true %>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Current Occupation:</label>
+								<%= text_field_tag :current_occupation  , '' , class: 'form-control' , placeholder: 'Student', autofocus: true %>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Address:</label>
+								<%= text_field_tag :address  , '' , class: 'form-control' , placeholder: 'London, UK', autofocus: true %>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Postal Code:</label>
+								<%= text_field_tag :postal_code  , '' , class: 'form-control' , placeholder: 'N19', autofocus: true %>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="form-group">
+								<label>Do you have right to work in UK? </label>
+								<%= select_tag "right_to_work", "<option value='Yes, UK, EEA or SWISS passport or identity card'>Yes, UK, EEA or SWISS passport or identity card</option><option selected='selected' value='Yes, Indefinite leave to remain'>Yes, Indefinite leave to remain</option><option value='6-10'>6-10</option><option value='Yes, tier 4 student visa'>Yes, tier 4 student visa</option><option value='No'>No</option>".html_safe  , {class: 'form-control'} %>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Do you have iPhone or Android phone?</label>
+								<%= select_tag "phone_dev", "<option value='iPhone 4s or lator'>iPhone 4s or lator</option><option selected='selected' value='Android'>Android</option><option value='No'>No</option>".html_safe  , {class: 'form-control'} %>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="form-group">
+								<label>Do you have a Driving Licence and CBT? </label>
+								<br>
+								<label>Yes</label>
+								<%=  radio_button_tag("diving_licence", "true") %>
+								<label>  No</label>
+								<%= radio_button_tag("diving_licence", "false") %>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="form-group">
+								<label>Have you worked with us before? </label>
+								<br>
+								<label>Yes</label>
+								<%=  radio_button_tag("work_with_us", "true") %>
+								<label>  No</label>
+								<%= radio_button_tag("work_with_us", "false") %>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="form-group">
+								<label>Have you ever been convicted of criminal offence [which isnt a spent conviction within term of the Rehabiliation of offenders Act 1947]?</label>
+								<br>
+								<label>Yes</label>
+								<%=  radio_button_tag("criminal_offence", "true") %>
+								<label>  No</label>
+								<%= radio_button_tag("criminal_offence", "false") %>
 							</div>
 						</div>
 					</div>
