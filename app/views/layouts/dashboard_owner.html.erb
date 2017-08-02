@@ -2013,7 +2013,7 @@
         <% if @owner.present? %>
           var ar_te = <%= @owner.deliverables.pluck(:id) %>
           if(ar_te.includes(data.order_id)){
-            alertify.alert(data.message);
+            alertify.alert('Order', data.message, function(){ window.location = "http://138.197.117.248/owner/order_"+data.order_id; });
           }
         <% end %>
       });
