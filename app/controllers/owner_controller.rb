@@ -167,7 +167,7 @@ class OwnerController < ApplicationController
 
 	def order
 		if @owner.present?
-			@order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id)).find(params[:id])
+			@order = Order.where(ordera_id: @owner.deliverables.pluck(:id)).find(params[:id])
 		else
 			@order = Order.find(params[:id])
 		end
@@ -175,7 +175,7 @@ class OwnerController < ApplicationController
 
 	def order_accept
 		if @owner.present?
-			order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id)).find(params[:id])
+			order = Order.where(ordera_id: @owner.deliverables.pluck(:id)).find(params[:id])
 		else
 			order = Order.find(params[:id])
 		end
@@ -198,7 +198,7 @@ class OwnerController < ApplicationController
 
 	def order_dispatch
 		if @owner.present?
-			@order = Order.where(ordera_type: 'Restaurant').where(ordera_id: @owner.restaurants.pluck(:id))
+			@order = Order.where(ordera_id: @owner.deliverables.pluck(:id))
 		else
 			order = Order.find(params[:id])
 		end
@@ -241,7 +241,7 @@ class OwnerController < ApplicationController
 
 	def order_status
 		if @owner.present?
-			res = @owner.restaurants.find(params[:id])
+			res = @owner.deliverables.find(params[:id])
 		else
 			res = Restaurant.find(params[:id])
 		end
