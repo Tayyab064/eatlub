@@ -1998,6 +1998,26 @@
         },true,'alert');
     }
     </script>
+
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script>
+      // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = true;
+
+      var pusher = new Pusher('30816673792e8e2870ea', {
+        encrypted: true
+      });
+
+      var channel = pusher.subscribe('my-channel');
+      channel.bind('my-event', function(data) {
+        <% if @owner.present? %>
+          var ar_te = <%= @owner.deliverables.pluck(:id) %>
+          if(ar_te.includes(data.order_id)){
+            alertify.alert(data.message);
+          }
+        <% end %>
+      });
+    </script>
     
     <% flash.each do |name, msg| %>
       <% if msg.is_a?(String) %>

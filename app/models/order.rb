@@ -9,7 +9,8 @@ class Order < ApplicationRecord
 
 	def dashboard_noti
 		Pusher.trigger('my-channel', 'my-event', {
-		  message: 'hello world'
+		  message: "Receieved new order:  O#{self.id}",
+		  order_id: self.id
 		})
 	end
 
