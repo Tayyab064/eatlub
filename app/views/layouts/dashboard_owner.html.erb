@@ -1920,6 +1920,8 @@
       </div>
     </div>
 
+    <audio id="audio" src="http://www.soundjay.com/button/beep-07.wav" autostart="false" ></audio>
+
 
     <!-- END OVERLAY -->
     <!-- BEGIN VENDOR JS -->
@@ -2023,7 +2025,6 @@
     <script>
       // Enable pusher logging - don't include this in production
       Pusher.logToConsole = true;
-
       var pusher = new Pusher('30816673792e8e2870ea', {
         encrypted: true
       });
@@ -2033,6 +2034,9 @@
         <% if @owner.present? %>
           var ar_te = <%= @owner.deliverables.pluck(:id) %>
           if(ar_te.includes(data.order_id)){
+            var sound = document.getElementById("audio");
+            sound.play();
+
             alertify.alert('Order', data.message, function(){ window.location = "http://138.197.117.248/owner/order_"+data.order_id; });
           }
         <% end %>
