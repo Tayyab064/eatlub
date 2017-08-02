@@ -1997,6 +1997,26 @@
             };
         },true,'alert');
     }
+
+    if(!alertify.myOrderAlert){
+      //define a new dialog
+      alertify.dialog('myOrderAlert',function(){
+        return{
+          main:function(message){
+            this.message = message;
+          },
+          setup:function(){
+              return { 
+                buttons:[{text: "View Order", key:27/*Esc*/}],
+                focus: { element:0 }
+              };
+          },
+          prepare:function(){
+            this.setContent(this.message);
+          }
+      }});
+    }
+    
     </script>
 
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
