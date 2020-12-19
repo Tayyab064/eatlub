@@ -29,6 +29,7 @@ gem 'geocoder'
 gem 'gcm'
 gem 'houston'
 
+gem 'rails-erd'
 
 gem 'nokogiri'
 
