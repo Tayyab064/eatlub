@@ -103,13 +103,13 @@
 			<div class="features-content" style="padding: 8% 100px 10% !important;">
 				<h3>"Ride with us"</h3>
 				<ul class="list_ok">
-                	<li>Earn up to £15 per hour and create your own routes and flexible shifts that suits to you</li>
+                	<li>Earn up to AED15 per hour and create your own routes and flexible shifts that suits to you</li>
                 </ul>
 				<h3>"What you'll need"</h3>
 				<ul class="list_ok">
                 	<li>A bicycle or scooter/motorbike with relevant safety equipment (road safety is a huge must for us!).</li>
                     <li>Smartphone - iPhone 4s or above or Android 4.3 or above.</li>
-                    <li>The right to work in the UK.</li>
+                    <li>The right to work in the UAE.</li>
                 </ul>
 			</div>
 		</div>
@@ -129,9 +129,9 @@
     			<div class="col-md-4 form-group">
     				<label>1. Choose your city</label>
     				<select class="form-control" id="cit">
-					    <option value="london">London</option>
-					    <option value="westminster">Westminster</option>
-					    <option value="croydon">Croydon</option>
+					    <option value="london">Dubai</option>
+					    <option value="westminster">Sharjah</option>
+					    <option value="croydon">Abu Dhabi</option>
 					</select>
     			</div>
     			<div class="col-md-4 form-group">
@@ -200,13 +200,13 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6 col-sm-6">
+						<div class="col-md-12 col-sm-12">
 							<div class="form-group">
 								<label>Address:</label>
-								<%= text_field_tag :address  , '' , class: 'form-control' , placeholder: 'London, UK', autofocus: true %>
+								<%= text_field_tag :address  , '' , class: 'form-control' , placeholder: 'UAE', autofocus: true %>
 							</div>
 						</div>
-						<div class="col-md-6 col-sm-6">
+						<div class="col-md-6 col-sm-6 hidden">
 							<div class="form-group">
 								<label>Postal Code:</label>
 								<%= text_field_tag :postal_code  , '' , class: 'form-control' , placeholder: 'N19', autofocus: true %>
@@ -216,8 +216,8 @@
 					<div class="row">
 						<div class="col-md-12 col-sm-12">
 							<div class="form-group">
-								<label>Do you have right to work in UK? </label>
-								<%= select_tag "right_to_work", "<option value='Yes, UK, EEA or SWISS passport or identity card'>Yes, UK, EEA or SWISS passport or identity card</option><option selected='selected' value='Yes, Indefinite leave to remain'>Yes, Indefinite leave to remain</option><option value='Yes, tier 4 student visa'>Yes, tier 4 student visa</option><option value='No'>No</option>".html_safe  , {class: 'form-control'} %>
+								<label>Do you have right to work in UAE? </label>
+								<%= select_tag "right_to_work", "<option value='Yes, UAE passport or identity card'>Yes, UAE passport or identity card</option><option selected='selected' value='Yes, Indefinite leave to remain'>Yes, Indefinite leave to remain</option><option value='Yes, tier 4 student visa'>Yes, tier 4 student visa</option><option value='No'>No</option>".html_safe  , {class: 'form-control'} %>
 							</div>
 						</div>
 					</div>

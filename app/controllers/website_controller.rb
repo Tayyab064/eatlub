@@ -88,7 +88,7 @@ class WebsiteController < ApplicationController
 		if params[:address].present?
 			@address = params[:address]
 		else
-			@address = 'N19 4EE'
+			@address = 'Dubai, UAE'
 		end
 		@ca = DeliverCategory.all
 	end

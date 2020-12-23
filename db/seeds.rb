@@ -1,7 +1,16 @@
 require 'open-uri'
 require 'nokogiri'
 
-0.times do
+
+unless cuserres = User.find_by_email('muhammad.tayyab@eatlub.com')
+  cuserres = User.create(name: 'M Tayyab' , username: 'tayyab' , email: 'muhammad.tayyab@eatlub.com', gender: 0, role: 1, verified: true, password: '123456', mobile_number: '3339214785')
+end
+
+unless ghgvs = User.find_by_email('admin@eatlub.com')
+  ghgvs = User.create(name: 'M Tayyab' , username: 'tayyab' , email: 'admin@eatlub.com', gender: 0, role: 3, verified: true, password: '123456', mobile_number: '3339214785')
+end
+
+1.times do
   getrestautas = Nokogiri::HTML(open("https://deliveroo.co.uk/breakfast-takeaway"))
   getrestautas.css('.link-list__links ul li').each do |cit|
     getcitie = Nokogiri::HTML(open("https://deliveroo.co.uk/breakfast-takeaway/#{cit.text.downcase.gsub(' ', '-')}"))
@@ -19,8 +28,10 @@ require 'nokogiri'
         end
         deta = rest_dest.css('.restaurant__metadata .metadata__details')
         #p deta.css('.food').text
-        restaurant_address = deta.css('.address').text
-        restaurant_phone = deta.css('.phone').text
+        #restaurant_address = deta.css('.address').text
+        restaurant_address = 'Downtown Dubai - Dubai - United Arab Emirates'
+        #restaurant_phone = deta.css('.phone').text
+        restaurant_phone = '+971 800 382246255'
         restaurant_time = deta.css('.opening-hours').text.split(' ').last
 
         if c = Deliverable.find_by_name(restaurant_name)
@@ -29,16 +40,19 @@ require 'nokogiri'
           if c.branches.find_by_address(restaurant_address)
             p 'find'
           else
-            Branch.create(address: restaurant_address,post_code: restaurant_address.split(' ').last,deliverable_id: c.id)
+            Branch.create(address: restaurant_address,deliverable_id: c.id)
           end
         else
-          if sde = DeliverCategory.find_by_name('restaurant')
-            deliceer = Deliverable.create(name: restaurant_name,opening_time: restaurant_time,closing_time: '12:00 am',owner_id: 542,status: 1,about_us: restaurant_description ,delivery_fee: 2.5,phone_number: restaurant_phone ,deliver_category_id:  sde.id)
-            p deliceer
-            Branch.create(address: restaurant_address,post_code: restaurant_address.split(' ').last,deliverable_id: deliceer.id)
-            deliverable_menu = Menu.create(title: 'Menu' ,menuable_id: deliceer.id,menuable_type: 'Deliverable')
-            p deliverable_menu
+          unless sde = DeliverCategory.find_by_name('restaurant')
+            DeliverCategory.create(name: 'restaurant' , description: 'Favour restaurant')
           end
+
+          deliceer = Deliverable.create(name: restaurant_name,opening_time: restaurant_time,closing_time: '12:00 am',owner_id: cuserres.id ,status: 1,about_us: restaurant_description ,delivery_fee: 2.5,phone_number: restaurant_phone ,deliver_category_id:  sde.id)
+          p deliceer
+          Branch.create(address: restaurant_address,deliverable_id: deliceer.id)
+          deliverable_menu = Menu.create(title: 'Menu' ,menuable_id: deliceer.id,menuable_type: 'Deliverable')
+          p deliverable_menu
+           
           dat.css('.menu-index-page__menu-category').each do |ls|
             restaurant_section = Section.create(title: ls.css('h3')[0].text ,menu_id: deliverable_menu.id )
             p restaurant_section
@@ -55,15 +69,3 @@ require 'nokogiri'
   end
 end
 
-des = Deliverable.find(1434)
-if des.menu.nil?
-  Menu.create(title: 'Menu', menuable_id: 1434, menuable_type: 'Deliverable')
-end
-
-CSV.foreach("/home/holygon/deliverush/public/1434.csv") do |row|
-  unless sec = Section.find_by_title(row[0])
-    sec = Section.create(title: row[0] , menu_id: des.menu.id)
-  end
-
-  FoodItem.create(name: row[1], price: row[2], section_id: sec.id)
-end

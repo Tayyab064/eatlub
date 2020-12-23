@@ -204,7 +204,7 @@
 						<div class="form-group">
 							<label>Mobile Number</label>
 							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
-							<%= text_field_tag :mobile_number  , '' , class: 'form-control' , placeholder: '+44xxxxxxxxxx', autofocus: true %>
+							<%= text_field_tag :mobile_number  , '' , class: 'form-control' , placeholder: '+971xxxxxxxxxx', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -224,26 +224,26 @@
 						<div class="form-group">
 							<label>Phone Number</label>
 							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
-							<%= text_field_tag :phone_number  , '' , class: 'form-control' , placeholder: '+44 xx xxxx xxxx', autofocus: true %>
+							<%= text_field_tag :phone_number  , '' , class: 'form-control' , placeholder: '+971 xx xxxx xxxx', autofocus: true %>
 						</div>
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<div class="form-group">
 							<label>Location</label>
                            <!-- <input type="text" id="restaurant" name="restaurant" class="form-control" placeholder="Pizza King"> -->
-                           <%= text_field_tag :location  , '' , class: 'form-control' , placeholder: '1-3 Tooley Street, London', autofocus: true %>
+                           <%= text_field_tag :location  , '' , class: 'form-control' , placeholder: 'Dubai Mall - United Arab Emirates', autofocus: true %>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6 col-sm-6">
+					<div class="col-md-6 col-sm-6 hidden">
 						<div class="form-group">
 							<label>Post Code</label>
 							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
 							<%= text_field_tag :post_code  , '' , class: 'form-control' , placeholder: 'N19 4EE', autofocus: true %>
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6">
+					<div class="col-md-12 col-sm-12">
 						<div class="form-group">
 							<label>Estimated Weekly Orders</label>
 							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
@@ -358,7 +358,7 @@
 						<div class="form-group">
 							<label>Mobile Number</label>
 							<!-- <input type="text" class="form-control" id="lastname_contact" name="lastname_contact" placeholder="Doe"> -->
-							<%= text_field_tag :mobile_numberi  , '' , class: 'form-control' , placeholder: '+44xxxxxxxxxx', autofocus: true %>
+							<%= text_field_tag :mobile_numberi  , '' , class: 'form-control' , placeholder: '+971xxxxxxxxxx', autofocus: true %>
 						</div>
 					</div>
 				</div>
@@ -385,26 +385,26 @@
 						<div class="form-group">
 							<label>Phone Number</label>
 							<!-- <input type="text" class="form-control" id="name_contact" name="name_contact" placeholder="Jhon"> -->
-							<%= text_field_tag :phone_numberi  , '' , class: 'form-control' , placeholder: '+44 xx xxxx xxxx', autofocus: true %>
+							<%= text_field_tag :phone_numberi  , '' , class: 'form-control' , placeholder: '+971 xx xxxx xxxx', autofocus: true %>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Location</label>
                            <!-- <input type="text" id="restaurant" name="restaurant" class="form-control" placeholder="Pizza King"> -->
-                           <%= text_field_tag :locationi  , '' , class: 'form-control' , placeholder: '1-3 Tooley Street, London', autofocus: true %>
+                           <%= text_field_tag :locationi  , '' , class: 'form-control' , placeholder: 'Dubai Mall - United Arab Emirates', autofocus: true %>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6 col-sm-6">
+					<div class="col-md-6 col-sm-6 hidden">
 						<div class="form-group">
 							<label>Post Code</label>
 							<!-- <input type="email" id="email_contact" name="email_contact" class="form-control " placeholder="jhon@email.com"> -->
 							<%= text_field_tag :post_codei  , '' , class: 'form-control' , placeholder: 'N19 4EE', autofocus: true %>
 						</div>
 					</div>
-					<div class="col-md-6 col-sm-6">
+					<div class="col-md-12 col-sm-12">
 						<div class="form-group">
 							<label>Estimated Weekly Orders</label>
 							<!-- <input type="text" id="phone_contact" name="phone_contact" class="form-control" placeholder="00 44 5435435"> -->
@@ -491,7 +491,7 @@
   function initMap() {
     /*var input = document.getElementById('pickup_location');*/
     var options = {
-      componentRestrictions: {country: 'UK'}
+      componentRestrictions: {country: 'AE'}
     };
     console.log("initilalizing map");       
 
@@ -540,7 +540,7 @@
 		var image = $('#image').val();
 		var cover = $('#cover').val();
 		var postc = $('#post_code').val();
-		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (postc.length > 0) && (cover.length > 0)){
+		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0)){
 			return true;
 		}else{
 			alertify.errorAlert("Check Parameters");
@@ -555,7 +555,7 @@
 		var image = $('#imagei').val();
 		var cover = $('#coveri').val();
 		var postc = $('#post_codei').val();
-		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0) && (postc.length > 0)){
+		if((email.length > 0) && (name.length > 0) && (location.length > 0) && (image.length > 0) && (cover.length > 0) ){
 			return true;
 		}else{
 			alertify.errorAlert("Check Parameters");

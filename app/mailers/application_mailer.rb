@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'info@deliverush.com'
+  default from: 'info@eatlub.com'
   layout 'mailer'
 end
