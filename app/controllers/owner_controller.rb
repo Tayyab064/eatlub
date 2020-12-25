@@ -118,6 +118,7 @@ class OwnerController < ApplicationController
 			end
 		else
 			@food = FoodItem.find(params[:id])
+			redirect_to :back , notice: 'Error: Unauthorized to edit menu'
 		end
 	end
 

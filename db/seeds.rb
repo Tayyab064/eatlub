@@ -10,7 +10,7 @@ unless ghgvs = User.find_by_email('admin@eatlub.com')
   ghgvs = User.create(name: 'M Tayyab' , username: 'tayyab' , email: 'admin@eatlub.com', gender: 0, role: 3, verified: true, password: '123456', mobile_number: '3339214785')
 end
 
-1.times do
+0.times do
   getrestautas = Nokogiri::HTML(open("https://deliveroo.co.uk/breakfast-takeaway"))
   getrestautas.css('.link-list__links ul li').each do |cit|
     getcitie = Nokogiri::HTML(open("https://deliveroo.co.uk/breakfast-takeaway/#{cit.text.downcase.gsub(' ', '-')}"))

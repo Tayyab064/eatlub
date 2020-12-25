@@ -89,7 +89,8 @@ class ApiController < ApplicationController
 	def nearby_restaurants
 		if params[:latitude].present? && params[:longitude].present?
 			@latlong = [params[:latitude], params[:longitude]]
-			@restaurants = Restaurant.approved.near( @latlong, 20)
+			#@restaurants = Restaurant.approved.near( @latlong, 20)
+			@restaurants = Restaurant.approved.limit(5)
 			@popular = Restaurant.approved.where(popular: true).limit(5)
 		else
 			@message = 'Lat/Long missing'
@@ -110,9 +111,11 @@ class ApiController < ApplicationController
 		if params[:latitude].present? && params[:longitude].present? && params[:deliverable].present?
 			@latlong = [params[:latitude], params[:longitude]]
 			if c = DeliverCategory.find_by_name(params[:deliverable])
-				bra = Branch.near( @latlong, 20).map(&:deliverable_id)
-				@restaurants = Deliverable.approved.where(id: bra).where(deliver_category_id: c.id)
+				#bra = Branch.near( @latlong, 20).map(&:deliverable_id)
+				#without geocode
+				@restaurants = Deliverable.approved.where(deliver_category_id: c.id).limit(5)
 				#@restaurants = c.deliverables.approved.near( @latlong, 20)
+				@popular = c.deliverables.approved.where(popular: true).limit(5)
 			else
 				@message = 'Invalid deliverable name'
 				render status: 403
@@ -121,7 +124,7 @@ class ApiController < ApplicationController
 			@message = 'Lat/Long missing'
 			render status: 403
 		end
-		@popular = c.deliverables.approved.where(popular: true).limit(5)
+		
 	end
 
 	def deliverable_menu
@@ -134,12 +137,12 @@ class ApiController < ApplicationController
 	end
 
 	def create_order
-		if params[:order].length > 0
-			if params[:order][:orderable_type] == "Restaurant"
-				res = Restaurant.approved.find_by_id(params[:order][:orderable_id])
-			else
+		if params[:order].present? && params[:order].length > 0
+			#if params[:order][:orderable_type] == "Restaurant"
+			#	res = Restaurant.approved.find_by_id(params[:order][:orderable_id])
+			#else
 				res = Deliverable.approved.find_by_id(params[:order][:orderable_id])
-			end
+			#end
 			if res.present?
 				@ord = Order.create(address: params[:order][:address], notes:  params[:order][:notes], ordera_id: params[:order][:orderable_id] , ordera_type: 'Deliverable' , user_id: @current_user.id)
 				params[:order][:item].each do |itm|

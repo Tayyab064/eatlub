@@ -98,11 +98,14 @@ class WebsiteController < ApplicationController
 		@lat = params[:lat]
 		@long = params[:long]
 		if params[:address].present?
-			@restaurants = Restaurant.approved.where(post_code: params[:address])
-			@address = params[:address]
+			#@restaurants = Restaurant.approved.where(post_code: params[:address])
+			#@address = params[:address]
+			@restaurants = Restaurant.approved.limit(5)
+			@address = 'Dubai, UAE'
 		else
 			@restaurants = Restaurant.approved.limit(0)
-			@address = params[:address]
+			#@address = params[:address]
+			@address = 'Dubai, UAE'
 		end
 
 		@res_count = 0
