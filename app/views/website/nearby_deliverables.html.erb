@@ -20,6 +20,7 @@
     </div>
 </div><!-- Position -->
 
+
 <div class="collapse" id="collapseMap">
 	<div id="map" class="map"></div>
 </div><!-- End Map -->
@@ -273,7 +274,7 @@
     google.maps.event.addDomListener(initmapre, 'click', init);
 
     var map;
-    var zoomLevel = 13;
+    var zoomLevel = 10;
 
     function init() {
         // Basic options for a simple Google Map
@@ -286,9 +287,9 @@
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
           <% if @restaurants.count > 0 %>
-          center: {lat: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.latitude : '51.5074' %>, lng: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.longitude : '0.1278' %>},
+          center: {lat: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.latitude : '25.193074' %>, lng: <%= @restaurants.first.branches.count>0 ? @restaurants.first.branches.first.longitude : '55.274162' %>},
           <% else %>
-          center: {lat: 51.5074 , lng: 0.1278 },
+          center: {lat: 25.193074 , lng: 55.274162 },
           <% end %>
           scrollwheel: false,
           zoom: zoomLevel

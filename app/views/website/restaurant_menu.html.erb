@@ -21,7 +21,7 @@
                          </div>
 	                    <h1><%= @restaurant.name %></h1>
 	                    <div><em><%= @restaurant.cuisine %></em></div>
-	                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)} , free over £15.".html_safe : '' %></div>
+	                    <div><i class="icon_pin"></i> <%= @restaurant.location %><%= @restaurant.delivery ? " - <strong>Delivery charge:</strong> AED#{@restaurant.delivery_fee.round(2)} , free over AED15.".html_safe : '' %></div>
 	    </div><!-- End sub_content -->
 	</div><!-- End subheader -->
 </section><!-- End section -->
@@ -108,7 +108,7 @@
                                         </p>
                                     </td>
                                     <td>
-                                        <strong id='food_pr_<%= food.id %>'>£ <%= food.price %></strong>
+                                        <strong id='food_pr_<%= food.id %>'>AED <%= food.price %></strong>
                                     </td>
                                     <td class="options">
                                         <div class="dropdown dropdown-options">
@@ -119,7 +119,7 @@
                                                 
                                                     <% opt.components.each_with_index do |com,isna| %>
                                                     <label>
-                                                    <input type="radio" value="<%= com.id %>_<%= com.price %>" name="<%= food.id %>_<%= isn %>" <%= isna == 0 ? 'checked' : ''%> > <%= com.title %> <span>+ £<%= com.price %></span>
+                                                    <input type="radio" value="<%= com.id %>_<%= com.price %>" name="<%= food.id %>_<%= isn %>" <%= isna == 0 ? 'checked' : ''%> > <%= com.title %> <span>+ AED<%= com.price %></span>
                                                     </label>
                                                     <% end %>
                                                 
@@ -129,7 +129,7 @@
                                                 <% end %>
                                                 <% food.ingredients.each do |ingred| %>
                                                 <label>
-                                                <input type="checkbox" id="<%= ingred.id %>" value="<%= ingred.id %>_<%= ingred.price %>" name="ingre_<%= food.id %>"><%= ingred.title %><span>+ £<%= ingred.price %></span>
+                                                <input type="checkbox" id="<%= ingred.id %>" value="<%= ingred.id %>_<%= ingred.price %>" name="ingre_<%= food.id %>"><%= ingred.title %><span>+ AED<%= ingred.price %></span>
                                                 </label>
                                                 <% end %>
                                                 <h5>Quantity</h5>
@@ -173,17 +173,17 @@
 					<tbody>
 						<tr>
 							<td>
-								 Subtotal <span class="pull-right tot_price">£0</span>
+								 Subtotal <span class="pull-right tot_price">AED0</span>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								 Delivery fee <span id="deli_fee" class="pull-right" >£0</span>
+								 Delivery fee <span id="deli_fee" class="pull-right" >AED0</span>
 							</td>
 						</tr>
 						<tr>
 							<td class="total">
-								 TOTAL <span class="pull-right tot_price">£0</span>
+								 TOTAL <span class="pull-right tot_price">AED0</span>
 							</td>
 						</tr>
 					</tbody>
@@ -213,16 +213,16 @@
 		for(i = 0; i < coun; i++){
             if(window.localStorage.getItem('carti[' + i + ']')){
                t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>" + t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ (t.price*t.quantity) +"</strong></td></tr>";
+               da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>" + t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>AED"+ (t.price*t.quantity) +"</strong></td></tr>";
                tot_pri = tot_pri + (t.price*t.quantity) ;
             }
         }
 
         document.getElementById("mycarti").innerHTML = da ;
-        document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-        document.getElementById("deli_fee").innerHTML = '£' + deli;
+        document.getElementsByClassName("tot_price")[0].innerHTML = 'AED' + tot_pri.toFixed(2);
+        document.getElementById("deli_fee").innerHTML = 'AED' + deli;
         cvs = tot_pri + deli ;
-        document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
+        document.getElementsByClassName("tot_price")[1].innerHTML = 'AED' + cvs.toFixed(2);
         
 	}
 
@@ -243,17 +243,17 @@
                     for(i = 0; i < coun; i++){
                        if(window.localStorage.getItem('carti[' + i + ']')){
                            t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>"+ t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ (t.price*t.quantity) +"</strong></td></tr>";
+                           da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>"+ t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>AED"+ (t.price*t.quantity) +"</strong></td></tr>";
                            tot_pri = tot_pri + (t.price*t.quantity) ;
                            chk_co = chk_co + 1;
                        }
                     }
 
                     document.getElementById("mycarti").innerHTML = da ;
-                    document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-                    document.getElementById("deli_fee").innerHTML = '£' + deli;
+                    document.getElementsByClassName("tot_price")[0].innerHTML = 'AED' + tot_pri.toFixed(2);
+                    document.getElementById("deli_fee").innerHTML = 'AED' + deli;
                     cvs = tot_pri + deli ;
-                    document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
+                    document.getElementsByClassName("tot_price")[1].innerHTML = 'AED' + cvs.toFixed(2);
 
                     if(chk_co == 0){
                         localStorage.clear();
@@ -326,7 +326,7 @@
             if(deliverable == 'false'){
                 if(restaurant == <%= @restaurant.id %>){
                     var titl = document.getElementById("food_ti_"+i).textContent.replace(/(\d+.\s)/, "");
-                    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(£ )/, ""));
+                    var pric = parseFloat(document.getElementById("food_pr_"+i).textContent.replace(/(AED )/, ""));
                     
                     red = red + pric;
                     for (var k = 0; k < ingre_id.length; k++) {
@@ -350,16 +350,16 @@
                             for(i = 0; i < coun; i++){
                                if(window.localStorage.getItem('carti[' + i + ']')){
                                    t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-                                   da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>"+ t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ (t.price*t.quantity) +"</strong></td></tr>";
+                                   da = da + "<tr><td><a onclick='remove_cart(" + i + ")' class='remove_item'><i class='icon_minus_alt'></i></a> <strong>"+ t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>AED"+ (t.price*t.quantity) +"</strong></td></tr>";
                                    tot_pri = tot_pri + (t.price*t.quantity) ;
                                 }
                             }
 
                             document.getElementById("mycarti").innerHTML = da ;
-                            document.getElementsByClassName("tot_price")[0].innerHTML = '£' + tot_pri.toFixed(2);
-                            document.getElementById("deli_fee").innerHTML = '£' + deli;
+                            document.getElementsByClassName("tot_price")[0].innerHTML = 'AED' + tot_pri.toFixed(2);
+                            document.getElementById("deli_fee").innerHTML = 'AED' + deli;
                             cvs = tot_pri + deli ;
-                            document.getElementsByClassName("tot_price")[1].innerHTML = '£' + cvs.toFixed(2);
+                            document.getElementsByClassName("tot_price")[1].innerHTML = 'AED' + cvs.toFixed(2);
                        }
                     });
                 }else{

@@ -79,7 +79,7 @@
             </div>
             <h3><%= rest.name %></h3>
             <div class="location">
-              <%= rest.branches.count > 0 ? rest.branches.first.address : '' %>. <br><span class="opening">Opens at <%= rest.opening_time.strftime("%R") %></span> Minimum order: £15
+              <%= rest.branches.count > 0 ? rest.branches.first.address : '' %>. <br><span class="opening">Opens at <%= rest.opening_time.strftime("%R") %></span> Minimum order: AED15
             </div>
             <ul>
               <li>Take away<i class="icon_check_alt2 ok"></i></li>
@@ -113,7 +113,7 @@
     google.maps.event.addDomListener(initmapre, 'click', init);
 
     var map;
-    var zoomLevel = 13;
+    var zoomLevel = 10;
 
     function init() {
         // Basic options for a simple Google Map
@@ -125,7 +125,7 @@
 
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat:  51.5074 , lng: 0.1278 },
+          center: {lat:  25.193074 , lng: 55.274162 },
           scrollwheel: false,
           zoom: zoomLevel
         });

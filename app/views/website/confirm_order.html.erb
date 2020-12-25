@@ -77,7 +77,7 @@
     for(i = 0; i < coun; i++){
       if(window.localStorage.getItem('carti[' + i + ']')){
         t = JSON.parse(window.localStorage.getItem('carti[' + i + ']'));
-        da = da + "<tr><td> <strong>" + t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>£"+ (t.price*t.quantity)+"</strong></td></tr>";
+        da = da + "<tr><td> <strong>" + t.quantity +"x</strong> "+ t.title +"</td><td><strong class='pull-right'>AED"+ (t.price*t.quantity)+"</strong></td></tr>";
         tot_pri = tot_pri + (t.price*t.quantity) ;
       }
     }
@@ -85,7 +85,7 @@
     /*cvs = tot_pri + deli ;*/
     cvs = tot_pri;
  
-    da = da + '<tr><td>Delivery Fee</td><td><strong class="pull-right">Calculating</strong></td></tr><tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">£' + cvs.toFixed(2) +'</span></td></tr>' ;
+    da = da + '<tr><td>Delivery Fee</td><td><strong class="pull-right">Calculating</strong></td></tr><tr><td class="total_confirm"> TOTAL </td><td class="total_confirm"><span class="pull-right">AED' + cvs.toFixed(2) +'</span></td></tr>' ;
  
     document.getElementById("mycarti").innerHTML = da ;
  

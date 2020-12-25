@@ -73,7 +73,7 @@ class WebsiteController < ApplicationController
 	end
 
 	def index
-		@restaurants = Deliverable.approved.order(created_at: 'DESC').limit(6)
+		@restaurants = Deliverable.approved.order(created_at: 'desc').limit(6)
 	end
 
 	def restaurant_listing
@@ -274,8 +274,9 @@ class WebsiteController < ApplicationController
 		de = DeliverCategory.find_by_name(params[:name])
 		if de.present?
 			#near([@lat,@long],4, :units => :km)
-			apa_postal = params[:address].upcase.gsub(' ', '')
-			bra = Branch.where(post_code: apa_postal).map(&:deliverable_id)
+			#apa_postal = params[:address].upcase.gsub(' ', '')
+			#bra = Branch.where(post_code: apa_postal).map(&:deliverable_id)
+			bra = Branch.all.order(created_at: 'desc').limit(10)
 			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).where(id: bra)
 			@address = params[:address]
 		else

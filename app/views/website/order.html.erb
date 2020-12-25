@@ -106,20 +106,20 @@
                           <strong><%= opt.option.title %></strong>
                           <br>
                           <% itm_pric = itm_pric + opt.price %>
-                          <%= opt.title%>: £<%= opt.price %>
+                          <%= opt.title%>: AED<%= opt.price %>
                           <br><br>
                         <% end %>
                         <br>
                         <% Ingredient.where(id: foodi.ingredients).each do |ingre| %>
                           <% itm_pric = itm_pric + ingre.price %>
-                          <%= ingre.title%>: £<%= ingre.price %>
+                          <%= ingre.title%>: AED<%= ingre.price %>
                           <br>
                         <% end %>
                     </p>
                     
                 </td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= (itm_pric*foodi.quantity).round(2) %></strong>
+                    <strong>AED <%= (itm_pric*foodi.quantity).round(2) %></strong>
                 </td>
             </tr>
             <% pr = pr + (itm_pric*foodi.quantity) %>
@@ -136,7 +136,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong><%= @order.ordera.partner ? '£ #{(fes).round(2)}' : 'Calculated on distance basis' %></strong>
+                    <strong><%= @order.ordera.partner ? 'AED #{(fes).round(2)}' : 'Calculated on distance basis' %></strong>
                 </td>
             </tr>
             <tr>
@@ -146,7 +146,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= (fes+pr).round(2) %></strong>
+                    <strong>AED <%= (fes+pr).round(2) %></strong>
                 </td>
             </tr>
         </tbody>
@@ -177,7 +177,7 @@
     google.maps.event.addDomListener(initmapre, 'click', init);
 
     var map;
-    var zoomLevel = 13;
+    var zoomLevel = 10;
 
     function init() {
         // Basic options for a simple Google Map
@@ -189,13 +189,13 @@
         <% cds = Geocoder.coordinates(@order.address) %>
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= cds.present? ? cds.first : '51.5074' %> , lng: <%= cds.present? ? cds.last : '0.1278' %>},
+          center: {lat: <%= cds.present? ? cds.first : '25.193074' %> , lng: <%= cds.present? ? cds.last : '55.274162' %>},
           scrollwheel: false,
           zoom: zoomLevel
         });
 
         var locations = [];
-        locations.push(['Order ID: O<%= @order.id%>', <%= cds.present? ? cds.first : '51.5074' %>  , <%= cds.present? ? cds.last : '0.1278' %> , '<%= @order.address %>']);
+        locations.push(['Order ID: O<%= @order.id%>', <%= cds.present? ? cds.first : '25.193074' %>  , <%= cds.present? ? cds.last : '55.274162' %> , '<%= @order.address %>']);
 
         <% if @rider.present? && @order.status=='arrived_restaurant' %>
             <% if @rider.location.present? %>

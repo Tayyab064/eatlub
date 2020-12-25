@@ -31,7 +31,7 @@
                      ( <small><a id="#resti_review"><%= revi_coun %> reviews</a></small> )
                      </div>
                     <h1><%= @restaurant.name %></h1>
-                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.partner ? "<strong>Delivery charge:</strong> £#{@restaurant.delivery_fee.round(2)}<br>".html_safe : '' %>
+                    <div><i class="icon_pin"></i> <%= @restaurant.branches.count>0 ? @restaurant.branches.first.address : '' %><br><%= @restaurant.partner ? "<strong>Delivery charge:</strong> AED#{@restaurant.delivery_fee.round(2)}<br>".html_safe : '' %>
                         <strong>Delivery Time:</strong> <%= @restaurant.delivery_time %> mins to <%= @restaurant.delivery_time + 15 %> mins
                     </div>
                     <h1><%= link_to 'Items' , get_deliverable_item_path , class: 'btn' , style: 'background-color: #78cfcf; width: 15%;text-decoration: none;' %></h1>
@@ -364,7 +364,7 @@
     google.maps.event.addDomListener(initmapre, 'click', init);
 
     var map;
-    var zoomLevel = 13;
+    var zoomLevel = 10;
 
     function init() {
         // Basic options for a simple Google Map
@@ -376,14 +376,19 @@
 
         // Create the Google Map using out element and options defined above
         map = new google.maps.Map(mapElement, {
-          center: {lat: <%= @restaurant.branches.count>0 ? @restaurant.branches.first.latitude : '51.5074' %>, lng: <%= @restaurant.branches.count>0 ? @restaurant.branches.first.longitude : '0.1278' %>},
+          <% if @restaurant.present? %>
+          center: {lat: <%= @restaurant.branches.count>0 ? @restaurant.branches.first.latitude : '25.193074' %>, lng: <%= @restaurant.branches.count>0 ? @restaurant.branches.first.longitude : '55.274162' %>},
+          <% else %>
+          center: {lat: 25.193074 , lng: 55.274162 },
+          <% end %>
           scrollwheel: false,
           zoom: zoomLevel
         });
 
         var locations = [];
+
         <% @restaurant.branches.each do |brac| %>
-        locations.push(['<%= brac.address %>', <%= brac.latitude %>, <%= brac.longitude %>, '<%= brac.address %>']);
+        locations.push(['<%= @restaurant.name %>', <%= brac.latitude %>, <%= brac.longitude %>, '<%= brac.address %>']);
         <% end %>
 
         var infowindow = new google.maps.InfoWindow();
