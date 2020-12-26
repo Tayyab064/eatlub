@@ -94,19 +94,19 @@
                       <strong><%= opt.option.title %></strong>
                       <br>
                       <% itm_pric = itm_pric + opt.price %>
-                      <%= opt.title%>: £<%= opt.price %>
+                      <%= opt.title%>: AED<%= opt.price %>
                       <br><br>
                     <% end %>
                     <br>
                     <% Ingredient.where(id: foodi.ingredients).each do |ingre| %>
                       <br>
                       <% itm_pric = itm_pric + ingre.price %>
-                      <%= ingre.title%>: £<%= ingre.price %>
+                      <%= ingre.title%>: AED<%= ingre.price %>
                     <% end %>
                     
                 </td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= (itm_pric*foodi.quantity).round(2) %></strong>
+                    <strong>AED <%= (itm_pric*foodi.quantity).round(2) %></strong>
                 </td>
             </tr>
             <% pr = pr + (itm_pric*foodi.quantity).round(2) %>
@@ -123,7 +123,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong><%= @order.ordera.partner ? '£ #{(fes).round(2)}' : 'Calculated on distance basis' %></strong>
+                    <strong><%= @order.ordera.partner ? 'AED #{(fes).round(2)}' : 'Calculated on distance basis' %></strong>
                 </td>
             </tr>
             <tr>
@@ -133,7 +133,7 @@
                 </td>
                 <td></td>
                 <td class="options v-align-middle">
-                    <strong>£ <%= (fes+pr).round(2) %></strong>
+                    <strong>AED <%= (fes+pr).round(2) %></strong>
                 </td>
             </tr>
         </tbody>
