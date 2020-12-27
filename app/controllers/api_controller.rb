@@ -323,6 +323,17 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def setlatlong
+		@c = Branch.all
+		@c.each do |sd|
+			p 'Printing'
+			result = Geocoder.coordinates(sd.address)
+			p sd.address
+			p result
+			sd.update(latitude: result.first , longitude: result.last )
+		end
+	end
+
 	private
 	def signup_user_params
 		params.require(:user).permit(:name, :username , :email , :gender , :password , :mobile_number)

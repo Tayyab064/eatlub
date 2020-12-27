@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   get 'ajax' => 'website#ajax'
   get 'notification_test' => 'api#test_noti'
+  get 'setlatlong' => 'api#setlatlong'
 
   root 'website#index'
   post 'signin' => 'website#signin' , as: 'website_signin'
