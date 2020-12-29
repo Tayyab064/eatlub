@@ -1,5 +1,4 @@
-require 'open-uri'
-require 'nokogiri'
+
 
 
 unless cuserres = User.find_by_email('muhammad.tayyab@eatlub.com')

@@ -26,10 +26,10 @@ class RiderFinishOrderJob < ApplicationJob
 		tot_pri = tot_pri + final_pri
 	end
 
-    require 'gcm'
-	gcm_driver = GCM.new("AIzaSyBTGPNS1zaUHZmpqlPw56XMvNti2rdksC8")
+    require 'fcm'
+	fcm_driver = FCM.new("AIzaSyB73QFyyZBjYE3Bb5gS9wsd4EWui6nHoIo")
 
-	options = {data: {message: 'Order Finish' , title: 'Deliverush' , redirect: 'Order Finish' , order_id: args.first.id , price: tot_pri.round(2) }}
-	response = gcm_driver.send(args.first.user.devices.where(device: 'Android').pluck(:token), options)
+	options = {data: {message: 'Order Finish' , title: 'EatLub' , redirect: 'Order Finish' , order_id: args.first.id , price: tot_pri.round(2) }}
+	response = fcm_driver.send(args.first.user.devices.where(device: 'Android').pluck(:token), options)
   end
 end

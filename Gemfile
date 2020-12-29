@@ -26,12 +26,12 @@ gem 'jbuilder', '~> 2.5'
 gem 'sidekiq'
 gem 'geocoder'
 
-gem 'gcm'
+gem 'fcm'
 gem 'houston'
 
 gem 'rails-erd'
 
-gem 'nokogiri'
+#gem 'nokogiri'
 
 
 gem 'pusher'
