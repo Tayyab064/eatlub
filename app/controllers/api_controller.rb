@@ -294,16 +294,17 @@ class ApiController < ApplicationController
 
 	def popular_categories
 		li = []
-		res_id = Restaurant.approved.where(popular: true).pluck(:id).sample
+		#res_id = Restaurant.approved.where(popular: true).pluck(:id).sample
 		DeliverCategory.all.each do |cat|
 			dk = cat.deliverables.approved.where(popular: true).pluck(:id).sample
 			if dk.present?
 				li.push(dk)
 			end
 		end
-		if res_id.present?
-			@restaurant = Restaurant.approved.where(id: res_id)
-		end
+		#if res_id.present?
+			#@restaurant = Restaurant.approved.where(id: res_id)
+			@restaurant = Restaurant.approved
+		#end
 		@deliverable = Deliverable.approved.find(li)
 	end
 

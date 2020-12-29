@@ -34,6 +34,29 @@ else
 			json.cover_image ''
 		end
 		json.popular restaurant.popular
+
+
+		if restaurant.menu.present?
+			json.section(restaurant.menu.sections) do |section|
+				json.food_items(section.food_items) do |food|
+					if food.publish
+						json.id food.id
+						json.name food.name
+
+						if food.image_url.present?
+							json.image food.image_url.gsub(food.image_url.split('/')[6], 'q_50')
+						else
+							json.image ''
+						end
+					end
+				end
+			end
+		else
+			json.section ''
+		end
+
+
+
 	end
 
 	json.popular(@popular) do |res|
