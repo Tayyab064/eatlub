@@ -9,18 +9,18 @@ else
 		json.about_us restaurant.about_us
 		json.delivery_time "#{restaurant.delivery_time.to_s} mins to #{(restaurant.delivery_time + 15).to_s} mins"
 
-		#bran = restaurant.branches.first
+		bran = restaurant.branches.first
 
 
 
-		bran  = restaurant.branches.near( @latlong, 20).first
-		bran_distance = (bran.distance_from(@latlong)*1.60934).round(2)
+		#bran  = restaurant.branches.near( @latlong, 20).first
+		#bran_distance = (bran.distance_from(@latlong)*1.60934).round(2)
 
 
 		
 
 		json.location bran.address
-		json.distance bran_distance
+		json.distance 5
 
 		json.status restaurant.status
 		if restaurant.image_url.present?
