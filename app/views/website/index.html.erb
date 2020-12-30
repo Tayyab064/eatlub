@@ -411,9 +411,9 @@
     };
     console.log("initilalizing map");       
 
-    /*var autocomplete = new google.maps.places.Autocomplete(input,options);*/
+    /*var autocomplete = new google.maps.places.Autocomplete(input,options);
 
-    /*var input_dest = document.getElementById('address');
+    var input_dest = document.getElementById('address');
     var autocomplete_dest = new google.maps.places.Autocomplete(input_dest,options);*/
   }
 
@@ -423,7 +423,7 @@
         console.log(result);
         var uluru = {lat: result.lat, lng: result.long};
 	    var map = new google.maps.Map(document.getElementById('map'), {
-	      zoom: 12,
+	      zoom: 15,
 	      center: uluru
 	    });
 	    var marker = new google.maps.Marker({
