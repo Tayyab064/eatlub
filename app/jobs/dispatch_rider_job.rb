@@ -11,7 +11,7 @@ class DispatchRiderJob < ApplicationJob
   require 'fcm'
 	fcm_driver = FCM.new("AAAAnaUPlck:APA91bGk3JE9VrDJcsgd5hZtRNLsJ7Na6ZHaKCe-HzaCp-7I1CelElMCLr1wLzHkn-4Z-3r7Pyypbfa373lWkz3PtM58zqKzmj8rhGg0DH3Oq_jIwF1MoKT2OGU4O7pz_xVE8vxBViF4")
 
-	options = {data: {message: 'Rider needed' , title: 'EatLub' , redirect: 'Rider Call' , pickup_location: args.first.ordera.location , destination: args.first.address , order_id: args.first.id }}
+	options = {data: {message: 'Rider needed' , title: 'EatLub' , redirect: 'Rider Call' , pickup_location: args.first.ordera.branches.first.address , destination: args.first.address , order_id: args.first.id }}
 	response = fcm_driver.send(Device.where(device: 'Android').pluck(:token), options)
 
 

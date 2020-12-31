@@ -163,7 +163,7 @@ class ApiController < ApplicationController
 					it.save
 				end
 				PlaceOrderJob.perform_later(@ord)
-				UserMailer.ordercheckout(@ord).deliver_now
+				#UserMailer.ordercheckout(@ord).deliver_now
 				render status: 201
     		else
     			@message = 'Invalid orderable id'
@@ -189,7 +189,7 @@ class ApiController < ApplicationController
 		if ord = Order.where(rider_id: @current_rider.id).find_by_id(params[:id])
 			if ord.status == 'finish'
 				ord.update(status: 'completed')
-				UserMailer.orderdelivery(ord).deliver_now
+				#UserMailer.orderdelivery(ord).deliver_now
 				render json: {'message' => 'Order completed'} , status: 200
 			else
 				render json: {'message' => 'Order expired'} , status: 409
