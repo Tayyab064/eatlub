@@ -110,11 +110,13 @@ class ApiController < ApplicationController
 	def nearby_deliverable
 		if params[:latitude].present? && params[:longitude].present? && params[:deliverable].present?
 			@latlong = [params[:latitude], params[:longitude]]
+			p @latlong
 			if c = DeliverCategory.find_by_name(params[:deliverable])
-				#bra = Branch.near( @latlong, 20).map(&:deliverable_id)
+				restaurants = c.deliverables.approved
+				rest = restaurants.pluck(:id)
+				@branches = Branch.near( @latlong, 200).where(deliverable_id: rest)
 				#without geocode
-				@restaurants = Deliverable.approved.where(deliver_category_id: c.id).limit(5)
-				#@restaurants = c.deliverables.approved.near( @latlong, 20)
+				#@restaurants = Deliverable.approved.where(deliver_category_id: c.id).limit(5)				
 				@popular = c.deliverables.approved.where(popular: true).limit(5)
 			else
 				@message = 'Invalid deliverable name'
