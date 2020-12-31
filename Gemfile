@@ -23,7 +23,7 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 
-gem 'sidekiq'
+gem 'sidekiq', '5.2.7'
 gem 'geocoder'
 
 gem 'fcm'
