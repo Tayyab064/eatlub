@@ -13,7 +13,7 @@ module Deliverish
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.active_job.queue_adapter = :sidekiq
-    config.time_zone = 'Dubai'
+    config.time_zone = 'London'
  	config.active_record.default_timezone = :local # Or :utc
   end
 end
