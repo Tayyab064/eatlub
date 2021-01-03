@@ -72,7 +72,7 @@ class ApiController < ApplicationController
 					else
 						Device.create(token: params[:rider][:token], device: params[:rider][:device] , user_id: u.id)
 					end
-				end
+				end 
 				u.regenerate_token
 				@rider = u
 				render status: 200
@@ -202,7 +202,7 @@ class ApiController < ApplicationController
 	def rider_accept
 		if @ord = Order.find_by_id(params[:id])
 			if @ord.status == 'approved' && @ord.rider_id.nil?
-				@ord.update(rider_id: @current_rider.id , assigned_at: Time.now)
+				@ord.update(rider_id: @current_rider.id , assigned: Time.now)
 				RiderAcceptOrderJob.perform_later(@ord)
 				render status: 200
 			else
@@ -313,10 +313,13 @@ class ApiController < ApplicationController
 	def rider_earn
 		case params[:month]
 		when 'month'
+			p 'month'
 			@order_mon = Order.where(rider_id: @current_rider.id).for_year.order(created_at: 'ASC').group_by(&:month)
 		when 'week'
+			p 'week'
 			@order_wee = Order.where(rider_id: @current_rider.id).for_year.order(created_at: 'ASC').group_by(&:week)
 		else
+			p 'year'
 			yea = Date.today.year
 			mont = Date.today.month
 			tim = Time.local(yea,mont,1,12,00,0) 
