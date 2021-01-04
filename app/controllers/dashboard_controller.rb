@@ -185,8 +185,8 @@ class DashboardController < ApplicationController
 	end
 
 	def save_deliverable
-		if DeliverCategory.find_by_name(params[:category])
-			DeliverCategory.update(image: params[:image] , description: params[:description])
+		if c = DeliverCategory.find_by_name(params[:category])
+			c.update(image: params[:image] , description: params[:description])
 		else
 			DeliverCategory.create(image: params[:image] , name: params[:category] , description: params[:description])
 		end
