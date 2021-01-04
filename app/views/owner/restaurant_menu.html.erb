@@ -59,6 +59,18 @@ input:checked + .slider:before {
   background-color: #10cfbd !important;
   color: white !important;
 }
+
+.modal{
+    z-index: 20;   
+}
+.modal-backdrop{
+    z-index: 10;        
+}​
+.inner{
+  top: 40px;
+  width: 100%;
+}
+
 </style>
 <div class="box_style_2" id="main_menu">
 
@@ -67,95 +79,139 @@ input:checked + .slider:before {
     <h2 class="inner"> Orders Status </h2>
   </div>
   <div class="col-md-9">
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified" style="margin-top: 10px; margin-bottom: 10px;">
       <a onclick="order_status('quiet');" class="btn <%= @restaurant.order_status=='quiet' ? 'order_stat' : '' %> ">Quiet</a>
       <a onclick="order_status('moderate');" class="btn <%= @restaurant.order_status=='moderate' ? 'order_stat' : '' %>">Moderate</a>
       <a onclick="order_status('busy');" class="btn <%= @restaurant.order_status=='busy' ? 'order_stat' : '' %>">Busy</a>
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-3">
+    <h2 class="inner"> Delivery Time </h2>
+  </div>
+  <%= form_for @restaurant do |f| %>
+  <div class="col-md-6">
+    <%= f.number_field :delivery_time , class: 'form-control' , style: 'margin-top: 10px; margin-bottom: 10px; text-align: center;' %>
+  </div>
+  <div class="col-md-3">
+    <%= f.submit 'Update Delivery Time', :class => "btn btn-success"  , style: 'margin-top: 10px; margin-bottom: 10px;' %>
+  </div>
+  <% end %>
+</div>
 
-	<h2 class="inner">Menu <%= link_to 'Add FoodItem' , owner_restaurant_food_add_path  , class: 'btn' , style: 'background-color: #10cfbd; color: white; float: right;' %>
+  <h2 class="inner">Branches <button type="button" class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myBranch">Add Branch</button>      
+  </h2>
+  <%  @restaurant.branches.each_with_index do |bra,index| %>
+  <h6><%= index+1 %>: <%= bra.address %></h6>
+  <% end %>
 
-        <% if @restaurant.status == 'approved' %>
-        <%= link_to 'View Restaurant' , restaurant_page_path(@restaurant.id)  , class: 'btn' , style: 'background-color: #10cfbd; color: white; float: right;' %>
-        <% end %>
-        
-    </h2>
-    <% if @restaurant.menu.present? %>
-        <%  @restaurant.menu.sections.each_with_index do |sec,index| %>
-        <% if index == 0 %>
-			<h3 class="nomargin_top" id="<%= sec.title %>"><%= sec.title %></h3>
-        <% else %>
-			<hr>
-			<h3 id="<%= sec.title %>"><%= sec.title %></h3>
-        <% end %>
-        <p>
-            <%= sec.description %>
-        </p>
-        <table class="table table-striped cart-list">
-            <thead>
-                <tr>
-                    <th>
-                         #
-                    </th>
-                    <th>
-                         
-                    </th>
-                    <th>
-                         Item
-                    </th>
-                    <th>
-                         Price
-                    </th>
-                    <th>
-                        Visibility
-                    </th>
-                    <th>
-                      Edit
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <% sec.food_items.each_with_index do |food,ind| %>
-                <tr>
-                    <td><%= ind +1 %>.</td>
-                    <td>
-                        <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : '../website/img/menu-thumb-1.jpg' %>" alt="thumb" style='width: 60px; height: auto;'></figure>
-                    </td>
-                    <td>
-                        <h5><%= food.name %></h5>
-                        <p>
-                            <%= food.description %>
-                        </p>
-                        
-                    </td>
-                    <td class="options v-align-middle">
-                        <strong>AED <%= food.price %></strong>
-                    </td>
-                    <td class="v-align-middle">
-                        <label class="switch" onclick="location.href='<%= fooditem_publish_path(food.id) %>'">
-                          <input type="checkbox" <%= food.publish ? 'checked' : '' %>>
-                          <div class="slider round"></div>
-                        </label>
-                    </td>
-                    <td class="v-align-middle">
-                      <%= link_to 'Edit' , edit_fooditem_owner_path(food.id)  , class: 'btn' , style: 'background-color: #10cfbd; color: white;' %>
-                    </td>
-                </tr>
-                <% end %>
-            </tbody>
-        </table>
-        <% end %>
-    <% else %>
-        <h3 >detail missing</h3>
-    <% end %>
+  <h2 class="inner">Menu <%= link_to 'Add Item' , owner_deliverable_menu_add_path  , class: 'btn' , style: 'background-color: #10cfbd; color: white; float: right;' %>
+
+      <% if @restaurant.status == 'approved' %>
+      <%= link_to 'View' , deliverable_page_path(@restaurant.id)  , class: 'btn' , style: 'background-color: #10cfbd; color: white; float: right;' %>
+      <% end %>
+      
+  </h2>
+  <% if @restaurant.menu.present? %>
+      <%  @restaurant.menu.sections.each_with_index do |sec,index| %>
+      <% if index == 0 %>
+    <h3 class="nomargin_top" id="<%= sec.title %>"><%= sec.title %></h3>
+      <% else %>
+    <hr>
+    <h3 id="<%= sec.title %>"><%= sec.title %></h3>
+      <% end %>
+      <p>
+          <%= sec.description %>
+      </p>
+      <table class="table table-striped cart-list">
+          <thead>
+              <tr>
+                  <th>
+                       #
+                  </th>
+                  <th>
+                       
+                  </th>
+                  <th>
+                       Item
+                  </th>
+                  <th>
+                       Price
+                  </th>
+                  <th>
+                      Visibility
+                  </th>
+                  <th>
+                    Edit
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+              <% sec.food_items.each_with_index do |food,ind| %>
+              <tr>
+                  <td><%= ind +1 %>.</td>
+                  <td>
+                      <figure class="thumb_menu_list"><img src="<%= food.image.present? ? food.image_url : '../website/img/menu-thumb-1.jpg' %>" alt="thumb" style='width: 60px; height: auto;'></figure>
+                  </td>
+                  <td>
+                      <h5><%= food.name %></h5>
+                      <p>
+                          <%= food.description %>
+                      </p>
+                      
+                  </td>
+                  <td class="options v-align-middle">
+                      <strong>AED <%= food.price %></strong>
+                  </td>
+                  <td class="v-align-middle">
+                      <label class="switch" onclick="location.href='<%= fooditem_publish_path(food.id) %>'">
+                        <input type="checkbox" <%= food.publish ? 'checked' : '' %>>
+                        <div class="slider round"></div>
+                      </label>
+                  </td>
+                  <td class="v-align-middle">
+                    <%= link_to 'Edit' , edit_fooditem_owner_path(food.id)  , class: 'btn' , style: 'background-color: #10cfbd; color: white;' %>
+                  </td>
+              </tr>
+              <% end %>
+          </tbody>
+      </table>
+      <% end %>
+  <% else %>
+      <h3 >Add Menu</h3>
+  <% end %>
 </div><!-- End box_style_1 -->
+
+<div id="myBranch" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Branch</h4>
+      </div>
+       <%= form_tag(owner_add_branch_path , method: "post") do %>
+      <div class="modal-body">
+        <%= hidden_field_tag(:id, @restaurant.id) %> 
+        <%= text_field_tag :address , '' , class: 'form-control', autofocus: true , placeholder: 'London: UK' , required: true%>
+        <%= text_field_tag :post_code , '' , class: 'form-control', autofocus: true , placeholder: 'N19 4EE' , required: true%>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <%= submit_tag "Add", class: "btn btn-default" %>
+      </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>
 
 <script type="text/javascript">
   function order_status(stat){
       $.ajax({
-        url: '/owner/order_<%= @restaurant.id %>',
+        url: '/owner/deliver_order_<%= @restaurant.id %>',
         type: "PUT",
         headers: {
           'X-CSRF-Token': '<%= form_authenticity_token.to_s %>'
@@ -169,3 +225,20 @@ input:checked + .slider:before {
       });
   }
 </script>
+
+<script type="text/javascript">
+function initMap() {
+  /*var input = document.getElementById('pickup_location');*/
+  var options = {
+    componentRestrictions: {country: 'UK'}
+  };
+  console.log("initilalizing map");       
+
+  /*var autocomplete = new google.maps.places.Autocomplete(input,options);*/
+
+  var input_dest = document.getElementById('address');
+  var autocomplete_dest = new google.maps.places.Autocomplete(input_dest,options);
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoUyblkGqwp2lFuWQb0v_-J_mI5sYJYPc&libraries=places&callback=initMap" async defer></script>

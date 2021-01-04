@@ -340,6 +340,21 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def search
+		if params[:deliverable].present?
+			if c = DeliverCategory.find_by_name(params[:deliverable])
+				restaurants = c.deliverables.approved
+				rest = restaurants.pluck(:id)
+				@branches = Branch.near( @latlong, 200).where(deliverable_id: rest)
+
+					
+			else
+				@message = 'Invalid params'
+				render status: 403
+			end
+		end
+	end
+
 	private
 	def signup_user_params
 		params.require(:user).permit(:name, :username , :email , :gender , :password , :mobile_number)

@@ -125,13 +125,13 @@ class OwnerController < ApplicationController
 	def update_food
 		if @owner.present?
 			@food = FoodItem.find(params[:id])
-			restaurant = @food.section.menu.restaurant
+			restaurant = @food.section.menu.menuable
 			unless restaurant.owner == @owner
 				redirect_to '/' , notice: 'Error: Unauthorized'
 			end
 		else
 			@food = FoodItem.find(params[:id])
-			restaurant = @food.section.menu.restaurant
+			restaurant = @food.section.menu.menuable
 		end
 		if params[:section].present? && params[:section].length > 1
 			s = Section.create(title: params[:section] , menu_id: @food.section.menu.id , description: params[:section_desc])
@@ -148,14 +148,15 @@ class OwnerController < ApplicationController
 
 	def restaurant_menu
 		if @owner.present?
-			@restaurant = @owner.restaurants.find(params[:id])
+			@restaurant = @owner.deliverables.find(params[:id])
 		else
-			@restaurant = Restaurant.find(params[:id])
+			@restaurant = Deliverable.find(params[:id])
 		end
 		unless @restaurant.menu.present?
-			Menu.create(title: 'Menu' , menuable_id: @restaurant.id , menuable_type: 'Restaurant')
+			Menu.create(title: 'Menu' , menuable_id: @restaurant.id , menuable_type: 'Deliverable')
 			redirect_to :back
 		end
+		redirect_to owner_deliverable_menu_path(@restaurant.id), notice: 'Successfully Updated!'
 	end
 
 	def orders
