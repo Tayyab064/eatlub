@@ -111,12 +111,12 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<input type="text" id="address_town" name="address_town" class="form-control" placeholder="Town">
 							</div>
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<input type="text" id="address_post" name="address_post" class="form-control" placeholder="Post Code">
-							</div>
+							</div> -->
 						</div>
 
 					</div>
@@ -277,7 +277,7 @@
 
             
             $.ajax({
-               url: 'http://138.197.117.248/ajax',
+               url: 'https://eatlbo.herokuapp.com/ajax',
                success: function(data) {
                     coun = parseInt(window.localStorage.getItem('count'));
                     var tot_pri = 0.0 ;

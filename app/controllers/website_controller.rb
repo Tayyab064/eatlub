@@ -271,13 +271,13 @@ class WebsiteController < ApplicationController
 	def nearby_deliverables
 		@lat = params[:lat]
 		@long = params[:long]
+		latlon = [@lat.to_f , @long.to_f ]
+		p latlon
 		de = DeliverCategory.find_by_name(params[:name])
 		if de.present?
-			#near([@lat,@long],4, :units => :km)
-			#apa_postal = params[:address].upcase.gsub(' ', '')
-			#bra = Branch.where(post_code: apa_postal).map(&:deliverable_id)
-			bra = Branch.all.order(created_at: 'desc').limit(10)
-			@restaurants = Deliverable.approved.where(deliver_category_id: de.id).where(id: bra)
+			restaurant_ids = de.deliverables.approved.pluck(:id)
+			@restaurants = Branch.where(deliverable_id: restaurant_ids)
+			#@restaurants = Deliverable.approved.where(deliver_category_id: de.id).where(id: bra)
 			@address = params[:address]
 		else
 			@restaurants = Deliverable.approved.limit(0)
