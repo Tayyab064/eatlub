@@ -1,8 +1,10 @@
 if @message.present?
 	json.message @message
 else
-	json.restaurants(@branches) do |branch|
-		restaurant = branch.deliverable
+	json.restaurants(@restaurants) do |restaurant|
+
+		branch = restaurant.branches.first
+
 		json.id restaurant.id
 		json.name restaurant.name
 		json.opening_time restaurant.opening_time.strftime('%r')
@@ -12,11 +14,11 @@ else
 
 
 
-		#bran = restaurant.branches.first
-
-		#bran  = restaurant.branches.near( @latlong, 20).first
-		bran_distance = branch.distance_from(@latlong).round(2)
-		
+		if @latlong.present?
+			bran  = restaurant.branches.near( @latlong, 20).first
+		else
+			bran_distance = 0
+		end
 
 		json.location branch.address
 		json.distance bran_distance

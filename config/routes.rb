@@ -135,6 +135,11 @@ Rails.application.routes.draw do
       #get 'nearby_restaurants' => 'api#nearby_restaurants' , as: 'api_nearby_restaurants'
       get 'nearby_:deliverable' => 'api#nearby_deliverable' , as: 'api_nearby_deliverable'
 
+      get 'search'  => 'api#search' , as: 'api_search'
+      get 'review' => 'api#my_review' , as: 'api_reviews'
+      post 'review' => 'api#review' ,as: 'api_review'
+
+
       scope 'restaurant' do
         #get 'menu/:id' => 'api#restaurant_menu' , as: 'api_restaurant_menu'
       end

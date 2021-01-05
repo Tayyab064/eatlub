@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
 	skip_before_action :verify_authenticity_token
-	before_action :restrict_user , only: [:create_order , :get_orders , :get_specific_order , :tip]
+	before_action :restrict_user , only: [:create_order , :get_orders , :get_specific_order , :tip , :review , :my_review]
 	before_action :restrict_rider , only: [:rider_accept , :arrived_rest_order , :arrived_user_order , :finish_order , :rider_earn , :pay_bill , :online ]
 
 	def signup_user
@@ -341,18 +341,21 @@ class ApiController < ApplicationController
 	end
 
 	def search
-		if params[:deliverable].present?
-			if c = DeliverCategory.find_by_name(params[:deliverable])
-				restaurants = c.deliverables.approved
-				rest = restaurants.pluck(:id)
-				@branches = Branch.near( @latlong, 200).where(deliverable_id: rest)
+		@restaurants = Deliverable.approved.limit(3)
+		render status: 200
+	end
 
-					
-			else
-				@message = 'Invalid params'
-				render status: 403
-			end
-		end
+	def review
+		@review = Review.new(create_review_params)
+		@review.reviewer_id = @current_user.id
+		@review.reviewable_type = 'Deliverable'
+		@review.save
+		render status: 201
+	end
+
+	def my_review
+		@reviews = @current_user.reviews
+		render status: 200
 	end
 
 	private
@@ -370,5 +373,9 @@ class ApiController < ApplicationController
 
 	def signin_rider_params
 		params.require(:rider).permit(:email , :password )
+	end
+
+	def create_review_params
+		params.require(:review).permit( :summary , :quality , :price , :punctuality , :courtesy , :reviewable_id)
 	end
 end
