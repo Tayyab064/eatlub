@@ -341,8 +341,28 @@ class ApiController < ApplicationController
 	end
 
 	def search
-		@restaurants = Deliverable.approved.limit(3)
-		render status: 200
+		if params[:category].present?
+			if c = DeliverCategory.find_by_name(params[:category])
+				@restaurants = c.deliverables.approved
+			else
+				@message = 'Invalid category name'
+				render status: 400
+			end
+		else
+			@restaurants = Deliverable.approved
+		end
+		unless @message.present?
+			if params[:lat].present? && params[:long].present? && params[:distance].present?
+				@latlong = [params[:lat] , params[:long]]
+				@distan = params[:distance].to_i
+				p @latlong
+				p @distan
+				p @restaurants.count
+
+				rest = @restaurants.pluck(:id)
+				@branches = Branch.near( @latlong, @distan).where(deliverable_id: rest)
+			end
+		end
 	end
 
 	def review
